@@ -1,11 +1,25 @@
 package play;
 
+import model.Player;
+import util.Constants;
+
+
+
 public class Main {
   public static void main (String[] args){
     System.out.println("------------------------------");
     System.out.println(" IA pour «Puissance 4 secret» ");
     System.out.println("------------------------------\n");
 
-    System.out.println("Tddest");
+    Player[] joueurs;
+    joueurs = new Player[2];
+    joueurs[0] = new Player(Constants.PSEUDO_J1);
+    joueurs[1] = new Player(Constants.PSEUDO_J2);
+
+    System.out.println(joueurs[0].getName());
+    System.out.println(joueurs[0].getUiid());
+
+    System.out.println(joueurs[1].getName());
+    System.out.println(joueurs[1].getUiid());
   }
 }
