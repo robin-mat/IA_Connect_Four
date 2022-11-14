@@ -1,0 +1,59 @@
+<project name="IA_Connect_Four - Robin,Mat" default="run" basedir=".">
+
+    <property name="projet.sources.dir" value="src"/> <!-- répertoire code source java -->
+    <property name="projet.bin.dist" value="dist/"/> <!-- répertoire dev -->
+    <property name="projet.bin.build" value="build/"/> <!-- répertoire java généré -->
+    <property name="projet.bin.doc" value="doc/"/> <!-- répertoire javadoc -->
+
+    <property name="projet.bin.archive" value="IA_Connect_Four_M1"/> <!-- répertoire javadoc -->
+
+    <property name="projet.bin.dir" value="${projet.bin.dist}"/> <!-- Là où se génère le code source -->
+
+    <path id="projet.classpath">
+        <pathelement location="${projet.bin.dir}"/>
+    </path>
+
+    
+    <target name="cleandist" description="Nettoye le répertoire dist."> <!-- Nettoye le répertoire dist/ -->
+        <delete dir="${projet.bin.dir}"/>
+        <mkdir dir="${projet.bin.dir}"/>
+    </target>
+    <target name="delbuild" description="Supprime le répertoire dir/build.">
+        <delete dir="${projet.bin.dir}/${projet.bin.build}"/>
+    </target>
+    <target name="createbuild" description="Créer le répertoire build/ de dist/ .">
+      <mkdir dir="${projet.bin.dist}/${projet.bin.build}"/>
+    </target>
+    <target name="compile" description="Compilation du code source java.">
+        <javac srcdir="${projet.sources.dir}" destdir="${projet.bin.dist}/${projet.bin.build}" debug="on" optimize="off" deprecation="on" includeantruntime="false">
+        <classpath refid="projet.classpath"/>
+        </javac>
+    </target>
+    <target name="javadoc" description="Generation de la javadoc.">
+        <javadoc sourcepath="src" destdir="doc">
+            <fileset dir="src" defaultexcludes="yes">
+                <include name="**"/>
+            </fileset>
+        </javadoc>
+    </target>
+    <target name="javadocinfo" description="Donne une info à l'utilisateur pour ouvrir la javadoc une fois générer.">
+    <echo message="[INFOS] ------------------------------------------------------------------- [INFOS]"/>
+    <echo message="[INFOS] Pour ouvrir la javadoc tapez dans dist/ : 'xdg-open doc/index.html' [INFOS]"/>
+    <echo message="[INFOS] ------------------------------------------------------------------- [INFOS]"/>
+    </target>
+
+    <target name="jar" depends="createbuild,compile" description="Génère une archive jar du projet.">
+        <jar jarfile="${projet.bin.dist}/${projet.bin.archive}" basedir="${projet.bin.dist}/${projet.bin.build}" manifest="${basedir}/Manifest.txt"/>
+    </target>
+
+    <target name="run" depends="cleandist, jar, javadoc, delbuild, javadocinfo" description="Exécution de l'archive jar.">
+    <echo message="[INFOS] ------------------------------------ [INFOS]"/>
+    <echo message="[INFOS] Création de l'archive du jeu réussie [INFOS]"/>
+    <echo message="[INFOS]     Pour jouer lancer 'ant play'     [INFOS]"/>
+    <echo message="[INFOS] ------------------------------------ [INFOS]"/>
+    </target>
+
+    <target name="play" depends="cleandist, jar, javadoc, delbuild" description="Exécution de l'archive jar.">
+        <java jar="${projet.bin.dir}/${projet.bin.archive}" fork="true"/>
+    </target>
+</project>
