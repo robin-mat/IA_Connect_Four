@@ -2,25 +2,15 @@ package view;
 
 import util.Constants;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class Gui extends JFrame {
+	public JPanel grid;
+
 	private JLabel label = new JLabel("Enter your e-mail: ");
 	private JTextField textField = new JTextField(20);
 	private JButton button = new JButton("OK");
@@ -78,7 +68,14 @@ public class Gui extends JFrame {
 		Image icon = new ImageIcon(Constants.LOGO_PATH).getImage();
 		setIconImage(icon);
 
-		pack();
+		JLabel zonePlate = new JLabel("Plateau");
+
+		zonePlate.setBounds(320, 50 , 300, 300);
+	  grid = new JPanel();
+	  grid.setLayout(new GridLayout(Constants.GRID_SIZE[1], Constants.GRID_SIZE[0]));
+		this.getContentPane().add(grid);
+		this.getContentPane().add(zonePlate);
+		this.pack();
 
 		// centers on screen
 		setLocationRelativeTo(null);
@@ -86,5 +83,18 @@ public class Gui extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		setVisible(true);
+	}
+
+	public void drawGrid(JPanel grid) throws IndexOutOfBoundsException, Exception{
+		for(int i = 0; i < Constants.GRID_SIZE[1]; i++) {
+			for(int j = 0; j < Constants.GRID_SIZE[0]; j++) {				
+				DrawCase cases = new DrawCase();
+				cases.setPreferredSize(new Dimension(80,80));
+				grid.add(cases);
+				System.out.println("zzz");
+			}	
+		}
+		
+		this.pack();
 	}
 }

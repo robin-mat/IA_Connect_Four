@@ -21,6 +21,11 @@ public class Main {
 
     System.out.println(joueurs[1].getName());
     System.out.println(joueurs[1].getUiid());
-    new Gui();
+    Gui fen = new Gui();
+    try {
+      fen.drawGrid(fen.grid);
+    } catch (Exception e){
+      //System.out.println(e);
+    }
   }
 }
