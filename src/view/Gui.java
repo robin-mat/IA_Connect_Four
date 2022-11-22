@@ -17,68 +17,14 @@ public class Gui extends JFrame {
 
 	public Gui() {
 		super(Constants.TITLE);
-
-		// sets layout manager
-		setLayout(new GridBagLayout());
-
-		GridBagConstraints constraint = new GridBagConstraints();
-		constraint.insets = new Insets(10, 10, 10, 10);
-		constraint.gridx = 0;
-		constraint.gridy = 0;
-
-		add(label, constraint);
-
-		constraint.gridx = 1;
-		add(textField, constraint);
-
-		constraint.gridx = 0;
-		constraint.gridwidth = 2;
-		constraint.gridy = 1;
-
-		add(button, constraint);
-
-		// adds menu bar
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFile = new JMenu("File");
-		JMenuItem menuItemExit = new JMenuItem("Exit");
-		menuFile.add(menuItemExit);
-
-		menuBar.add(menuFile);
-
-		// adds menu bar to the frame
-		setJMenuBar(menuBar);
-
-		// adds window event listener
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent event) {
-				int reply = JOptionPane.showConfirmDialog(Gui.this,
-						"Are you sure you want to quit?",
-						"Exit",
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-				if (reply == JOptionPane.YES_OPTION) {
-					dispose();
-				} else {
-					return;
-				}
-			}
-		});
+		setIconImage(new ImageIcon(Constants.LOGO_PATH).getImage());
 
 
-		Image icon = new ImageIcon(Constants.LOGO_PATH).getImage();
-		setIconImage(icon);
+		this.menuBar();
 
-		JLabel zonePlate = new JLabel("Plateau");
+		this.manageEvent();
 
-		zonePlate.setBounds(320, 50 , 300, 300);
-	  grid = new JPanel();
-	  grid.setLayout(new GridLayout(Constants.GRID_SIZE[1], Constants.GRID_SIZE[0]));
-		this.getContentPane().add(grid);
-		this.getContentPane().add(zonePlate);
-		this.pack();
-
-		// centers on screen
-		setLocationRelativeTo(null);
+		this.createScreen();
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -95,6 +41,77 @@ public class Gui extends JFrame {
 			}	
 		}
 		
+		this.pack();
+	}
+
+	private void menuBar(){
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("Game");
+		JMenuItem menuItemExit = new JMenuItem("Exit");
+		menuFile.add(menuItemExit);
+		menuBar.add(menuFile);
+		setJMenuBar(menuBar);
+	}
+
+	private void manageEvent(){
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent event) {
+				int reply = JOptionPane.showConfirmDialog(Gui.this,
+						"Are you sure you want to quit?",
+						"Exit",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+				if (reply == JOptionPane.YES_OPTION) {
+					dispose();
+				} else {
+					return;
+				}
+			}
+		});
+	}
+
+	private void createScreen(){
+		JPanel content = new JPanel();
+		content.setLayout(new GridLayout(1, 2));
+
+		JPanel panel = new JPanel();
+    LayoutManager layout = new BoxLayout(panel, BoxLayout.PAGE_AXIS);  
+    panel.setLayout(layout);
+
+    //Titre
+    JLabel label = new JLabel("<HTML><H1><U>"+Constants.TITLE+"</U></H1></HTML>");
+		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+		label.setHorizontalAlignment(JLabel.CENTER);
+		panel.add(label);
+
+		//Infos
+		JPanel infos = new JPanel();
+    infos.setBorder(BorderFactory.createTitledBorder("Informations"));
+    panel.add(infos);
+
+		//Choix
+		JPanel choices = new JPanel();
+    choices.setBorder(BorderFactory.createTitledBorder("Settings"));
+    panel.add(choices);
+
+
+	  panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+	  panel.setBackground(new java.awt.Color(194, 194, 194));
+	  content.add(panel, BorderLayout.CENTER);
+
+
+
+
+	  grid = new JPanel();
+	  grid.setLayout(new GridLayout(Constants.GRID_SIZE[1], Constants.GRID_SIZE[0]));
+	  grid.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
+	  content.add(grid);
+
+
+	  content.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+
+		this.getContentPane().add(content);
 		this.pack();
 	}
 }
