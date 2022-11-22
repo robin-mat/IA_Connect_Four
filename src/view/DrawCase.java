@@ -16,10 +16,12 @@ public class DrawCase extends JPanel {
 	public void paintComponent(Graphics g) {
 		//DESSINE LA GRILLE
 		super.paintComponent(g);
+		g.setColor(new java.awt.Color(255,255,255));
+		g.fillRect(0, 0, 80, 80);
 		g.setColor(Color.BLACK);
-		g.drawRect(0, 0, 71, 71);
+		g.drawRect(0, 0, 80, 80);
 		g.setColor(Color.RED);
-		g.fillOval(3, 3, 65, 65);
+		g.fillOval(10,10,60,60);
 	}
 
 }
