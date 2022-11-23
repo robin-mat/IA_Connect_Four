@@ -1,14 +1,14 @@
-package view;
+package view.SwingGUI;
 
 import util.Constants;
 
-
+import play.GameInterface;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Gui extends JFrame {
+public class Gui extends JFrame implements GameInterface {
 	public JPanel grid;
 
 	private JLabel label = new JLabel("Enter your e-mail: ");
@@ -19,7 +19,10 @@ public class Gui extends JFrame {
 		super(Constants.TITLE);
 		setIconImage(new ImageIcon(Constants.LOGO_PATH).getImage());
 
+	}
 
+	public void launch(){
+		System.out.println("[Log] : Lancement avec fênetre graphique Swing");
 		this.menuBar();
 
 		this.manageEvent();
@@ -29,6 +32,12 @@ public class Gui extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		setVisible(true);
+
+		try {
+			this.drawGrid(this.grid);
+        } catch (Exception e){
+          //System.out.println(e);
+        }
 	}
 
 	public void drawGrid(JPanel grid) throws IndexOutOfBoundsException, Exception{
@@ -37,7 +46,6 @@ public class Gui extends JFrame {
 				DrawCase cases = new DrawCase();
 				cases.setPreferredSize(new Dimension(80,80));
 				grid.add(cases);
-				System.out.println("zzz");
 			}	
 		}
 		
@@ -48,6 +56,21 @@ public class Gui extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu("Game");
 		JMenuItem menuItemExit = new JMenuItem("Exit");
+		menuItemExit.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ae) {
+		        int reply = JOptionPane.showConfirmDialog(Gui.this,
+						"Are you sure you want to quit?",
+						"Exit",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+				if (reply == JOptionPane.YES_OPTION) {
+					System.out.println("[Log] : Fermeture du jeu");
+					dispose();
+				} else {
+					return;
+				}
+			}
+		});
 		menuFile.add(menuItemExit);
 		menuBar.add(menuFile);
 		setJMenuBar(menuBar);
@@ -62,6 +85,7 @@ public class Gui extends JFrame {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				if (reply == JOptionPane.YES_OPTION) {
+					System.out.println("[Log] : Fermeture du jeu");
 					dispose();
 				} else {
 					return;
