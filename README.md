@@ -9,5 +9,7 @@ AI for solving a power 4 in which the current player does not see the opponent's
     <img src="src/resources/drawing.gif" alt="Logo">
   </a>
 
-  <h3 align="center">This project aims to implement and attempt to solve a <b>Secret</b> variant of Connect 4</h3>
+  <h3 align="center">This project aims to implement and attempt to solve a Secret variant of Connect 4</h3>
+  <br />
+  <h2><strong>Each player sees his own tokens, but not his opponents, until one of his tokens is stacked on top</strong></h2>
 </div>
