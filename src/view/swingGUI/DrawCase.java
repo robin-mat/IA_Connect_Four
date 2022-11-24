@@ -1,4 +1,4 @@
-package view.SwingGUI;
+package view.swingGUI;
 
 import java.awt.Color;
 import java.awt.Graphics;

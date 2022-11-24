@@ -3,8 +3,8 @@ package play;
 import model.Player;
 import util.Constants;
 
-import view.SwingGUI.*;
-import view.Terminal.*;
+import view.swingGUI.*;
+import view.terminal.*;
 
 import java.util.Scanner;
 

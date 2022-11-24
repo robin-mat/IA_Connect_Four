@@ -1,4 +1,4 @@
-package view.Terminal;
+package view.terminal;
 
 import play.GameInterface;
 
