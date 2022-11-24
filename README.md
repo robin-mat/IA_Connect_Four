@@ -12,7 +12,7 @@
 <tr>
 <td>
 <a href="#banner"><img align="left" src="src/resources/drawing.gif" width="390" style="margin: 30px"></a>
-<ul align="center" style="list-style:none">
+<ul align="center" style="list-style-type:none">
     <h3>J1 facing J2, with J1 sigh</h3>
     <li>J1 has red pawns</li>
     <li>J2 has yellow pawns</li>
