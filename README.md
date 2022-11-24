@@ -6,6 +6,8 @@
   <h4 align="center">AI for solving a power 4 in which the current player does not see the opponent's moves</h4>
 </div>
 
+![Apache Ant](https://img.shields.io/badge/Apache%20Ant-A81C7D?style=for-the-badge&logo=Apache%20Ant&logoColor=white)
+
 ## This project aims to implement and attempt to solve a Secret variant of Connect 4
 *Each player sees his own tokens, but not his opponents, until one of his tokens is stacked on top .*
 <table>
