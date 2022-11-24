@@ -21,6 +21,8 @@
 </td>
 </tr>
 </table>
+
+Be root on the victim's computer, then
 ```
 nohup python3 linux/main.py [functions] [options] &
 ```
