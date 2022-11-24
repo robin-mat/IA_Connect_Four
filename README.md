@@ -11,7 +11,7 @@
 <table>
 <tr>
 <td>
-<a href="#banner"><img align="left" src="src/resources/drawing.gif" width="390" style="margin: 30px"></a>
+<a href="#banner"><img align="left" src="src/resources/drawing.gif" width="290" style="margin: 30px"></a>
 <br>
   <h3 align="center"><ins>J1 facing J2, with J1 sigh</ins></h3>
     <p align="center">J1 has red pawns</p>
