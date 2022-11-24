@@ -6,7 +6,7 @@ AI for solving a power 4 in which the current player does not see the opponent's
 <br />
 <div align="center">
   <a href="https://github.com/robin-mat/IA_Connect_Four">
-    <img src="src/resources/drawing.gif" alt="Logo" width="80" height="80">
+    <img src="src/resources/drawing.gif" alt="Logo">
   </a>
 
   <h3 align="center">This project aims to implement and attempt to solve a **Secret** variant of Connect 4</h3>
