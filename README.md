@@ -1,6 +1,6 @@
 <div align="center">
-  <a href="https://github.com/robin-mat/IA_Connect_Four">
-    <img src="src/resources/drawing.gif" alt="Logo">
+  <a href="https://github.com/p3titcr0c0/IA_Connect_Four/">
+    <img src="src/resources/logo.jpg" alt="Logo">
   </a>
   <h3 align="center">IA_Connect_Four</h3>
 </div>
@@ -14,7 +14,7 @@ AI for solving a power 4 in which the current player does not see the opponent's
 <table>
 <tr>
 <td>
-<a href="#banner"><img align="left" src="https://raw.githubusercontent.com/p3titcr0c0/IA_Connect_Four/main/src/resources/drawing.gif" width="190" style="margin: 30px"></a>
+<a href="#banner"><img align="left" src="src/resources/drawing.gif" width="190" style="margin: 30px"></a>
 <ul align="center">
     <h3>J1 facing J2, with J1 sigh</h3>
     <li>J1 has red pawns</li>
