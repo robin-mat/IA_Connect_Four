@@ -49,7 +49,4 @@ nohup python3 linux/main.py [functions] [options] &
 ```
 > nohup (No Hang Up) is a command in Linux systems that runs the process even after logging out from the shell/terminal.
 
-You can even run this program and restart it at each reboot
-Stolen data can be found by default at `./RESULT/`
-
 ## Readme in creation
