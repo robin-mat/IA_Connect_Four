@@ -3,5 +3,7 @@ AI for solving a power 4 in which the current player does not see the opponent's
 
 ## Readme in creation
 
-![Seen from player 1 on a game](/src/resources/drawing.gif "Seen from player 1 on a game")
-| * test * |
+<figure>
+  <img src="/src/resources/drawing.gif" alt="Seen from player 1 on a game"/>
+  <figcaption>Seen from player 1 on a game</figcaption>
+</figure>
