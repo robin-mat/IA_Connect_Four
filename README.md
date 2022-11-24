@@ -12,12 +12,11 @@
 <tr>
 <td>
 <a href="#banner"><img align="left" src="src/resources/drawing.gif" width="390" style="margin: 30px"></a>
-<ul align="center" style="list-style-type:none">
+<br>
     <h3>J1 facing J2, with J1 sigh</h3>
-    <li>J1 has red pawns</li>
-    <li>J2 has yellow pawns</li>
-    <li>From J1 point of view each gray box is a box in which the enemy could place a token</li>
-</ul>
+    <p align="center">J1 has red pawns</p>
+    <p align="center">J2 has yellow pawns</p>
+    <p align="center">From J1 point of view each gray box is a box in which the enemy could place a token</p>
 <img width="1000" height="0">
 </td>
 </tr>
