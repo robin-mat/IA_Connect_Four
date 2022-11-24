@@ -1,4 +1,4 @@
-package view.SwingGUI;
+package view.swingGUI;
 
 import util.Constants;
 
@@ -15,10 +15,11 @@ public class Gui extends JFrame implements GameInterface {
 	private JTextField textField = new JTextField(20);
 	private JButton button = new JButton("OK");
 
+	private Dimension screenSize;
+
 	public Gui() {
 		super(Constants.TITLE);
 		setIconImage(new ImageIcon(Constants.LOGO_PATH).getImage());
-
 	}
 
 	public void launch(){
@@ -35,9 +36,9 @@ public class Gui extends JFrame implements GameInterface {
 
 		try {
 			this.drawGrid(this.grid);
-        } catch (Exception e){
-          //System.out.println(e);
-        }
+    } catch (Exception e){
+      //System.out.println(e);
+    }
 	}
 
 	public void drawGrid(JPanel grid) throws IndexOutOfBoundsException, Exception{
@@ -95,6 +96,9 @@ public class Gui extends JFrame implements GameInterface {
 	}
 
 	private void createScreen(){
+		JTabbedPane onglets = new JTabbedPane();
+		onglets.setBounds(30,20,300,300);
+
 		JPanel content = new JPanel();
 		content.setLayout(new GridLayout(1, 2));
 
@@ -135,7 +139,17 @@ public class Gui extends JFrame implements GameInterface {
 
 	  content.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
 
-		this.getContentPane().add(content);
+	  JPanel logs = new JPanel();
+	  JTextArea showLogs = new JTextArea();
+    showLogs.setEditable(false);
+    showLogs.setPreferredSize(new Dimension(1100,500));
+	  showLogs.append("[Log] Game start");
+	  logs.add(showLogs);
+
+	  onglets.add("Main", content);
+	  onglets.add("Logs", logs);
+
+		this.getContentPane().add(onglets);
 		this.pack();
 	}
 }
