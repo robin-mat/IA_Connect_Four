@@ -6,7 +6,7 @@
   <h4 align="center">AI for solving a power 4 in which the current player does not see the opponent's moves</h4>
 </div>
 
-[![Apache Ant](https://camo.githubusercontent.com/93cd1db85855cbeb8971302af3f74a8dba9f88891a3729cb8995587cc16cafc4/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f417061636865253230416e742d4138314337443f7374796c653d666f722d7468652d6261646765266c6f676f3d417061636865253230416e74266c6f676f436f6c6f723d7768697465)](https://github.com/sofastack/sofa-hessian/actions)
+[![Apache Ant](https://camo.githubusercontent.com/93cd1db85855cbeb8971302af3f74a8dba9f88891a3729cb8995587cc16cafc4/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f417061636865253230416e742d4138314337443f7374796c653d666f722d7468652d6261646765266c6f676f3d417061636865253230416e74266c6f676f436f6c6f723d7768697465)](https://ant.apache.org/)
 
 ## This project aims to implement and attempt to solve a Secret variant of Connect 4
 *Each player sees his own tokens, but not his opponents, until one of his tokens is stacked on top .*
