@@ -3,7 +3,5 @@ AI for solving a power 4 in which the current player does not see the opponent's
 
 ## Readme in creation
 
-<p align="center"><figure>
-  <img src="/src/resources/drawing.gif" alt="Seen from player 1 on a game"/>
-  <figcaption>Seen from player 1 on a game</figcaption>
-</figure></p>
+<a href="https://github.com/robin-mat/IA_Connect_Four"><img src="/src/resources/drawing.gif" align="left" hspace="10" vspace="6"></a>
+**Seen from player 1 on a game**
