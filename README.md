@@ -21,6 +21,6 @@
 </td>
 </tr>
 </table>
-> test
+[//]: # (This is a comment.)
 
 ## Readme in creation
