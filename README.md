@@ -21,7 +21,7 @@
 </td>
 </tr>
 </table>
-The game is won by the first to line up 4 tokens.
+The game is won by the first to line up 4 tokens
 > It is up to player 1 to adapt the best strategies developed, to counter possible blows or to calculate the probabilities that a square is occupied.
 
 ## Readme in creation
