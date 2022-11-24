@@ -23,9 +23,6 @@
 </table>
 
 Be root on the victim's computer, then
-```
-nohup python3 linux/main.py [functions] [options] &
-```
 > nohup (No Hang Up) is a command in Linux systems that runs the process even after logging out from the shell/terminal.
 
 ## Readme in creation
