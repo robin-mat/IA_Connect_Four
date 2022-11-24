@@ -13,7 +13,7 @@
 <td>
 <a href="#banner"><img align="left" src="src/resources/drawing.gif" width="390" style="margin: 30px"></a>
 <br>
-    <h3>J1 facing J2, with J1 sigh</h3>
+  <h3 align="center"><u>J1 facing J2, with J1 sigh</u></h3>
     <p align="center">J1 has red pawns</p>
     <p align="center">J2 has yellow pawns</p>
     <p align="center">From J1 point of view each gray box is a box in which the enemy could place a token</p>
