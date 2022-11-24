@@ -7,9 +7,7 @@
 
 AI for solving a power 4 in which the current player does not see the opponent's moves
 
-## Readme in creation
-
-### This project aims to implement and attempt to solve a Secret variant of Connect 4
+## This project aims to implement and attempt to solve a Secret variant of Connect 4
 *Each player sees his own tokens, but not his opponents, until one of his tokens is stacked on top .*
 <table>
 <tr>
@@ -25,4 +23,6 @@ AI for solving a power 4 in which the current player does not see the opponent's
 </td>
 </tr>
 </table>
-> It is up to J1 to find the best strategy and reason, he can eliminate certain possibilities (4 stacked) or even calculate the probability that the enemy played there.
+	It is up to J1 to find the best strategy and reason, he can eliminate certain possibilities (4 stacked) or even calculate the probability that the enemy played there
+
+## Readme in creation
