@@ -116,6 +116,8 @@ public class Gui extends JFrame implements GameInterface {
 		//Infos
 		JPanel infos = new JPanel();
     infos.setBorder(BorderFactory.createTitledBorder("Informations"));
+
+
     panel.add(infos);
 
 		//Choix
@@ -142,7 +144,7 @@ public class Gui extends JFrame implements GameInterface {
 	  JPanel logs = new JPanel();
 	  JTextArea showLogs = new JTextArea();
     showLogs.setEditable(false);
-    showLogs.setPreferredSize(new Dimension(1100,500));
+    showLogs.setPreferredSize(new Dimension(1100,450));
 	  showLogs.append("[Log] Game start");
 	  logs.add(showLogs);
 
