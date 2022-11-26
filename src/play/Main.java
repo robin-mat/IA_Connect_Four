@@ -5,6 +5,7 @@ import util.Constants;
 
 import view.swingGUI.*;
 import view.terminal.*;
+import view.ViewInterface;
 
 import java.util.Scanner;
 
@@ -22,24 +23,25 @@ public class Main {
     joueurs[0] = new Player(Constants.PSEUDO_J1);
     joueurs[1] = new Player(Constants.PSEUDO_J2);
 
-    GameInterface partie;
+    ViewInterface view;
+    GameInterface game;
 
-    System.out.println("Jouer en console, taper : c");
-    System.out.println("Jouer en fênetre, taper : f");
-    System.out.println("  Pour quitter, taper : q\n\nEntrer votre choix : ");
+    System.out.println("Run with the CLI : c");
+    System.out.println(" Run with a GUI :  f");
+    System.out.println("      Exit :       q\n\nSelect : ");
     Scanner scanner = new Scanner(System.in);
     String choice = scanner.nextLine();
 
     if (!choice.equals("q")){
       if (choice.equals("c")){
-        partie = new Print();
-        partie.launch();
+        game = new Game(joueurs[0], joueurs[1], new Print());
+        game.launch();
       } else if (choice.equals("f")){
-        partie = new Gui();
-        partie.launch();
+        game = new Game(joueurs[0], joueurs[1], new Gui());
+        game.launch();
       }
     } else {
-      System.out.println("[Log] : Fermeture du jeu");
+      System.out.println("[Log] : Exit");
     }
     scanner.close();
   }

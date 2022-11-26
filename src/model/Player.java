@@ -13,7 +13,7 @@ public class Player {
 		this.uiid = UUID.randomUUID().toString();
 	}
 	public Player(){
-		this("Joueur sans nom");
+		this("No name Player");
 	}
 
 	public String getName(){

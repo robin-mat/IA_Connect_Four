@@ -14,7 +14,7 @@ public class DrawCase extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		//DESSINE LA GRILLE
+		//DRAW THE SQUARE
 		super.paintComponent(g);
 		g.setColor(new java.awt.Color(255,255,255));
 		g.fillRect(0, 0, 80, 80);

@@ -2,18 +2,14 @@ package view.swingGUI;
 
 import util.Constants;
 
-import play.GameInterface;
+import view.ViewInterface;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Gui extends JFrame implements GameInterface {
+public class Gui extends JFrame implements ViewInterface {
 	public JPanel grid;
-
-	private JLabel label = new JLabel("Enter your e-mail: ");
-	private JTextField textField = new JTextField(20);
-	private JButton button = new JButton("OK");
 
 	private Dimension screenSize;
 
@@ -23,7 +19,7 @@ public class Gui extends JFrame implements GameInterface {
 	}
 
 	public void launch(){
-		System.out.println("[Log] : Lancement avec fênetre graphique Swing");
+		System.out.println("[Log] : Run project with the Swing GUI");
 		this.menuBar();
 
 		this.manageEvent();
@@ -86,7 +82,7 @@ public class Gui extends JFrame implements GameInterface {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				if (reply == JOptionPane.YES_OPTION) {
-					System.out.println("[Log] : Fermeture du jeu");
+					System.out.println("[Log] : Exit");
 					dispose();
 				} else {
 					return;
