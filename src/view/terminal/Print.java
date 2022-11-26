@@ -1,13 +1,12 @@
 package view.terminal;
 
-import play.GameInterface;
+import view.ViewInterface;
 
-public class Print implements GameInterface {
+public class Print implements ViewInterface {
 	public Print(){
 	}
 
 	public void launch(){
-		System.out.println("[Log] : Lancement sur le terminal");
-		System.out.println("Lancement en console");
+		System.out.println("[Log] : Run project on the CLI");
 	}
 }

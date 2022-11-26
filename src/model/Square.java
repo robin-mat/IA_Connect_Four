@@ -4,13 +4,11 @@ public class Square {
 	private int posX;
 	private int posY;
 	private Player played;
-	private Color esthetic;
 
 	public Square(int positionX, int positionY){
     	this.posX = positionX;
     	this.posY = positionY;
     	this.played = null;
-    	this.esthetic = null;
     }
 
     /**
@@ -28,16 +26,9 @@ public class Square {
 	}
 
 	/**
-	* @return retourner la position de la case axe X
+	* @return 
 	**/
 	public Player getPlayed(){
 		return this.played;
-	}
-
-	/**
-	* @return retourner la position de la case axe y
-	**/
-	public Color getEsthetic(){
-		return this.esthetic;
 	}
 }
