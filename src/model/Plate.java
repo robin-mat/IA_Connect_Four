@@ -13,7 +13,7 @@ public class Plate{
 	    this.grid = new Square[this.len_x][this.len_y];
 	}
 
-	public void createGrid(){
+	public void init(){
 		for (int i=0; i!=this.len_x; i++){
 			for (int y=0; y!=this.len_y; y++){
 				this.grid[i][y] = new Square(i, y);

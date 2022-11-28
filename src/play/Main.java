@@ -34,10 +34,10 @@ public class Main {
 
     if (!choice.equals("q")){
       if (choice.equals("c")){
-        game = new Game(joueurs[0], joueurs[1], new Print());
+        game = new SecretConnectFour(joueurs[0], joueurs[1], new Print());
         game.launch();
       } else if (choice.equals("f")){
-        game = new Game(joueurs[0], joueurs[1], new Gui());
+        game = new SecretConnectFour(joueurs[0], joueurs[1], new Gui());
         game.launch();
       }
     } else {

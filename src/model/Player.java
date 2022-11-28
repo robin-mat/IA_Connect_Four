@@ -6,11 +6,11 @@ import util.Constants;
 
 public class Player {
 	public String name;
-	public String uiid;
+	public String uuid;
 
 	public Player(String name){
 		this.name = name;
-		this.uiid = UUID.randomUUID().toString();
+		this.uuid = UUID.randomUUID().toString();
 	}
 	public Player(){
 		this("No name Player");
@@ -19,7 +19,7 @@ public class Player {
 	public String getName(){
 		return this.name;
 	}
-	public String getUiid(){
-		return this.uiid;
+	public String getUuid(){
+		return this.uuid;
 	}
 }
