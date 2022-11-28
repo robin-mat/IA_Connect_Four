@@ -28,17 +28,19 @@ public class SecretConnectFour implements GameInterface {
 
 	public void launch(){
 		this.view.setLogger(this.logger);
+		this.view.setPlate(this.plate);
 		this.view.launch();
 		this.plate.init();
-		int i = 0;
-		while (i<200){
-			this.logger.write("Au tour de "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
-			this.logger.write(Integer.toString(i));
-			//Attendre une action de la part du joueur
-			//Actualiser la vue
-			i = i+1;
+		while (!this.isFinish()){
+			this.logger.write("Waiting "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
+			this.view.setPlate(this.plate);
+			this.view.update();
+			int choice = this.currentPlayer.play();
+			this.plate.addPawn(choice, this.currentPlayer);
+			
+			this.changeCurrentPlayer();
 		}
-		this.logger.write("La partie est terminée");
+		this.logger.write("The game is over");
 
 	}
 

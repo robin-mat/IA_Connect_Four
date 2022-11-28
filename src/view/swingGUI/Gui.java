@@ -3,6 +3,8 @@ package view.swingGUI;
 import util.Constants;
 import util.Logger;
 
+import model.*;
+
 import view.ViewInterface;
 
 import javax.swing.*;
@@ -12,11 +14,17 @@ import java.awt.event.*;
 public class Gui extends JFrame implements ViewInterface {
 	private Logger logger;
 	public JPanel grid;
+	public Plate plate;
+
+	private Player j1;
+	private Player j2;
 
 	private Dimension screenSize;
 
-	public Gui() {
+	public Gui(Player[] players) {
 		super(Constants.TITLE);
+		this.j1 = players[0];
+		this.j2 = players[1];
 		setIconImage(new ImageIcon(Constants.LOGO_PATH).getImage());
 	}
 
@@ -39,10 +47,26 @@ public class Gui extends JFrame implements ViewInterface {
     }
 	}
 
+	public void update(){
+		try {
+			this.grid.removeAll();
+			this.drawGrid(this.grid);
+    } catch (Exception e){
+      this.logger.write(e);
+    }
+	}
+
 	public void drawGrid(JPanel grid) throws IndexOutOfBoundsException, Exception{
-		for(int i = 0; i < Constants.GRID_SIZE[1]; i++) {
-			for(int j = 0; j < Constants.GRID_SIZE[0]; j++) {				
-				DrawCase cases = new DrawCase();
+		for(int i = 0; i < 6; i++) {
+			for(int j = 0; j < 7; j++) {
+				DrawCase cases;
+				if (this.plate.getGrid()[j][i].getPlayed() ==  this.j1){
+					cases = new DrawCase(this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
+				} else if (this.plate.getGrid()[j][i].getPlayed() ==  this.j2){
+					cases = new DrawCase(this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2);
+				} else {
+					cases = new DrawCase(this.plate.getGrid()[j][i]);
+				}
 				cases.setPreferredSize(new Dimension(80,80));
 				grid.add(cases);
 			}	
@@ -63,7 +87,6 @@ public class Gui extends JFrame implements ViewInterface {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				if (reply == JOptionPane.YES_OPTION) {
-					//(this.logger).write("[Log] : Fermeture du jeu");
 					dispose();
 				} else {
 					return;
@@ -84,7 +107,6 @@ public class Gui extends JFrame implements ViewInterface {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				if (reply == JOptionPane.YES_OPTION) {
-					//this.logger.write("[Log] : Exit");
 					dispose();
 				} else {
 					return;
@@ -158,5 +180,9 @@ public class Gui extends JFrame implements ViewInterface {
 
 	public void setLogger(Logger l){
 		this.logger = l;
+	}
+
+	public void setPlate(Plate plate){
+		this.plate = plate;
 	}
 }

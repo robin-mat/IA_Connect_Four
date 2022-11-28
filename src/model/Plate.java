@@ -21,6 +21,15 @@ public class Plate{
 		}
 	}
 
+	public void addPawn(int colum, Player p){
+		//TODO
+		int y = 5;
+		while (this.grid[colum-1][y].getPlayed() instanceof Player){
+			y = y-1;
+		}
+		this.grid[colum-1][y].setPlayed(p);
+	}
+
 	public Square[][] getGrid(){
 		return this.grid;
 	}

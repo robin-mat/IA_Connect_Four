@@ -31,4 +31,11 @@ public class Square {
 	public Player getPlayed(){
 		return this.played;
 	}
+
+	/**
+	* @return 
+	**/
+	public void setPlayed(Player player){
+		this.played = player;
+	}
 }

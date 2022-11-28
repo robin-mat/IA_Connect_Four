@@ -8,8 +8,19 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import model.Square;
+
 public class DrawCase extends JPanel {
-	public DrawCase() {
+	public Square square;
+	public java.awt.Color esthetic;
+
+	public DrawCase(Square square, java.awt.Color color) {
+		this.square = square;
+		this.esthetic = color;
+	}
+
+	public DrawCase(Square square) {
+		this(square, new java.awt.Color(255,255,255));
 	}
 
 	@Override
@@ -20,8 +31,10 @@ public class DrawCase extends JPanel {
 		g.fillRect(0, 0, 80, 80);
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, 80, 80);
-		g.setColor(Color.RED);
-		g.fillOval(10,10,60,60);
+		if (this.square.getPlayed() != null){
+			g.setColor(this.esthetic);
+			g.fillOval(10,10,60,60);
+		}
 	}
 
 }
