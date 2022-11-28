@@ -1,6 +1,9 @@
 package view.swingGUI;
 
 import util.Constants;
+import util.Logger;
+
+import model.*;
 
 import view.ViewInterface;
 
@@ -9,17 +12,24 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Gui extends JFrame implements ViewInterface {
+	private Logger logger;
 	public JPanel grid;
+	public Plate plate;
+
+	private Player j1;
+	private Player j2;
 
 	private Dimension screenSize;
 
-	public Gui() {
+	public Gui(Player[] players) {
 		super(Constants.TITLE);
+		this.j1 = players[0];
+		this.j2 = players[1];
 		setIconImage(new ImageIcon(Constants.LOGO_PATH).getImage());
 	}
 
 	public void launch(){
-		System.out.println("[Log] : Run project with the Swing GUI");
+		this.logger.write("Run project with the Swing GUI");
 		this.menuBar();
 
 		this.manageEvent();
@@ -33,14 +43,30 @@ public class Gui extends JFrame implements ViewInterface {
 		try {
 			this.drawGrid(this.grid);
     } catch (Exception e){
-      //System.out.println(e);
+      this.logger.write(e);
+    }
+	}
+
+	public void update(){
+		try {
+			this.grid.removeAll();
+			this.drawGrid(this.grid);
+    } catch (Exception e){
+      this.logger.write(e);
     }
 	}
 
 	public void drawGrid(JPanel grid) throws IndexOutOfBoundsException, Exception{
-		for(int i = 0; i < Constants.GRID_SIZE[1]; i++) {
-			for(int j = 0; j < Constants.GRID_SIZE[0]; j++) {				
-				DrawCase cases = new DrawCase();
+		for(int i = 0; i < 6; i++) {
+			for(int j = 0; j < 7; j++) {
+				DrawCase cases;
+				if (this.plate.getGrid()[j][i].getPlayed() ==  this.j1){
+					cases = new DrawCase(this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
+				} else if (this.plate.getGrid()[j][i].getPlayed() ==  this.j2){
+					cases = new DrawCase(this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2);
+				} else {
+					cases = new DrawCase(this.plate.getGrid()[j][i]);
+				}
 				cases.setPreferredSize(new Dimension(80,80));
 				grid.add(cases);
 			}	
@@ -61,7 +87,6 @@ public class Gui extends JFrame implements ViewInterface {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				if (reply == JOptionPane.YES_OPTION) {
-					System.out.println("[Log] : Fermeture du jeu");
 					dispose();
 				} else {
 					return;
@@ -82,7 +107,6 @@ public class Gui extends JFrame implements ViewInterface {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				if (reply == JOptionPane.YES_OPTION) {
-					System.out.println("[Log] : Exit");
 					dispose();
 				} else {
 					return;
@@ -139,15 +163,26 @@ public class Gui extends JFrame implements ViewInterface {
 
 	  JPanel logs = new JPanel();
 	  JTextArea showLogs = new JTextArea();
+	  this.logger.setJTextArea(showLogs);
     showLogs.setEditable(false);
-    showLogs.setPreferredSize(new Dimension(1100,450));
-	  showLogs.append("[Log] Game start");
-	  logs.add(showLogs);
+	  this.logger.write("Window opening");
+	  JScrollPane scrollArea = new JScrollPane(showLogs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    scrollArea.setPreferredSize(new Dimension(1100,450));
+	  logs.add(scrollArea, BorderLayout.CENTER);
 
 	  onglets.add("Main", content);
 	  onglets.add("Logs", logs);
 
 		this.getContentPane().add(onglets);
 		this.pack();
+	}
+
+
+	public void setLogger(Logger l){
+		this.logger = l;
+	}
+
+	public void setPlate(Plate plate){
+		this.plate = plate;
 	}
 }

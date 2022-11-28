@@ -20,8 +20,9 @@ public class Main {
 
     Player[] joueurs;
     joueurs = new Player[2];
-    joueurs[0] = new Player(Constants.PSEUDO_J1);
-    joueurs[1] = new Player(Constants.PSEUDO_J2);
+    Scanner scanner = new Scanner(System.in);
+    joueurs[0] = new Player(Constants.PSEUDO_J1, scanner);
+    joueurs[1] = new Player(Constants.PSEUDO_J2, scanner);
 
     ViewInterface view;
     GameInterface game;
@@ -29,15 +30,14 @@ public class Main {
     System.out.println("Run with the CLI : c");
     System.out.println(" Run with a GUI :  f");
     System.out.println("      Exit :       q\n\nSelect : ");
-    Scanner scanner = new Scanner(System.in);
     String choice = scanner.nextLine();
 
     if (!choice.equals("q")){
       if (choice.equals("c")){
-        game = new Game(joueurs[0], joueurs[1], new Print());
+        game = new SecretConnectFour(joueurs[0], joueurs[1], new Print());
         game.launch();
       } else if (choice.equals("f")){
-        game = new Game(joueurs[0], joueurs[1], new Gui());
+        game = new SecretConnectFour(joueurs[0], joueurs[1], new Gui(joueurs));
         game.launch();
       }
     } else {
