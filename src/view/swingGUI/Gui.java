@@ -43,7 +43,7 @@ public class Gui extends JFrame implements ViewInterface {
 		try {
 			this.drawGrid(this.grid);
     } catch (Exception e){
-      //this.logger.write(e);
+      this.logger.write(e);
     }
 	}
 
