@@ -3,6 +3,7 @@ package view.swingGUI;
 import util.Constants;
 import util.Logger;
 
+import controller.ActionListenerGui;
 import model.*;
 
 import view.ViewInterface;
@@ -10,6 +11,8 @@ import view.ViewInterface;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Observer;
+import java.util.Observable;
 
 public class Gui extends JFrame implements ViewInterface {
 	private Logger logger;
@@ -175,6 +178,7 @@ public class Gui extends JFrame implements ViewInterface {
 
 		this.getContentPane().add(onglets);
 		this.pack();
+    //onglets.addKeyListener(new ActionListenerGui());
 	}
 
 
