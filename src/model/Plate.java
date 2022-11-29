@@ -30,6 +30,25 @@ public class Plate{
 		this.grid[colum-1][y].setPlayed(p);
 	}
 
+	public boolean canPlay(int colum){
+		if (this.grid[colum-1][0].getPlayed() instanceof Player){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public boolean canPlay(){
+		for (int i=0; i!=this.len_x; i++){
+			for (int y=0; y!=this.len_y; y++){
+				if (this.grid[i][y].getPlayed() == null){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public Square[][] getGrid(){
 		return this.grid;
 	}

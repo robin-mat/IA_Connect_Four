@@ -31,21 +31,27 @@ public class SecretConnectFour implements GameInterface {
 		this.view.setPlate(this.plate);
 		this.view.launch();
 		this.plate.init();
-		while (!this.isFinish()){
+		while (!this.isFinish() && this.plate.canPlay()){
 			this.logger.write("Waiting "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
 			this.view.setPlate(this.plate);
-			this.view.update();
 			int choice = this.currentPlayer.play();
+			this.logger.write("Choose the column "+choice);
+			while (!this.plate.canPlay(choice)){
+				this.logger.write("Unable to perform, select a valid move !");
+				choice = this.currentPlayer.play();
+				this.logger.write("Choose the column "+choice);
+			}
+
 			this.plate.addPawn(choice, this.currentPlayer);
 			
 			this.changeCurrentPlayer();
+			this.view.update();
 		}
 		this.logger.write("The game is over");
 
 	}
 
 	public boolean isFinish(){
-		//TODO
 		return false;
 	}
 
