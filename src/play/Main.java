@@ -1,7 +1,9 @@
 package play;
 
-import model.Player;
+import model.*;
+import model.strategy.*;
 import util.Constants;
+import controller.TerminalInput;
 
 import view.swingGUI.*;
 import view.terminal.*;
@@ -21,16 +23,17 @@ public class Main {
     Player[] joueurs;
     joueurs = new Player[2];
     Scanner scanner = new Scanner(System.in);
-    joueurs[0] = new Player(Constants.PSEUDO_J1, scanner);
-    joueurs[1] = new Player(Constants.PSEUDO_J2, scanner);
+    TerminalInput terminalInput = new TerminalInput(scanner);
+    joueurs[0] = new Player(Constants.PSEUDO_J1, new Naive());
+    joueurs[1] = new Player(Constants.PSEUDO_J2, new Naive());
 
     ViewInterface view;
     GameInterface game;
 
     System.out.println("Run with the CLI : c");
     System.out.println(" Run with a GUI :  f");
-    System.out.println("      Exit :       q\n\nSelect : ");
-    String choice = scanner.nextLine();
+    System.out.println("      Exit :       q\n");
+    String choice = terminalInput.askQuestionString("Select : ");
 
     if (!choice.equals("q")){
       if (choice.equals("c")){
