@@ -24,10 +24,10 @@ public class DrawCase extends JPanel {
 
 
 		addMouseListener(new MouseAdapter() { 
-          public void mousePressed(MouseEvent me) {
-            Constants.GUI_ADD_PAWN_COLUMN = column;
-          } 
-        });
+			public void mousePressed(MouseEvent me) {
+				Constants.GUI_ADD_PAWN_COLUMN = column;
+			} 
+		});
 	}
 
 	public DrawCase(int i, Square square) {
