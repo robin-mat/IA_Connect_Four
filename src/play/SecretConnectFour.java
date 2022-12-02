@@ -31,6 +31,7 @@ public class SecretConnectFour implements GameInterface {
 		this.view.setPlate(this.plate);
 		this.view.launch();
 		this.plate.init();
+		this.view.update();
 		while (!this.isFinish() && this.plate.canPlay()){
 			this.logger.write("Waiting "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
 			this.view.setPlate(this.plate);
