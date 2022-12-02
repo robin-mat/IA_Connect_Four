@@ -20,4 +20,7 @@ public class Constants {
    //Chemin relatif au projet & ressources
    public static final String ABSOLUTE_PATH = (new File("")).getAbsolutePath();
    public static final String LOGO_PATH = ABSOLUTE_PATH+"/src/resources/logo.jpg";
+
+   //Parallèle GUI
+   public static int GUI_ADD_PAWN_COLUMN = -1;
 }

@@ -24,8 +24,8 @@ public class Main {
     joueurs = new Player[2];
     Scanner scanner = new Scanner(System.in);
     TerminalInput terminalInput = new TerminalInput(scanner);
-    joueurs[0] = new Player(Constants.PSEUDO_J1, new Naive());
-    joueurs[1] = new Player(Constants.PSEUDO_J2, new Naive());
+    joueurs[0] = new Player(Constants.PSEUDO_J1, new HumanGui());
+    joueurs[1] = new Player(Constants.PSEUDO_J2, new HumanGui());
 
     ViewInterface view;
     GameInterface game;

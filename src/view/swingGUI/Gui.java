@@ -64,11 +64,11 @@ public class Gui extends JFrame implements ViewInterface {
 			for(int j = 0; j < 7; j++) {
 				DrawCase cases;
 				if (this.plate.getGrid()[j][i].getPlayed() ==  this.j1){
-					cases = new DrawCase(this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
+					cases = new DrawCase(j+1, this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
 				} else if (this.plate.getGrid()[j][i].getPlayed() ==  this.j2){
-					cases = new DrawCase(this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2);
+					cases = new DrawCase(j+1, this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2);
 				} else {
-					cases = new DrawCase(this.plate.getGrid()[j][i]);
+					cases = new DrawCase(j+1, this.plate.getGrid()[j][i]);
 				}
 				cases.setPreferredSize(new Dimension(80,80));
 				grid.add(cases);
