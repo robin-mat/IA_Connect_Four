@@ -1,11 +1,11 @@
 package view;
 
 import util.Logger;
-import model.Plate;
+import model.Board;
 
 public interface ViewInterface{
 	public void launch();
 	public void setLogger(Logger l);
 	public void update();
-	public void setPlate(Plate plate);
+	public void setBoard(Board board);
 }

@@ -17,7 +17,7 @@ import java.util.Observable;
 public class Gui extends JFrame implements ViewInterface {
 	private Logger logger;
 	public JPanel grid;
-	public Plate plate;
+	public Board board;
 
 	private Player j1;
 	private Player j2;
@@ -63,12 +63,12 @@ public class Gui extends JFrame implements ViewInterface {
 		for(int i = 0; i < 6; i++) {
 			for(int j = 0; j < 7; j++) {
 				DrawCase cases;
-				if (this.plate.getGrid()[j][i].getPlayed() ==  this.j1){
-					cases = new DrawCase(j+1, this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
-				} else if (this.plate.getGrid()[j][i].getPlayed() ==  this.j2){
-					cases = new DrawCase(j+1, this.plate.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2);
+				if (this.board.getGrid()[j][i].getPlayed() ==  this.j1){
+					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
+				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.j2){
+					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2);
 				} else {
-					cases = new DrawCase(j+1, this.plate.getGrid()[j][i]);
+					cases = new DrawCase(j+1, this.board.getGrid()[j][i]);
 				}
 				cases.setPreferredSize(new Dimension(80,80));
 				grid.add(cases);
@@ -186,7 +186,7 @@ public class Gui extends JFrame implements ViewInterface {
 		this.logger = l;
 	}
 
-	public void setPlate(Plate plate){
-		this.plate = plate;
+	public void setBoard(Board board){
+		this.board = board;
 	}
 }
