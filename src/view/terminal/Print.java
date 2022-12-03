@@ -3,7 +3,7 @@ package view.terminal;
 import view.ViewInterface;
 import util.Logger;
 
-import model.Plate;
+import model.Board;
 
 public class Print implements ViewInterface {
 	public Print(){
@@ -20,7 +20,7 @@ public class Print implements ViewInterface {
 	public void update(){
 		//
 	}
-	public void setPlate(Plate plate){
+	public void setBoard(Board board){
 		//
 	}
 }

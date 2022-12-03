@@ -2,14 +2,18 @@ package model;
 
 import java.util.ArrayList;
 
-public class Plate{
+public class Board{
 	private Square[][] grid;
+	private int[] lastPawn;
 	private int len_x;
 	private int len_y;
 
-	public Plate(int dimX, int dimY){
+	public Board(int dimX, int dimY){
 	    this.len_x = dimX;
 	    this.len_y = dimY;
+	    this.lastPawn = new int[2];
+	    this.lastPawn[0] = -1;
+	    this.lastPawn[1] = -1;
 	    this.grid = new Square[this.len_x][this.len_y];
 	}
 
@@ -28,6 +32,8 @@ public class Plate{
 			y = y-1;
 		}
 		this.grid[colum-1][y].setPlayed(p);
+	    this.lastPawn[0] = colum-1;
+	    this.lastPawn[1] = y;
 	}
 
 	public boolean canPlay(int colum){
@@ -58,5 +64,9 @@ public class Plate{
 	}
 	public int getLen_y(){
 		return this.len_y;
+	}
+
+	public int[] getLastPawn(){
+		return this.lastPawn;
 	}
 }
