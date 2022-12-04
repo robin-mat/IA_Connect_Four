@@ -5,12 +5,16 @@ import view.*;
 import util.Constants;
 import util.Logger;
 
+import java.util.Random;
+
 public class SecretConnectFour implements GameInterface {
 	public Logger logger;
 
 	private Player player1;
 	private Player player2;
+	public Player winner;
 	private Player currentPlayer;
+	private int rounds;
 
 
 	private Board board;
@@ -22,18 +26,24 @@ public class SecretConnectFour implements GameInterface {
 		this.player2 = p2;
 		this.currentPlayer = this.player1;
 		this.view = v;
+		this.rounds = 0;
 		this.board = new Board(Constants.GRID_SIZE[0], Constants.GRID_SIZE[1]);
 		this.logger = new Logger();
 	}
 
 	public void launch(){
+		this.view.setGameInterface(this);
+		this.choiceRandomCurrentPlayer();
 		this.view.setLogger(this.logger);
 		this.view.setBoard(this.board);
 		this.view.launch();
 		this.board.init();
 		this.view.update();
+		this.choiceRandomCurrentPlayer();
 		while (!this.isFinish() && this.board.canPlay()){
-
+			this.rounds = this.rounds+1;
+			this.changeCurrentPlayer();
+			this.view.refreshInfos();
 			this.logger.write("Waiting "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
 			this.view.setBoard(this.board);
 			int choice = this.currentPlayer.play();
@@ -45,9 +55,17 @@ public class SecretConnectFour implements GameInterface {
 			}
 			this.board.addPawn(choice, this.currentPlayer);
 			this.view.update();
-			this.changeCurrentPlayer();
 		}
-		this.logger.write("The game is over");
+		this.view.refreshInfos();
+		this.view.update();
+		this.logger.write("--------------------");
+		this.logger.write("  The game is over  ");
+		if (this.winner != null){
+			this.logger.write("Winner is "+this.winner.getName());
+		} else {
+			this.logger.write("Draw");
+		}
+		this.logger.write("--------------------");
 
 	}
 
@@ -55,6 +73,64 @@ public class SecretConnectFour implements GameInterface {
 		int compt_pawn = 0;
 		int[] temp = this.board.getLastPawn();
 		this.logger.write("Last pawn placed = ("+Integer.toString(temp[0])+","+Integer.toString(temp[1])+")");
+
+		for (int i = 0; i < 7; i++) {
+	      for (int j = 5; j > -1; j--) {
+	      	Player jVerif = this.board.getGrid()[i][j].getPlayed();
+
+	      	if (jVerif != null){
+	      		// Vérifier si le joueur a 4 pièces sur une ligne
+		      	if (i+3 < 7){
+		      		if (jVerif.equals(this.board.getGrid()[i+1][j].getPlayed())) {
+				        if (jVerif.equals(this.board.getGrid()[i+2][j].getPlayed())) {
+				            if (jVerif.equals(this.board.getGrid()[i+3][j].getPlayed())) {
+				            	this.board.getGrid()[i][j].setComboWinner(true);
+				            	this.board.getGrid()[i+1][j].setComboWinner(true);
+				            	this.board.getGrid()[i+2][j].setComboWinner(true);
+				            	this.board.getGrid()[i+3][j].setComboWinner(true);
+					            this.winner = getCurrentPlayer();
+					            return true;
+					        }
+				        }
+			        }
+		      	}
+
+		      	// Vérifier si le joueur a 4 pièces sur une colonne
+		      	if (j-3 > -1){
+		      		if (jVerif.equals(this.board.getGrid()[i][j-1].getPlayed())) {
+				        if (jVerif.equals(this.board.getGrid()[i][j-2].getPlayed())) {
+				            if (jVerif.equals(this.board.getGrid()[i][j-3].getPlayed())) {
+				            	this.board.getGrid()[i][j].setComboWinner(true);
+				            	this.board.getGrid()[i][j-1].setComboWinner(true);
+				            	this.board.getGrid()[i][j-2].setComboWinner(true);
+				            	this.board.getGrid()[i][j-3].setComboWinner(true);
+					            this.winner = getCurrentPlayer();
+					            return true;
+					        }
+				        }
+			        }
+		      	}
+
+
+	        	// Vérifier si le joueur a 4 pièces sur une diagonale
+	        	if (j-3 > -1 && i + 3 < 7){
+		      		if (jVerif.equals(this.board.getGrid()[i+1][j-1].getPlayed())) {
+				        if (jVerif.equals(this.board.getGrid()[i+2][j-2].getPlayed())) {
+				            if (jVerif.equals(this.board.getGrid()[i+3][j-3].getPlayed())) {
+				            	this.board.getGrid()[i][j].setComboWinner(true);
+				            	this.board.getGrid()[i+1][j-1].setComboWinner(true);
+				            	this.board.getGrid()[i+2][j-2].setComboWinner(true);
+				            	this.board.getGrid()[i+3][j-3].setComboWinner(true);
+					            this.winner = getCurrentPlayer();
+					            return true;
+					        }
+				        }
+			        }
+		      	}
+	      	}
+	      }
+	    }
+		/*
 		if((temp[0] != -1) && (temp[1] != -1)){
 
 			//Horizontale
@@ -194,16 +270,28 @@ public class SecretConnectFour implements GameInterface {
 			}
 			this.logger.write("Mon compt_pawn = " + compt_pawn);
 			if(compt_pawn == 3){
-				this.logger.write("The winner is " + getCurrentPlayer().getName());
-				return true;
+					this.winner = getCurrentPlayer();
+					return true;
 				}
 			}
-			return false;
+		*/
+
+		return false;
 		}
 
 
 	public Player getCurrentPlayer(){
 		return this.currentPlayer;
+	}
+
+	public void choiceRandomCurrentPlayer(){
+		int randomNumber = (int)(Math.random() * 2);
+
+		if (randomNumber == 0){
+			this.currentPlayer = this.player2;
+		} else {
+			this.currentPlayer = this.player1;
+		}
 	}
 
 	public void changeCurrentPlayer(){
@@ -212,5 +300,16 @@ public class SecretConnectFour implements GameInterface {
 		} else {
 			this.currentPlayer = this.player1;
 		}
+	}
+
+	public Player getWinner(){
+		return this.winner;
+	}
+	public int getRounds(){
+		return this.rounds;
+	}
+
+	public Board getBoard(){
+		return this.board;
 	}
 }

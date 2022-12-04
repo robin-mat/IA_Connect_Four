@@ -4,6 +4,7 @@ import view.ViewInterface;
 import util.Logger;
 
 import model.Board;
+import play.GameInterface;
 
 public class Print implements ViewInterface {
 	public Print(){
@@ -21,6 +22,14 @@ public class Print implements ViewInterface {
 		//
 	}
 	public void setBoard(Board board){
+		//
+	}
+
+	public void setGameInterface(GameInterface gameInterface){
+		//
+	}
+
+	public void refreshInfos(){
 		//
 	}
 }

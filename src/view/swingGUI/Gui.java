@@ -5,6 +5,7 @@ import util.Logger;
 
 import controller.ActionListenerGui;
 import model.*;
+import play.GameInterface;
 
 import view.ViewInterface;
 
@@ -15,6 +16,7 @@ import java.util.Observer;
 import java.util.Observable;
 
 public class Gui extends JFrame implements ViewInterface {
+	private GameInterface gameInterface;
 	private Logger logger;
 	public JPanel grid;
 	public Board board;
@@ -24,11 +26,19 @@ public class Gui extends JFrame implements ViewInterface {
 
 	private Dimension screenSize;
 
+	//Swing vars
+	private JLabel currentPlayer;
+	private JLabel rounds;
+
 	public Gui(Player[] players) {
 		super(Constants.TITLE);
 		this.j1 = players[0];
 		this.j2 = players[1];
 		setIconImage(new ImageIcon(Constants.LOGO_PATH).getImage());
+	}
+
+	public void setGameInterface(GameInterface gameInterface){
+		this.gameInterface = gameInterface;
 	}
 
 	public void launch(){
@@ -63,7 +73,9 @@ public class Gui extends JFrame implements ViewInterface {
 		for(int i = 0; i < 6; i++) {
 			for(int j = 0; j < 7; j++) {
 				DrawCase cases;
-				if (this.board.getGrid()[j][i].getPlayed() ==  this.j1){
+				if (this.board.getGrid()[j][i].getComboWinner()){
+					cases = new DrawCase(j+1, this.board.getGrid()[j][i], new Color(0, 128, 0));
+				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.j1){
 					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
 				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.j2){
 					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2);
@@ -126,20 +138,26 @@ public class Gui extends JFrame implements ViewInterface {
 		content.setLayout(new GridLayout(1, 2));
 
 		JPanel panel = new JPanel();
-    LayoutManager layout = new BoxLayout(panel, BoxLayout.PAGE_AXIS);  
-    panel.setLayout(layout);
+    panel.setLayout(new GridLayout(3, 1));
 
     //Titre
     JLabel label = new JLabel("<HTML><H1><U>"+Constants.TITLE+"</U></H1></HTML>");
-		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-		label.setHorizontalAlignment(JLabel.CENTER);
+    label.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(label);
 
 		//Infos
 		JPanel infos = new JPanel();
     infos.setBorder(BorderFactory.createTitledBorder("Informations"));
 
+    
+		this.currentPlayer = new JLabel("Current player : ?");
+		this.currentPlayer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.currentPlayer.setBackground(new java.awt.Color(140, 140, 140));
+		this.currentPlayer.setOpaque(true);
+    infos.add(this.currentPlayer);
+
+    this.rounds = new JLabel("Rounds : 0");
+    infos.add(this.rounds);
 
     panel.add(infos);
 
@@ -151,7 +169,7 @@ public class Gui extends JFrame implements ViewInterface {
 
 	  panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
 	  panel.setBackground(new java.awt.Color(194, 194, 194));
-	  content.add(panel, BorderLayout.CENTER);
+	  content.add(panel);
 
 
 
@@ -159,7 +177,7 @@ public class Gui extends JFrame implements ViewInterface {
 	  grid = new JPanel();
 	  grid.setLayout(new GridLayout(Constants.GRID_SIZE[1], Constants.GRID_SIZE[0]));
 	  grid.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
-	  content.add(grid);
+	  content.add(grid, BorderLayout.CENTER);
 
 
 	  content.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
@@ -181,6 +199,25 @@ public class Gui extends JFrame implements ViewInterface {
     //onglets.addKeyListener(new ActionListenerGui());
 	}
 
+	public void refreshInfos(){
+		if (this.gameInterface.getCurrentPlayer() == this.j1){
+			this.currentPlayer.setForeground(Constants.SWING_PAWN_COLOR_J1);
+		} else {
+			this.currentPlayer.setForeground(Constants.SWING_PAWN_COLOR_J2);
+		}
+		if (this.gameInterface.getWinner() != null){
+			this.currentPlayer.setText("Winner : "+this.gameInterface.getWinner().getName());
+		} else {
+			this.currentPlayer.setText("Current player : "+this.gameInterface.getCurrentPlayer().getName());
+		}
+		if (!this.gameInterface.getBoard().canPlay() && this.gameInterface.getWinner() == null){
+			this.currentPlayer.setForeground(new java.awt.Color(0, 128, 0));
+			this.currentPlayer.setText("Draw");
+		}
+
+
+		this.rounds.setText("Rounds : "+this.gameInterface.getRounds());
+	}
 
 	public void setLogger(Logger l){
 		this.logger = l;
