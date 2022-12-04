@@ -33,7 +33,7 @@ public class SecretConnectFour implements GameInterface {
 		this.board.init();
 		this.view.update();
 		while (!this.isFinish() && this.board.canPlay()){
-			this.changeCurrentPlayer();
+
 			this.logger.write("Waiting "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
 			this.view.setBoard(this.board);
 			int choice = this.currentPlayer.play();
@@ -43,96 +43,163 @@ public class SecretConnectFour implements GameInterface {
 				choice = this.currentPlayer.play();
 				this.logger.write("Choose the column "+choice);
 			}
-
 			this.board.addPawn(choice, this.currentPlayer);
 			this.view.update();
+			this.changeCurrentPlayer();
 		}
 		this.logger.write("The game is over");
 
 	}
 
 	public boolean isFinish(){
-		//UTILE POUR UNE OPTI TODO :
+		int compt_pawn = 0;
 		int[] temp = this.board.getLastPawn();
 		this.logger.write("Last pawn placed = ("+Integer.toString(temp[0])+","+Integer.toString(temp[1])+")");
-		//
-		//
-		//
+		if((temp[0] != -1) && (temp[1] != -1)){
 
+			//Horizontale
+			if(temp[1] < this.board.getLen_y()-1){
+				if (this.board.getGrid()[temp[0]][temp[1]].getPlayed() == this.board.getGrid()[temp[0]][temp[1]+1].getPlayed()){
+					compt_pawn += 1;
+					if(temp[1] < this.board.getLen_y()-2){
+						if (this.board.getGrid()[temp[0]][temp[1]+1].getPlayed() == this.board.getGrid()[temp[0]][temp[1]+2].getPlayed()){
+							compt_pawn += 1;
+							if(temp[1] < this.board.getLen_y()-3){
+								if (this.board.getGrid()[temp[0]][temp[1]+2].getPlayed() == this.board.getGrid()[temp[0]][temp[1]+3].getPlayed()){
+									compt_pawn += 1;
+								}
+							}
+						}
+					}
+				}
+			}
+			if(temp[1] > 0){
+				if (this.board.getGrid()[temp[0]][temp[1]].getPlayed() == this.board.getGrid()[temp[0]][temp[1]-1].getPlayed()){
+					compt_pawn += 1;
+					if(temp[1] > 1){
+						if (this.board.getGrid()[temp[0]][temp[1]-1].getPlayed() == this.board.getGrid()[temp[0]][temp[1]-2].getPlayed()){
+							compt_pawn += 1;
+							if(temp[1] > 2){
+								if (this.board.getGrid()[temp[0]][temp[1]-2].getPlayed() == this.board.getGrid()[temp[0]][temp[1]-3].getPlayed()){
+									compt_pawn += 1;
+								}
+							}
+						}
+					}
+				}
+			}
 
-		for (int i=0; i!=this.board.getLen_x(); i++){ //Verifie si win 4 horizontale
-			for (int y=0; y!=this.board.getLen_y()-3; y++){
-				if(this.board.getGrid()[i][y].getPlayed() != null){
-					if (this.board.getGrid()[i][y].getPlayed() == this.board.getGrid()[i][y+1].getPlayed()){
-						if (this.board.getGrid()[i][y+1].getPlayed() == this.board.getGrid()[i][y+2].getPlayed()){
-							if (this.board.getGrid()[i][y+2].getPlayed() == this.board.getGrid()[i][y+3].getPlayed()){
-								this.logger.write("The winner is " + getCurrentPlayer().getName());
-								return true;
+			//Verticale
+			if(compt_pawn < 3){
+				compt_pawn = 0;
+			}
+			if(temp[0] < this.board.getLen_x()-1){
+				if (this.board.getGrid()[temp[0]][temp[1]].getPlayed() == this.board.getGrid()[temp[0]+1][temp[1]].getPlayed()){
+					compt_pawn += 1;
+					if(temp[0] < this.board.getLen_x()-2){
+						if (this.board.getGrid()[temp[0]+1][temp[1]].getPlayed() == this.board.getGrid()[temp[0]+2][temp[1]].getPlayed()){
+							compt_pawn += 1;
+							if(temp[0] < this.board.getLen_x()-3){
+								if (this.board.getGrid()[temp[0]+2][temp[1]].getPlayed() == this.board.getGrid()[temp[0]+3][temp[1]].getPlayed()){
+									compt_pawn += 1;
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-		for (int i=0; i!=this.board.getLen_x()-3; i++){ //Verifie si win 4 verticale
-			for (int y=0; y!=this.board.getLen_y(); y++){
-				if(this.board.getGrid()[i][y].getPlayed() != null){
-					if (this.board.getGrid()[i][y].getPlayed() == this.board.getGrid()[i+1][y].getPlayed()){
-						if (this.board.getGrid()[i+1][y].getPlayed() == this.board.getGrid()[i+2][y].getPlayed()){
-							if (this.board.getGrid()[i+2][y].getPlayed() == this.board.getGrid()[i+3][y].getPlayed()){
-								this.logger.write("The winner is " + getCurrentPlayer().getName());
-								return true;
+			if(temp[0] > 0){
+				if (this.board.getGrid()[temp[0]][temp[1]].getPlayed() == this.board.getGrid()[temp[0]-1][temp[1]].getPlayed()){
+					compt_pawn += 1;
+					if(temp[0] > 1){
+						if (this.board.getGrid()[temp[0]-1][temp[1]].getPlayed() == this.board.getGrid()[temp[0]-2][temp[1]].getPlayed()){
+							compt_pawn += 1;
+							if(temp[0] > 2){
+								if (this.board.getGrid()[temp[0]-2][temp[1]].getPlayed() == this.board.getGrid()[temp[0]-3][temp[1]].getPlayed()){
+									compt_pawn += 1;
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-		for (int i=0; i!=this.board.getLen_x()-3; i++){ //Verifie si win 4 diagonal en forme /
-			for (int y=3; y!=this.board.getLen_y(); y++){
-				if(this.board.getGrid()[i][y].getPlayed() != null){
-					if (this.board.getGrid()[i][y].getPlayed() == this.board.getGrid()[i+1][y-1].getPlayed()){
-						if (this.board.getGrid()[i+1][y-1].getPlayed() == this.board.getGrid()[i+2][y-2].getPlayed()){
-							if (this.board.getGrid()[i+2][y-2].getPlayed() == this.board.getGrid()[i+3][y-3].getPlayed()){
-								this.logger.write("The winner is " + getCurrentPlayer().getName());
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-		for (int i=0; i!=this.board.getLen_x()-3; i++){ //Verifie si win 4 diagonal en forme \
-			for (int y=0; y!=this.board.getLen_y()-3; y++){
-				if(this.board.getGrid()[i][y].getPlayed() != null){
-					if (this.board.getGrid()[i][y].getPlayed() == this.board.getGrid()[i+1][y+1].getPlayed()){
-						if (this.board.getGrid()[i+1][y+1].getPlayed() == this.board.getGrid()[i+2][y+2].getPlayed()){
-							if (this.board.getGrid()[i+2][y+2].getPlayed() == this.board.getGrid()[i+3][y+3].getPlayed()){
-								this.logger.write("The winner is " + getCurrentPlayer().getName());
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
 
-					/*}
-					else if ((this.plate.getGrid()[i][y].getPlayed() == this.plate.getGrid()[i+1][y].getPlayed()) && (this.plate.getGrid()[i+1][y].getPlayed() == this.plate.getGrid()[i+2][y].getPlayed()) && (this.plate.getGrid()[i+2][y].getPlayed() == this.plate.getGrid()[i+3][y].getPlayed())){ // 4 pions à la horizontale = Fini
-						this.logger.write("The winner is " + getCurrentPlayer().getName());
-						return true;
-					}
-					else if ((this.plate.getGrid()[i][y].getPlayed() == this.plate.getGrid()[i+1][y+1].getPlayed()) && (this.plate.getGrid()[i][y].getPlayed() == this.plate.getGrid()[i+2][y+2].getPlayed()) && (this.plate.getGrid()[i][y].getPlayed() == this.plate.getGrid()[i+3][y+3].getPlayed())){ // 4 pions en diagonal = Fini
-						this.logger.write("The winner is " + getCurrentPlayer().getName());
-						return true;
+			//Diagonale \
+			if(compt_pawn < 3){
+				compt_pawn = 0;
+			}
+			if((temp[0] < this.board.getLen_x()-1) && (temp[1] < this.board.getLen_y()-1)){
+				if (this.board.getGrid()[temp[0]][temp[1]].getPlayed() == this.board.getGrid()[temp[0]+1][temp[1]+1].getPlayed()){
+					compt_pawn += 1;
+					if((temp[0] < this.board.getLen_x()-2) && (temp[1] < this.board.getLen_y()-2)){
+						if (this.board.getGrid()[temp[0]+1][temp[1]+1].getPlayed() == this.board.getGrid()[temp[0]+2][temp[1]+2].getPlayed()){
+							compt_pawn += 1;
+							if((temp[0] < this.board.getLen_x()-3) && (temp[1] < this.board.getLen_y()-3)){
+								if (this.board.getGrid()[temp[0]+2][temp[1]+2].getPlayed() == this.board.getGrid()[temp[0]+3][temp[1]+3].getPlayed()){
+									compt_pawn += 1;
+								}
+							}
+						}
 					}
 				}
+			}
+			if((temp[0] > 0) && (temp[1] > 0)){
+				if (this.board.getGrid()[temp[0]][temp[1]].getPlayed() == this.board.getGrid()[temp[0]-1][temp[1]-1].getPlayed()){
+					compt_pawn += 1;
+					if((temp[0] > 1) && (temp[1] > 1)){
+						if (this.board.getGrid()[temp[0]-1][temp[1]-1].getPlayed() == this.board.getGrid()[temp[0]-2][temp[1]-2].getPlayed()){
+							compt_pawn += 1;
+							if((temp[0] > 2) && (temp[1] > 2)){
+								if (this.board.getGrid()[temp[0]-2][temp[1]-2].getPlayed() == this.board.getGrid()[temp[0]-3][temp[1]-3].getPlayed()){
+									compt_pawn += 1;
+								}
+							}
+						}
+					}
+				}
+			}
+			//Diagonale /
+			if(compt_pawn < 3){
+				compt_pawn = 0;
+			}
+			if((temp[0] > 0) && (temp[1] < this.board.getLen_y()-1)){
+				if (this.board.getGrid()[temp[0]][temp[1]].getPlayed() == this.board.getGrid()[temp[0]-1][temp[1]+1].getPlayed()){
+					compt_pawn += 1;
+					if((temp[0] > 1) && (temp[1] < this.board.getLen_y()-2)){
+						if (this.board.getGrid()[temp[0]-1][temp[1]+1].getPlayed() == this.board.getGrid()[temp[0]-2][temp[1]+2].getPlayed()){
+							compt_pawn += 1;
+							if((temp[0] > 2) && (temp[1] < this.board.getLen_y()-3)){
+								if (this.board.getGrid()[temp[0]-2][temp[1]+2].getPlayed() == this.board.getGrid()[temp[0]-3][temp[1]+3].getPlayed()){
+									compt_pawn += 1;
+								}
+							}
+						}
+					}
+				}
+			}
+			if((temp[0] > this.board.getLen_x()-1) && (temp[1] < 0)){
+				if (this.board.getGrid()[temp[0]][temp[1]].getPlayed() == this.board.getGrid()[temp[0]+1][temp[1]-1].getPlayed()){
+					compt_pawn += 1;
+					if((temp[0] > this.board.getLen_x()-2) && (temp[1] < 1)){
+						if (this.board.getGrid()[temp[0]+1][temp[1]-1].getPlayed() == this.board.getGrid()[temp[0]+2][temp[1]-2].getPlayed()){
+							compt_pawn += 1;
+							if((temp[0] > this.board.getLen_x()-3) && (temp[1] < 2)){
+								if (this.board.getGrid()[temp[0]+2][temp[1]-2].getPlayed() == this.board.getGrid()[temp[0]+3][temp[1]-3].getPlayed()){
+									compt_pawn += 1;
+								}
+							}
+						}
+					}
+				}
+			}
+			this.logger.write("Mon compt_pawn = " + compt_pawn);
+			if(compt_pawn == 3){
+				this.logger.write("The winner is " + getCurrentPlayer().getName());
+				return true;
+				}
+			}
+			return false;
 		}
-	}
-	return false;
-}*/
 
 
 	public Player getCurrentPlayer(){
@@ -147,4 +214,3 @@ public class SecretConnectFour implements GameInterface {
 		}
 	}
 }
-
