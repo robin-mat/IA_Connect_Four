@@ -2,7 +2,7 @@ package model.strategy;
 
 import controller.TerminalInput;
 
-public class Human extends Strategy{
+public class Human implements Strategy{
 	public TerminalInput terminalInput;
 
 	public Human(TerminalInput terminalInput){

@@ -45,7 +45,7 @@ public class SecretConnectFour implements GameInterface {
 			this.changeCurrentPlayer();
 			this.view.refreshInfos();
 			this.logger.write("Waiting "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
-			this.view.setBoard(this.board);
+			//this.view.setBoard(this.board);
 			int choice = this.currentPlayer.play();
 			this.logger.write("Choose the column "+choice);
 			while (!this.board.canPlay(choice)){
@@ -112,7 +112,7 @@ public class SecretConnectFour implements GameInterface {
 		      	}
 
 
-	        	// Vérifier si le joueur a 4 pièces sur une diagonale
+	        	// Vérifier si le joueur a 4 pièces sur une diagonale de gauche à droite
 	        	if (j-3 > -1 && i + 3 < 7){
 		      		if (jVerif.equals(this.board.getGrid()[i+1][j-1].getPlayed())) {
 				        if (jVerif.equals(this.board.getGrid()[i+2][j-2].getPlayed())) {
@@ -121,6 +121,25 @@ public class SecretConnectFour implements GameInterface {
 				            	this.board.getGrid()[i+1][j-1].setComboWinner(true);
 				            	this.board.getGrid()[i+2][j-2].setComboWinner(true);
 				            	this.board.getGrid()[i+3][j-3].setComboWinner(true);
+					            this.winner = getCurrentPlayer();
+					            return true;
+					        }
+				        }
+			        }
+		      	}
+
+
+
+
+	        	// Vérifier si le joueur a 4 pièces sur une diagonale de droite à gauche
+	        	if (j-3 > -1 && i - 3 > -1){
+		      		if (jVerif.equals(this.board.getGrid()[i-1][j-1].getPlayed())) {
+				        if (jVerif.equals(this.board.getGrid()[i-2][j-2].getPlayed())) {
+				            if (jVerif.equals(this.board.getGrid()[i-3][j-3].getPlayed())) {
+				            	this.board.getGrid()[i][j].setComboWinner(true);
+				            	this.board.getGrid()[i-1][j-1].setComboWinner(true);
+				            	this.board.getGrid()[i-2][j-2].setComboWinner(true);
+				            	this.board.getGrid()[i-3][j-3].setComboWinner(true);
 					            this.winner = getCurrentPlayer();
 					            return true;
 					        }

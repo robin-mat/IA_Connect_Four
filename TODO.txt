@@ -1,0 +1,6 @@
+- changer la place du while
+- Donner aux stratégie l'etat du jeu (après les strats)
+- changer les stratégies en interface
+- La vue accède à un proxy
+- implémenter un minmax (si possible)
+- Vues des 2 joueurs

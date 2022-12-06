@@ -1,5 +1,5 @@
 package model.strategy;
 
-public abstract class Strategy{
+public interface Strategy{
 	public abstract int choice();
 }

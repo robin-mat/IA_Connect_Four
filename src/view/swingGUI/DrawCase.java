@@ -16,6 +16,7 @@ public class DrawCase extends JPanel {
 	public Square square;
 	public java.awt.Color esthetic;
 	private int column;
+	private boolean combo;
 
 	public DrawCase(int column, Square square, java.awt.Color color) {
 		this.square = square;
@@ -34,6 +35,13 @@ public class DrawCase extends JPanel {
 		this(i, square, new java.awt.Color(255,255,255));
 	}
 
+
+	public DrawCase(int i, Square square, java.awt.Color color, boolean combo) {
+		this(i, square, color);
+		this.combo = combo;
+	}
+
+
 	@Override
 	public void paintComponent(Graphics g) {
 		//DRAW THE SQUARE
@@ -43,6 +51,10 @@ public class DrawCase extends JPanel {
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, 80, 80);
 		if (this.square.getPlayed() != null){
+			if (this.combo){
+				g.setColor(Color.BLACK);
+				g.fillOval(7,7,66,66);
+			}
 			g.setColor(this.esthetic);
 			g.fillOval(10,10,60,60);
 		}

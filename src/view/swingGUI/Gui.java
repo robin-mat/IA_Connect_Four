@@ -30,6 +30,12 @@ public class Gui extends JFrame implements ViewInterface {
 	private JLabel currentPlayer;
 	private JLabel rounds;
 
+	private JCheckBox proxyViewOmni;
+  private JCheckBox proxyViewP1;
+  private JCheckBox proxyViewP2;
+  private JComboBox p1StratChoice;
+  private JComboBox p2StratChoice;
+
 	public Gui(Player[] players) {
 		super(Constants.TITLE);
 		this.j1 = players[0];
@@ -74,7 +80,11 @@ public class Gui extends JFrame implements ViewInterface {
 			for(int j = 0; j < 7; j++) {
 				DrawCase cases;
 				if (this.board.getGrid()[j][i].getComboWinner()){
-					cases = new DrawCase(j+1, this.board.getGrid()[j][i], new Color(0, 128, 0));
+					if (this.board.getGrid()[j][i].getPlayed() ==  this.j1){
+						cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1, true);
+					} else {
+						cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2, true);
+					}
 				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.j1){
 					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
 				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.j2){
@@ -164,6 +174,74 @@ public class Gui extends JFrame implements ViewInterface {
 		//Choix
 		JPanel choices = new JPanel();
     choices.setBorder(BorderFactory.createTitledBorder("Settings"));
+    choices.setLayout(new GridLayout(3, 1));
+
+    JPanel proxyView = new JPanel();
+    proxyView.setBorder(BorderFactory.createTitledBorder("Current view"));
+
+
+
+    proxyViewOmni = new JCheckBox("Omniscient");
+    proxyViewOmni.setForeground(new java.awt.Color(0, 0, 255));
+    proxyViewOmni.setSelected(true);
+    proxyViewP1 = new JCheckBox("Player 1");
+    proxyViewP2 = new JCheckBox("Player 2");
+    proxyView.add(proxyViewOmni);
+		proxyView.add(proxyViewP1);
+		proxyView.add(proxyViewP2);
+    proxyViewOmni.addItemListener(new ItemListener() {
+    	@Override
+    	public void itemStateChanged(ItemEvent e) {
+    		proxyViewOmni.setForeground(Color.BLACK);
+    		proxyViewP1.setForeground(Color.BLACK);
+    		proxyViewP2.setForeground(Color.BLACK);
+    		if (proxyViewOmni.isSelected()){proxyViewOmni.setForeground(new java.awt.Color(0, 0, 255));}
+    		proxyViewP1.setSelected(false);
+    		proxyViewP2.setSelected(false);
+    	}
+    });
+    proxyViewP1.addItemListener(new ItemListener() {
+    	@Override
+    	public void itemStateChanged(ItemEvent e) {
+    		proxyViewOmni.setForeground(Color.BLACK);
+    		proxyViewP1.setForeground(Color.BLACK);
+    		proxyViewP2.setForeground(Color.BLACK);
+    		proxyViewOmni.setSelected(false);
+    		if (proxyViewP1.isSelected()){proxyViewP1.setForeground(new java.awt.Color(0, 0, 255));}
+    		proxyViewP2.setSelected(false);
+    	}
+    });
+    proxyViewP2.addItemListener(new ItemListener() {
+    	@Override
+    	public void itemStateChanged(ItemEvent e) {
+    		proxyViewOmni.setForeground(Color.BLACK);
+    		proxyViewP1.setForeground(Color.BLACK);
+    		proxyViewP2.setForeground(Color.BLACK);
+    		proxyViewOmni.setSelected(false);
+    		proxyViewP1.setSelected(false);
+    		if (proxyViewP2.isSelected()){proxyViewP2.setForeground(new java.awt.Color(0, 0, 255));}
+    	}
+    });
+
+    choices.add(proxyView);
+
+    JPanel p1Strat = new JPanel();
+    JPanel p2Strat = new JPanel();
+
+    p1Strat.setBorder(BorderFactory.createTitledBorder("Player 1 strategy"));
+    p2Strat.setBorder(BorderFactory.createTitledBorder("Player 2 strategy"));
+
+    String strats[] = { "Random", "Human (Click)", "Human (Input)", "MinMax"}; 
+  
+    p1StratChoice = new JComboBox(strats);
+    p2StratChoice = new JComboBox(strats);
+
+    p1Strat.add(p1StratChoice);
+    p2Strat.add(p2StratChoice);
+
+    choices.add(p1Strat);
+    choices.add(p2Strat);
+
     panel.add(choices);
 
 
@@ -225,5 +303,14 @@ public class Gui extends JFrame implements ViewInterface {
 
 	public void setBoard(Board board){
 		this.board = board;
+	}
+
+	public void itemStateChanged(ItemEvent e) {
+    Object source = e.getItemSelectable();
+
+    if (source == proxyViewOmni) {
+        //...make a note of it...
+    }
+    System.out.println("ehehe");
 	}
 }

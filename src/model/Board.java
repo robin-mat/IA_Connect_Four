@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Board{
-	private Square[][] grid;
+	public Square[][] grid;
 	private int[] lastPawn;
 	private int len_x;
 	private int len_y;
