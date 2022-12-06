@@ -10,10 +10,10 @@ public class Constants {
 
 
    //Relatif au modèle
-   public static final String PSEUDO_J1 = "Joueur 1";
-   public static final String PSEUDO_J2 = "Joueur 2";
-   public static final Color SWING_PAWN_COLOR_J1 = new Color(243, 235, 12, 255); //YELLOW
-   public static final Color SWING_PAWN_COLOR_J2 = new Color(243, 12, 12, 255); //RED
+   public static final String PSEUDO_P1 = "Joueur 1";
+   public static final String PSEUDO_P2 = "Joueur 2";
+   public static final Color SWING_PAWN_COLOR_P1 = new Color(243, 235, 12, 255); //YELLOW
+   public static final Color SWING_PAWN_COLOR_P2 = new Color(243, 12, 12, 255); //RED
 
 
 

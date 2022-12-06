@@ -21,8 +21,8 @@ public class Gui extends JFrame implements ViewInterface {
 	public JPanel grid;
 	public Board board;
 
-	private Player j1;
-	private Player j2;
+	private Player p1;
+	private Player p2;
 
 	private Dimension screenSize;
 
@@ -38,8 +38,8 @@ public class Gui extends JFrame implements ViewInterface {
 
 	public Gui(Player[] players) {
 		super(Constants.TITLE);
-		this.j1 = players[0];
-		this.j2 = players[1];
+		this.p1 = players[0];
+		this.p2 = players[1];
 		setIconImage(new ImageIcon(Constants.LOGO_PATH).getImage());
 	}
 
@@ -80,15 +80,15 @@ public class Gui extends JFrame implements ViewInterface {
 			for(int j = 0; j < 7; j++) {
 				DrawCase cases;
 				if (this.board.getGrid()[j][i].getComboWinner()){
-					if (this.board.getGrid()[j][i].getPlayed() ==  this.j1){
-						cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1, true);
+					if (this.board.getGrid()[j][i].getPlayed() ==  this.p1){
+						cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_P1, true);
 					} else {
-						cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2, true);
+						cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_P2, true);
 					}
-				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.j1){
-					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J1);
-				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.j2){
-					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_J2);
+				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.p1){
+					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_P1);
+				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.p2){
+					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_P2);
 				} else {
 					cases = new DrawCase(j+1, this.board.getGrid()[j][i]);
 				}
@@ -278,10 +278,10 @@ public class Gui extends JFrame implements ViewInterface {
 	}
 
 	public void refreshInfos(){
-		if (this.gameInterface.getCurrentPlayer() == this.j1){
-			this.currentPlayer.setForeground(Constants.SWING_PAWN_COLOR_J1);
+		if (this.gameInterface.getCurrentPlayer() == this.p1){
+			this.currentPlayer.setForeground(Constants.SWING_PAWN_COLOR_P1);
 		} else {
-			this.currentPlayer.setForeground(Constants.SWING_PAWN_COLOR_J2);
+			this.currentPlayer.setForeground(Constants.SWING_PAWN_COLOR_P2);
 		}
 		if (this.gameInterface.getWinner() != null){
 			this.currentPlayer.setText("Winner : "+this.gameInterface.getWinner().getName());
