@@ -94,9 +94,9 @@ public class Gui extends JFrame implements ViewInterface {
 				}
 				cases.setPreferredSize(new Dimension(80,80));
 				grid.add(cases);
-			}	
+			}
 		}
-		
+
 		this.pack();
 	}
 
@@ -158,8 +158,9 @@ public class Gui extends JFrame implements ViewInterface {
 		//Infos
 		JPanel infos = new JPanel();
     infos.setBorder(BorderFactory.createTitledBorder("Informations"));
+		infos.setLayout(new GridLayout(2, 1));
 
-    
+
 		this.currentPlayer = new JLabel("Current player : ?");
 		this.currentPlayer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.currentPlayer.setBackground(new java.awt.Color(140, 140, 140));
@@ -170,6 +171,36 @@ public class Gui extends JFrame implements ViewInterface {
     infos.add(this.rounds);
 
     panel.add(infos);
+
+		//Nombre de partie
+		JPanel nbgames = new JPanel();
+		nbgames.setBorder(BorderFactory.createTitledBorder("Number of games"));
+		nbgames.setLayout(new GridLayout(1, 2));
+
+		JSpinner spin = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+		nbgames.add(spin);
+
+		JButton start = new JButton("Start");
+		start.setBounds(100,100,100,40);
+		start.setBackground(new java.awt.Color(140, 140, 140));
+		start.setOpaque(true);
+		nbgames.add(start);
+
+		infos.add(nbgames);
+
+
+		//Nombre de victoire par joueurs
+		JPanel nbvictories = new JPanel();
+		nbvictories.setBorder(BorderFactory.createTitledBorder("Number of victories"));
+		nbvictories.setLayout(new GridLayout(1, 2));
+
+		JLabel nbvictoriesJ1 = new JLabel("J1 : 0");
+		nbvictories.add(nbvictoriesJ1);
+
+		JLabel nbvictoriesJ2 = new JLabel("J2 : 0");
+		nbvictories.add(nbvictoriesJ2);
+		infos.add(nbvictories);
+
 
 		//Choix
 		JPanel choices = new JPanel();
@@ -231,8 +262,8 @@ public class Gui extends JFrame implements ViewInterface {
     p1Strat.setBorder(BorderFactory.createTitledBorder("Player 1 strategy"));
     p2Strat.setBorder(BorderFactory.createTitledBorder("Player 2 strategy"));
 
-    String strats[] = { "Random", "Human (Click)", "Human (Input)", "MinMax"}; 
-  
+    String strats[] = { "Random", "Human (Click)", "Human (Input)", "MinMax"};
+
     p1StratChoice = new JComboBox(strats);
     p2StratChoice = new JComboBox(strats);
 
