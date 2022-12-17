@@ -13,5 +13,7 @@ public interface GameInterface{
 	public BoardProxy getboardProxy();
 	public int getP1Score();
 	public int getP2Score();
+	public Player getP1();
+	public Player getP2();
 	public Player getWaitingPlayer();
 }

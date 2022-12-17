@@ -4,6 +4,9 @@ import java.util.UUID;
 import util.Constants;
 
 import model.strategy.*;
+import model.*;
+
+import util.Logger;
 
 public class Player {
 	public String name;
@@ -20,8 +23,14 @@ public class Player {
 	public Player(){
 	}
 
-	public int play(){
-    	return this.strategy.choice();
+	public int play(BoardProxy proxy, Player currentPlayer, Logger logger){
+    	int choice = this.strategy.choice(proxy.getGrid(currentPlayer));
+    	while (!proxy.canPlay(choice)){
+			logger.write("Unable to perform, select a valid move !");
+			choice = this.strategy.choice(proxy.getGrid(currentPlayer));
+			logger.write("Choose the column "+choice);
+		}
+		return choice;
 	}
 
 	public String getName(){

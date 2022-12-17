@@ -3,6 +3,7 @@ package model.strategy;
 import java.util.concurrent.TimeUnit;
 
 import util.Constants;
+import model.*;
 
 
 public class HumanGui implements Strategy{
@@ -10,7 +11,7 @@ public class HumanGui implements Strategy{
 	public HumanGui(){
 	}
 
-	public int choice(){
+	public int choice(Square[][] grid){
 		Constants.GUI_ADD_PAWN_COLUMN = -1;
 		int result = Constants.GUI_ADD_PAWN_COLUMN;
 		while (result == -1){

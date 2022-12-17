@@ -37,4 +37,7 @@ public class Print implements ViewInterface {
 	public void restart(){
 		//
 	}
+	public void finish(){
+		//
+	}
 }

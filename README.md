@@ -25,4 +25,17 @@
 </table>
 The game is won by the first to line up 4 tokens, it is up to J1 to adapt the best strategies developed, to counter possible blows or to calculate the probabilities that a square is occupied.
 
+#### Building for source
+
+```sh
+ant play
+```
+
+## Fews screenshots
+
+![Windows opening](https://raw.githubusercontent.com/p3titcr0c0/IA_Connect_Four/main/src/resources/1.png)
+![Game in progress](https://raw.githubusercontent.com/p3titcr0c0/IA_Connect_Four/main/src/resources/2.png)
+![Logs](https://raw.githubusercontent.com/p3titcr0c0/IA_Connect_Four/main/src/resources/3.png)
+![Ending](https://raw.githubusercontent.com/p3titcr0c0/IA_Connect_Four/main/src/resources/5.png)
+
 ## Readme in creation
