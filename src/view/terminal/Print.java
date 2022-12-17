@@ -4,6 +4,7 @@ import view.ViewInterface;
 import util.Logger;
 
 import model.Board;
+import model.BoardProxy;
 import play.GameInterface;
 
 public class Print implements ViewInterface {
@@ -21,7 +22,7 @@ public class Print implements ViewInterface {
 	public void update(){
 		//
 	}
-	public void setBoard(Board board){
+	public void setBoard(BoardProxy board){
 		//
 	}
 

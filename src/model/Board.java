@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Board{
 	public Square[][] grid;
 	private int[] lastPawn;
-	private int len_x;
-	private int len_y;
+	public int len_x;
+	public int len_y;
 
 	public Board(int dimX, int dimY){
 	    this.len_x = dimX;
