@@ -30,7 +30,7 @@ public class Main {
     ViewInterface view;
     GameInterface game;
 
-    System.out.println("Run with the CLI : c");
+    System.out.println("Run with the CLI : c (Not working yet)");
     System.out.println(" Run with a GUI :  f");
     System.out.println("      Exit :       q\n");
     //String choice = terminalInput.askQuestionString("Select : ");

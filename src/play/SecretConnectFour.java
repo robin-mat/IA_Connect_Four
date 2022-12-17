@@ -56,6 +56,7 @@ public class SecretConnectFour implements GameInterface {
 			this.view.setBoard(this.boardProxy);
 			this.view.update();
         }
+        this.view.finish();
 	}
 
 	public void play1Game(){
@@ -67,13 +68,9 @@ public class SecretConnectFour implements GameInterface {
 			this.view.refreshInfos();
 			this.logger.write("Waiting "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
 			//this.view.setBoard(this.boardProxy);
-			int choice = this.currentPlayer.play();
+			int choice = this.currentPlayer.play(this.boardProxy, this.getCurrentPlayer(), this.logger);
 			this.logger.write("Choose the column "+choice);
-			while (!this.boardProxy.canPlay(choice)){
-				this.logger.write("Unable to perform, select a valid move !");
-				choice = this.currentPlayer.play();
-				this.logger.write("Choose the column "+choice);
-			}
+			
 			this.boardProxy.addPawn(choice, this.currentPlayer);
 			this.rounds = this.rounds+1;
 			this.view.update();
@@ -368,5 +365,13 @@ public class SecretConnectFour implements GameInterface {
 
 	public int getP2Score(){
 		return this.player2.getScore();
+	}
+
+	public Player getP2(){
+		return this.player2;
+	}
+
+	public Player getP1(){
+		return this.player1;
 	}
 }

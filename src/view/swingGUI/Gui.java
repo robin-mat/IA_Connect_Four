@@ -34,6 +34,7 @@ public class Gui extends JFrame implements ViewInterface {
 	private JLabel rounds;
 
 	private JCheckBox proxyViewOmni;
+	private JCheckBox proxyViewCurrentPlayer;
   private JCheckBox proxyViewP1;
   private JCheckBox proxyViewP2;
   private JComboBox p1StratChoice;
@@ -237,45 +238,67 @@ public class Gui extends JFrame implements ViewInterface {
     proxyView.setBorder(BorderFactory.createTitledBorder("Current view"));
 
 
-
+    
+    proxyViewCurrentPlayer  = new JCheckBox("Current player");
+    proxyViewCurrentPlayer.setForeground(new java.awt.Color(0, 0, 255));
+    proxyViewCurrentPlayer.setSelected(true);
     proxyViewOmni = new JCheckBox("Omniscient");
-    proxyViewOmni.setForeground(new java.awt.Color(0, 0, 255));
-    proxyViewOmni.setSelected(true);
     proxyViewP1 = new JCheckBox("Player 1");
     proxyViewP2 = new JCheckBox("Player 2");
     proxyView.add(proxyViewOmni);
 		proxyView.add(proxyViewP1);
 		proxyView.add(proxyViewP2);
+		proxyView.add(proxyViewCurrentPlayer);
+		
+		proxyViewCurrentPlayer.addItemListener(new ItemListener() {
+    	@Override
+    	public void itemStateChanged(ItemEvent e) {
+    		proxyViewCurrentPlayer.setForeground(Color.BLACK);
+    		proxyViewOmni.setForeground(Color.BLACK);
+    		proxyViewP1.setForeground(Color.BLACK);
+    		proxyViewP2.setForeground(Color.BLACK);
+    		if (proxyViewCurrentPlayer.isSelected()){proxyViewCurrentPlayer.setForeground(new java.awt.Color(0, 0, 255));}
+    		proxyViewP1.setSelected(false);
+    		proxyViewP2.setSelected(false);
+    		proxyViewOmni.setSelected(false);
+    	}
+    });
     proxyViewOmni.addItemListener(new ItemListener() {
     	@Override
     	public void itemStateChanged(ItemEvent e) {
+    		proxyViewCurrentPlayer.setForeground(Color.BLACK);
     		proxyViewOmni.setForeground(Color.BLACK);
     		proxyViewP1.setForeground(Color.BLACK);
     		proxyViewP2.setForeground(Color.BLACK);
     		if (proxyViewOmni.isSelected()){proxyViewOmni.setForeground(new java.awt.Color(0, 0, 255));}
     		proxyViewP1.setSelected(false);
     		proxyViewP2.setSelected(false);
+    		proxyViewCurrentPlayer.setSelected(false);
     	}
     });
     proxyViewP1.addItemListener(new ItemListener() {
     	@Override
     	public void itemStateChanged(ItemEvent e) {
+    		proxyViewCurrentPlayer.setForeground(Color.BLACK);
     		proxyViewOmni.setForeground(Color.BLACK);
     		proxyViewP1.setForeground(Color.BLACK);
     		proxyViewP2.setForeground(Color.BLACK);
     		proxyViewOmni.setSelected(false);
     		if (proxyViewP1.isSelected()){proxyViewP1.setForeground(new java.awt.Color(0, 0, 255));}
     		proxyViewP2.setSelected(false);
+    		proxyViewCurrentPlayer.setSelected(false);
     	}
     });
     proxyViewP2.addItemListener(new ItemListener() {
     	@Override
     	public void itemStateChanged(ItemEvent e) {
+    		proxyViewCurrentPlayer.setForeground(Color.BLACK);
     		proxyViewOmni.setForeground(Color.BLACK);
     		proxyViewP1.setForeground(Color.BLACK);
     		proxyViewP2.setForeground(Color.BLACK);
     		proxyViewOmni.setSelected(false);
     		proxyViewP1.setSelected(false);
+    		proxyViewCurrentPlayer.setSelected(false);
     		if (proxyViewP2.isSelected()){proxyViewP2.setForeground(new java.awt.Color(0, 0, 255));}
     	}
     });
@@ -355,6 +378,18 @@ public class Gui extends JFrame implements ViewInterface {
 		this.rounds.setText("Rounds : "+this.gameInterface.getRounds());
 	}
 
+	public void finish(){
+		if (this.gameInterface.getP2Score()>this.gameInterface.getP1Score()){
+			this.currentPlayer.setText("BIG WINNER : "+this.gameInterface.getP2().getName());
+		} else if (this.gameInterface.getP1Score()>this.gameInterface.getP2Score()){
+			this.currentPlayer.setText("BIG WINNER : "+this.gameInterface.getP1().getName());
+		} else {
+			this.currentPlayer.setText("BIG DRAW");
+		}
+		this.rounds.setText("");
+		this.start.setText("End");
+	}
+
 	public void setLogger(Logger l){
 		this.logger = l;
 	}
@@ -369,6 +404,5 @@ public class Gui extends JFrame implements ViewInterface {
     if (source == proxyViewOmni) {
         //...make a note of it...
     }
-    System.out.println("ehehe");
 	}
 }
