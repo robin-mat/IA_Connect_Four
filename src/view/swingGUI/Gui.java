@@ -7,6 +7,9 @@ import controller.ActionListenerGui;
 import model.*;
 import play.GameInterface;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import view.ViewInterface;
 
 import javax.swing.*;
@@ -36,6 +39,12 @@ public class Gui extends JFrame implements ViewInterface {
   private JComboBox p1StratChoice;
   private JComboBox p2StratChoice;
 
+  private JLabel nbvictoriesJ1;
+  private JLabel nbvictoriesJ2;
+
+  private JSpinner spin;
+  private JButton start;
+
 	public Gui(Player[] players) {
 		super(Constants.TITLE);
 		this.p1 = players[0];
@@ -64,6 +73,10 @@ public class Gui extends JFrame implements ViewInterface {
     } catch (Exception e){
       this.logger.write(e);
     }
+	}
+
+	public void restart(){
+		//
 	}
 
 	public void update(){
@@ -177,14 +190,28 @@ public class Gui extends JFrame implements ViewInterface {
 		nbgames.setBorder(BorderFactory.createTitledBorder("Number of games"));
 		nbgames.setLayout(new GridLayout(1, 2));
 
-		JSpinner spin = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
-		nbgames.add(spin);
+		this.spin = new JSpinner(new SpinnerNumberModel(5, 0, 1000, 1));
+		nbgames.add(this.spin);
 
-		JButton start = new JButton("Start");
-		start.setBounds(100,100,100,40);
-		start.setBackground(new java.awt.Color(140, 140, 140));
-		start.setOpaque(true);
-		nbgames.add(start);
+		this.start = new JButton("Start");
+		this.start.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ae) {
+		      Constants.GUI_NB_GAMES = (int) spin.getValue();
+					start.setBackground(Color.BLACK);
+					start.setText("In progress");
+					start.setEnabled(false);
+					spin.setEnabled(false);
+					proxyViewOmni.setEnabled(false);
+  				proxyViewP1.setEnabled(false);
+  				proxyViewP2.setEnabled(false);
+  				p1StratChoice.setEnabled(false);
+  				p2StratChoice.setEnabled(false);
+			}
+		});
+		this.start.setBounds(100,100,100,40);
+		this.start.setBackground(new java.awt.Color(140, 140, 140));
+		this.start.setOpaque(true);
+		nbgames.add(this.start);
 
 		infos.add(nbgames);
 
@@ -194,11 +221,10 @@ public class Gui extends JFrame implements ViewInterface {
 		nbvictories.setBorder(BorderFactory.createTitledBorder("Number of victories"));
 		nbvictories.setLayout(new GridLayout(1, 2));
 
-		JLabel nbvictoriesJ1 = new JLabel("J1 : 0");
-		nbvictories.add(nbvictoriesJ1);
-
-		JLabel nbvictoriesJ2 = new JLabel("J2 : 0");
-		nbvictories.add(nbvictoriesJ2);
+		this.nbvictoriesJ1 = new JLabel("J1 : "+this.gameInterface.getP1Score());
+		nbvictories.add(this.nbvictoriesJ1);
+		this.nbvictoriesJ2 = new JLabel("J2 : "+this.gameInterface.getP2Score());
+		nbvictories.add(this.nbvictoriesJ2);
 		infos.add(nbvictories);
 
 
@@ -324,7 +350,8 @@ public class Gui extends JFrame implements ViewInterface {
 			this.currentPlayer.setText("Draw");
 		}
 
-
+		this.nbvictoriesJ1.setText("J1 : "+this.gameInterface.getP1Score());
+		this.nbvictoriesJ2.setText("J2 : "+this.gameInterface.getP2Score());
 		this.rounds.setText("Rounds : "+this.gameInterface.getRounds());
 	}
 

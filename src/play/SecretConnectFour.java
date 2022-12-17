@@ -5,6 +5,8 @@ import view.*;
 import util.Constants;
 import util.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 import java.util.Random;
 
 public class SecretConnectFour implements GameInterface {
@@ -26,7 +28,6 @@ public class SecretConnectFour implements GameInterface {
 		this.player2 = p2;
 		this.currentPlayer = this.player1;
 		this.view = v;
-		this.rounds = 0;
 		this.board = new Board(Constants.GRID_SIZE[0], Constants.GRID_SIZE[1]);
 		this.logger = new Logger();
 	}
@@ -37,11 +38,31 @@ public class SecretConnectFour implements GameInterface {
 		this.view.setLogger(this.logger);
 		this.view.setBoard(this.board);
 		this.view.launch();
+		Constants.GUI_NB_GAMES = -1;
+		int result = Constants.GUI_NB_GAMES;
+		while (result == -1){
+			try { result = Constants.GUI_NB_GAMES;TimeUnit.MILLISECONDS.sleep(50); } catch (Exception e) {
+				//System.out.println(e);
+			}
+		}
+		for (int i = 0; i < result; i++) {
+			this.winner = null;
+			this.rounds = 0;
+			this.play1Game();
+			try {TimeUnit.MILLISECONDS.sleep(1000); } catch (Exception e) {
+				//System.out.println(e);
+			}
+			this.board.init();
+			this.view.setBoard(this.board);
+			this.view.update();
+        }
+	}
+
+	public void play1Game(){
 		this.board.init();
 		this.view.update();
 		this.choiceRandomCurrentPlayer();
 		while (!this.isFinish() && this.board.canPlay()){
-			this.rounds = this.rounds+1;
 			this.changeCurrentPlayer();
 			this.view.refreshInfos();
 			this.logger.write("Waiting "+this.getCurrentPlayer().getName()+", uuid:"+this.getCurrentPlayer().getUuid());
@@ -54,19 +75,20 @@ public class SecretConnectFour implements GameInterface {
 				this.logger.write("Choose the column "+choice);
 			}
 			this.board.addPawn(choice, this.currentPlayer);
+			this.rounds = this.rounds+1;
 			this.view.update();
 		}
-		this.view.refreshInfos();
 		this.view.update();
 		this.logger.write("--------------------");
 		this.logger.write("  The game is over  ");
 		if (this.winner != null){
 			this.logger.write("Winner is "+this.winner.getName());
+			this.winner.add1Score();
 		} else {
 			this.logger.write("Draw");
 		}
 		this.logger.write("--------------------");
-
+		this.view.refreshInfos();
 	}
 
 	public boolean isFinish(){
@@ -330,5 +352,13 @@ public class SecretConnectFour implements GameInterface {
 
 	public Board getBoard(){
 		return this.board;
+	}
+
+	public int getP1Score(){
+		return this.player1.getScore();
+	}
+
+	public int getP2Score(){
+		return this.player2.getScore();
 	}
 }

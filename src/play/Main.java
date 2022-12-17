@@ -33,8 +33,11 @@ public class Main {
     System.out.println("Run with the CLI : c");
     System.out.println(" Run with a GUI :  f");
     System.out.println("      Exit :       q\n");
-    String choice = terminalInput.askQuestionString("Select : ");
+    //String choice = terminalInput.askQuestionString("Select : ");
 
+    game = new SecretConnectFour(joueurs[0], joueurs[1], new Gui(joueurs));
+    game.launch();
+    /*
     if (!choice.equals("q")){
       if (choice.equals("c")){
         game = new SecretConnectFour(joueurs[0], joueurs[1], new Print());
@@ -46,6 +49,7 @@ public class Main {
     } else {
       System.out.println("[Log] : Exit");
     }
+    */
     scanner.close();
   }
 

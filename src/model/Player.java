@@ -8,6 +8,7 @@ import model.strategy.*;
 public class Player {
 	public String name;
 	public String uuid;
+	private int score;
 
 	private Strategy strategy;
 
@@ -28,5 +29,12 @@ public class Player {
 	}
 	public String getUuid(){
 		return this.uuid;
+	}
+
+	public void add1Score(){
+		this.score+=1;
+	}
+	public int getScore(){
+		return this.score;
 	}
 }
