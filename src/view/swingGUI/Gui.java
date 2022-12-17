@@ -22,7 +22,7 @@ public class Gui extends JFrame implements ViewInterface {
 	private GameInterface gameInterface;
 	private Logger logger;
 	public JPanel grid;
-	public Board board;
+	public BoardProxy board;
 
 	private Player p1;
 	private Player p2;
@@ -92,18 +92,18 @@ public class Gui extends JFrame implements ViewInterface {
 		for(int i = 0; i < 6; i++) {
 			for(int j = 0; j < 7; j++) {
 				DrawCase cases;
-				if (this.board.getGrid()[j][i].getComboWinner()){
-					if (this.board.getGrid()[j][i].getPlayed() ==  this.p1){
-						cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_P1, true);
+				if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getComboWinner()){
+					if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getPlayed() ==  this.p1){
+						cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i], Constants.SWING_PAWN_COLOR_P1, true);
 					} else {
-						cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_P2, true);
+						cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i], Constants.SWING_PAWN_COLOR_P2, true);
 					}
-				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.p1){
-					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_P1);
-				} else if (this.board.getGrid()[j][i].getPlayed() ==  this.p2){
-					cases = new DrawCase(j+1, this.board.getGrid()[j][i], Constants.SWING_PAWN_COLOR_P2);
+				} else if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getPlayed() ==  this.p1){
+					cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i], Constants.SWING_PAWN_COLOR_P1);
+				} else if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getPlayed() ==  this.p2){
+					cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i], Constants.SWING_PAWN_COLOR_P2);
 				} else {
-					cases = new DrawCase(j+1, this.board.getGrid()[j][i]);
+					cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i]);
 				}
 				cases.setPreferredSize(new Dimension(80,80));
 				grid.add(cases);
@@ -345,7 +345,7 @@ public class Gui extends JFrame implements ViewInterface {
 		} else {
 			this.currentPlayer.setText("Current player : "+this.gameInterface.getCurrentPlayer().getName());
 		}
-		if (!this.gameInterface.getBoard().canPlay() && this.gameInterface.getWinner() == null){
+		if (!this.gameInterface.getboardProxy().canPlay() && this.gameInterface.getWinner() == null){
 			this.currentPlayer.setForeground(new java.awt.Color(0, 128, 0));
 			this.currentPlayer.setText("Draw");
 		}
@@ -359,7 +359,7 @@ public class Gui extends JFrame implements ViewInterface {
 		this.logger = l;
 	}
 
-	public void setBoard(Board board){
+	public void setBoard(BoardProxy board){
 		this.board = board;
 	}
 
