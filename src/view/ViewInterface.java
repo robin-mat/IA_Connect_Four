@@ -11,4 +11,5 @@ public interface ViewInterface{
 	public void setBoard(Board board);
 	public void setGameInterface(GameInterface gameInterface);
 	public void refreshInfos();
+	public void restart();
 }

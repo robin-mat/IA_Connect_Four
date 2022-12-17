@@ -32,4 +32,8 @@ public class Print implements ViewInterface {
 	public void refreshInfos(){
 		//
 	}
+
+	public void restart(){
+		//
+	}
 }

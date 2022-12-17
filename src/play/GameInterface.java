@@ -10,4 +10,6 @@ public interface GameInterface{
 	public void changeCurrentPlayer();
 	public int getRounds();
 	public Board getBoard();
+	public int getP1Score();
+	public int getP2Score();
 }

@@ -23,4 +23,5 @@ public class Constants {
 
    //Parallèle GUI
    public static int GUI_ADD_PAWN_COLUMN = -1;
+   public static int GUI_NB_GAMES = -1;
 }
