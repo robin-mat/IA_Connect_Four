@@ -5,7 +5,13 @@ import util.Logger;
 
 import controller.ActionListenerGui;
 import model.*;
+
+import model.strategy.*;
+
+import controller.TerminalInput;
+
 import play.GameInterface;
+
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -46,10 +52,14 @@ public class Gui extends JFrame implements ViewInterface {
   private JSpinner spin;
   private JButton start;
 
-	public Gui(Player[] players) {
+	private TerminalInput terminalInput;
+
+
+	public Gui(Player[] players, TerminalInput terminalInput) {
 		super(Constants.TITLE);
 		this.p1 = players[0];
 		this.p2 = players[1];
+		this.terminalInput = terminalInput;
 		setIconImage(new ImageIcon(Constants.LOGO_PATH).getImage());
 	}
 
@@ -238,7 +248,7 @@ public class Gui extends JFrame implements ViewInterface {
     proxyView.setBorder(BorderFactory.createTitledBorder("Current view"));
 
 
-    
+
     proxyViewCurrentPlayer  = new JCheckBox("Current player");
     proxyViewCurrentPlayer.setForeground(new java.awt.Color(0, 0, 255));
     proxyViewCurrentPlayer.setSelected(true);
@@ -249,7 +259,7 @@ public class Gui extends JFrame implements ViewInterface {
 		proxyView.add(proxyViewP1);
 		proxyView.add(proxyViewP2);
 		proxyView.add(proxyViewCurrentPlayer);
-		
+
 		proxyViewCurrentPlayer.addItemListener(new ItemListener() {
     	@Override
     	public void itemStateChanged(ItemEvent e) {
@@ -311,10 +321,24 @@ public class Gui extends JFrame implements ViewInterface {
     p1Strat.setBorder(BorderFactory.createTitledBorder("Player 1 strategy"));
     p2Strat.setBorder(BorderFactory.createTitledBorder("Player 2 strategy"));
 
-    String strats[] = { "Random", "Human (Click)", "Human (Input)", "MinMax"};
+    p1StratChoice = new JComboBox(Constants.strats);
+    p2StratChoice = new JComboBox(Constants.strats);
 
-    p1StratChoice = new JComboBox(strats);
-    p2StratChoice = new JComboBox(strats);
+
+
+		p1StratChoice.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ae) {
+						selectStrat(p1StratChoice.getSelectedItem().toString(), p1);
+				}
+			}
+		);
+
+		p2StratChoice.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent ae) {
+					selectStrat(p2StratChoice.getSelectedItem().toString(), p2);
+				}
+			}
+		);
 
     p1Strat.add(p1StratChoice);
     p2Strat.add(p2StratChoice);
@@ -355,6 +379,17 @@ public class Gui extends JFrame implements ViewInterface {
 		this.getContentPane().add(onglets);
 		this.pack();
     //onglets.addKeyListener(new ActionListenerGui());
+	}
+
+	public void selectStrat(String strat, Player p){
+		System.out.println(p.getName()+" strat : "+ strat);
+		if (strat == "HumanGui"){
+			p.setStrategie(new HumanGui());
+		} else if (strat == "Human"){
+			p.setStrategie(new Human(this.terminalInput));
+		}  else if (strat == "Rdm"){
+			p.setStrategie(new Rdm());
+		}
 	}
 
 	public void refreshInfos(){

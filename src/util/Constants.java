@@ -16,6 +16,8 @@ public class Constants {
    public static final Color SWING_PAWN_COLOR_P2 = new Color(243, 12, 12, 255); //RED
 
 
+   //Strategie dispos
+   public static final String strats[] = { "HumanGui", "Human", "Rdm", "MinMax"};
 
    //Chemin relatif au projet & ressources
    public static final String ABSOLUTE_PATH = (new File("")).getAbsolutePath();

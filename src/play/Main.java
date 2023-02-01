@@ -35,7 +35,7 @@ public class Main {
     System.out.println("      Exit :       q\n");
     //String choice = terminalInput.askQuestionString("Select : ");
 
-    game = new SecretConnectFour(joueurs[0], joueurs[1], new Gui(joueurs));
+    game = new SecretConnectFour(joueurs[0], joueurs[1], new Gui(joueurs, terminalInput));
     game.launch();
     /*
     if (!choice.equals("q")){

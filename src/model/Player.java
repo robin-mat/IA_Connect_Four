@@ -33,6 +33,14 @@ public class Player {
 		return choice;
 	}
 
+	public void setStrategie(Strategy temp){
+		this.strategy = temp;
+	}
+
+	public Strategy getStrategie(){
+		return this.strategy;
+	}
+
 	public String getName(){
 		return this.name;
 	}
