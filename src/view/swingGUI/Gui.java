@@ -21,8 +21,6 @@ import view.ViewInterface;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Observer;
-import java.util.Observable;
 
 public class Gui extends JFrame implements ViewInterface {
 	private GameInterface gameInterface;
@@ -41,16 +39,16 @@ public class Gui extends JFrame implements ViewInterface {
 
 	private JCheckBox proxyViewOmni;
 	private JCheckBox proxyViewCurrentPlayer;
-  private JCheckBox proxyViewP1;
-  private JCheckBox proxyViewP2;
-  private JComboBox p1StratChoice;
-  private JComboBox p2StratChoice;
+	private JCheckBox proxyViewP1;
+	private JCheckBox proxyViewP2;
+	private JComboBox p1StratChoice;
+	private JComboBox p2StratChoice;
 
-  private JLabel nbvictoriesJ1;
-  private JLabel nbvictoriesJ2;
+	private JLabel nbvictoriesJ1;
+	private JLabel nbvictoriesJ2;
 
-  private JSpinner spin;
-  private JButton start;
+	private JSpinner spin;
+	private JButton start;
 
 	private TerminalInput terminalInput;
 
@@ -81,9 +79,9 @@ public class Gui extends JFrame implements ViewInterface {
 
 		try {
 			this.drawGrid(this.grid);
-    } catch (Exception e){
-      this.logger.write(e);
-    }
+		} catch (Exception e){
+			//this.logger.write(e);
+		}
 	}
 
 	public void restart(){
@@ -94,27 +92,28 @@ public class Gui extends JFrame implements ViewInterface {
 		try {
 			this.grid.removeAll();
 			this.drawGrid(this.grid);
-    } catch (Exception e){
-      this.logger.write(e);
-    }
+		} catch (Exception e){
+			this.logger.write(e);
+		}
 	}
 
 	public void drawGrid(JPanel grid) throws IndexOutOfBoundsException, Exception{
+		Player joueur = this.gameInterface.getWaitingPlayer();
 		for(int i = 0; i < 6; i++) {
 			for(int j = 0; j < 7; j++) {
 				DrawCase cases;
 				if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getComboWinner()){
 					if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getPlayed() ==  this.p1){
-						cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i], Constants.SWING_PAWN_COLOR_P1, true);
+						cases = new DrawCase(j+1, this.board.getGrid(joueur)[j][i], Constants.SWING_PAWN_COLOR_P1, true);
 					} else {
-						cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i], Constants.SWING_PAWN_COLOR_P2, true);
+						cases = new DrawCase(j+1, this.board.getGrid(joueur)[j][i], Constants.SWING_PAWN_COLOR_P2, true);
 					}
-				} else if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getPlayed() ==  this.p1){
-					cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i], Constants.SWING_PAWN_COLOR_P1);
-				} else if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getPlayed() ==  this.p2){
-					cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i], Constants.SWING_PAWN_COLOR_P2);
+				} else if (this.board.getGridView(joueur)[j][i].getPlayed() ==  this.p1){
+					cases = new DrawCase(j+1, this.board.getGridView(joueur)[j][i], Constants.SWING_PAWN_COLOR_P1);
+				} else if (this.board.getGridView(joueur)[j][i].getPlayed() ==  this.p2){
+					cases = new DrawCase(j+1, this.board.getGridView(joueur)[j][i], Constants.SWING_PAWN_COLOR_P2);
 				} else {
-					cases = new DrawCase(j+1, this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i]);
+					cases = new DrawCase(j+1, this.board.getGridView(joueur)[j][i]);
 				}
 				cases.setPreferredSize(new Dimension(80,80));
 				grid.add(cases);
@@ -208,13 +207,13 @@ public class Gui extends JFrame implements ViewInterface {
 		this.start.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent ae) {
 		      Constants.GUI_NB_GAMES = (int) spin.getValue();
-					start.setBackground(Color.BLACK);
-					start.setText("In progress");
-					start.setEnabled(false);
-					spin.setEnabled(false);
-					proxyViewOmni.setEnabled(false);
-  				proxyViewP1.setEnabled(false);
-  				proxyViewP2.setEnabled(false);
+				start.setBackground(Color.BLACK);
+				start.setText("In progress");
+				start.setEnabled(false);
+				spin.setEnabled(false);
+				//proxyViewOmni.setEnabled(false);
+  				//proxyViewP1.setEnabled(false);
+  				//proxyViewP2.setEnabled(false);
   				p1StratChoice.setEnabled(false);
   				p2StratChoice.setEnabled(false);
 			}
@@ -256,18 +255,20 @@ public class Gui extends JFrame implements ViewInterface {
     proxyViewP1 = new JCheckBox("Player 1");
     proxyViewP2 = new JCheckBox("Player 2");
     proxyView.add(proxyViewOmni);
-		proxyView.add(proxyViewP1);
-		proxyView.add(proxyViewP2);
-		proxyView.add(proxyViewCurrentPlayer);
+	proxyView.add(proxyViewP1);
+	proxyView.add(proxyViewP2);
+	proxyView.add(proxyViewCurrentPlayer);
 
-		proxyViewCurrentPlayer.addItemListener(new ItemListener() {
+	proxyViewCurrentPlayer.addItemListener(new ItemListener() {
     	@Override
     	public void itemStateChanged(ItemEvent e) {
     		proxyViewCurrentPlayer.setForeground(Color.BLACK);
     		proxyViewOmni.setForeground(Color.BLACK);
     		proxyViewP1.setForeground(Color.BLACK);
     		proxyViewP2.setForeground(Color.BLACK);
-    		if (proxyViewCurrentPlayer.isSelected()){proxyViewCurrentPlayer.setForeground(new java.awt.Color(0, 0, 255));}
+    		if (proxyViewCurrentPlayer.isSelected()){proxyViewCurrentPlayer.setForeground(new java.awt.Color(0, 0, 255));
+				logger.write("[GUI view] : Current Player");
+				board.setState("current");}
     		proxyViewP1.setSelected(false);
     		proxyViewP2.setSelected(false);
     		proxyViewOmni.setSelected(false);
@@ -280,7 +281,9 @@ public class Gui extends JFrame implements ViewInterface {
     		proxyViewOmni.setForeground(Color.BLACK);
     		proxyViewP1.setForeground(Color.BLACK);
     		proxyViewP2.setForeground(Color.BLACK);
-    		if (proxyViewOmni.isSelected()){proxyViewOmni.setForeground(new java.awt.Color(0, 0, 255));}
+    		if (proxyViewOmni.isSelected()){proxyViewOmni.setForeground(new java.awt.Color(0, 0, 255));
+				logger.write("[GUI view] : Omniscient view");
+				board.setState("omniscient");}
     		proxyViewP1.setSelected(false);
     		proxyViewP2.setSelected(false);
     		proxyViewCurrentPlayer.setSelected(false);
@@ -294,7 +297,9 @@ public class Gui extends JFrame implements ViewInterface {
     		proxyViewP1.setForeground(Color.BLACK);
     		proxyViewP2.setForeground(Color.BLACK);
     		proxyViewOmni.setSelected(false);
-    		if (proxyViewP1.isSelected()){proxyViewP1.setForeground(new java.awt.Color(0, 0, 255));}
+    		if (proxyViewP1.isSelected()){proxyViewP1.setForeground(new java.awt.Color(0, 0, 255));
+				logger.write("[GUI view] : P1");
+				board.setState("p1");}
     		proxyViewP2.setSelected(false);
     		proxyViewCurrentPlayer.setSelected(false);
     	}
@@ -309,7 +314,9 @@ public class Gui extends JFrame implements ViewInterface {
     		proxyViewOmni.setSelected(false);
     		proxyViewP1.setSelected(false);
     		proxyViewCurrentPlayer.setSelected(false);
-    		if (proxyViewP2.isSelected()){proxyViewP2.setForeground(new java.awt.Color(0, 0, 255));}
+    		if (proxyViewP2.isSelected()){proxyViewP2.setForeground(new java.awt.Color(0, 0, 255));
+				logger.write("[GUI view] : P2");
+				board.setState("p2");}
     	}
     });
 

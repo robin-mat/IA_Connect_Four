@@ -27,7 +27,7 @@ public class Minimax implements Strategy {
         int maxScore = Integer.MIN_VALUE;
         for (int col = 1; col <= board.getLen_x(); col++) {
           if (board.canPlay(col)) {
-            BoardProxy childBoard = new BoardProxy(board.getLen_x(), board.getLen_y());
+            BoardProxy childBoard = new BoardProxy(board.getLen_x(), board.getLen_y(), null, null);
             childBoard.grid = board.getGrid(maxPlayer);
             childBoard.addPawn(col, player);
             int[] currentScore = minimax(depth - 1, alpha, beta, secretConnectFour.getWaitingPlayer());
@@ -49,7 +49,7 @@ public class Minimax implements Strategy {
         int minScore = Integer.MAX_VALUE;
         for (int col = 1; col <= board.getLen_x(); col++) {
           if (board.canPlay(col)) {
-            BoardProxy childBoard = new BoardProxy(board.getLen_x(), board.getLen_y());
+            BoardProxy childBoard = new BoardProxy(board.getLen_x(), board.getLen_y(), null, null);
             childBoard.grid = board.getGrid(maxPlayer);
             childBoard.addPawn(col, player);
             int[] currentScore = minimax(depth - 1, alpha, beta, secretConnectFour.getWaitingPlayer());

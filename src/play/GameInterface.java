@@ -1,7 +1,6 @@
 package play;
 
 import model.Player;
-import model.Board;
 import model.BoardProxy;
 
 public interface GameInterface{
