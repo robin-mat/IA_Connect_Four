@@ -12,7 +12,6 @@ public class Player {
 	public String name;
 	public String uuid;
 	private int score;
-
 	private Strategy strategy;
 
 	public Player(String name, Strategy strategy){

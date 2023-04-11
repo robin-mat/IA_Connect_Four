@@ -70,7 +70,7 @@ public class SecretConnectFour implements GameInterface {
 			//this.view.setBoard(this.boardProxy);
 			int choice = this.currentPlayer.play(this.boardProxy, this.getCurrentPlayer(), this.logger);
 			this.logger.write("Choose the column "+choice);
-			
+
 			this.boardProxy.addPawn(choice, this.currentPlayer);
 			this.rounds = this.rounds+1;
 			this.view.update();

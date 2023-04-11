@@ -59,6 +59,10 @@ public class Board{
 		return this.grid;
 	}
 
+	public void setGrid(Square[][] newgrid){ //Pour maj après le choix du coup
+		this.grid = newgrid;
+	}
+
 	public int getLen_x(){
 		return this.len_x;
 	}
