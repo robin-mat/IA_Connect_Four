@@ -102,11 +102,11 @@ public class Gui extends JFrame implements ViewInterface {
 		for(int i = 0; i < 6; i++) {
 			for(int j = 0; j < 7; j++) {
 				DrawCase cases;
-				if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getComboWinner()){
-					if (this.board.getGrid(this.gameInterface.getWaitingPlayer())[j][i].getPlayed() ==  this.p1){
-						cases = new DrawCase(j+1, this.board.getGrid(joueur)[j][i], Constants.SWING_PAWN_COLOR_P1, true);
+				if (this.board.getFullGrid()[j][i].getComboWinner()){
+					if (this.board.getFullGrid()[j][i].getPlayed() == this.p1){
+						cases = new DrawCase(j+1, this.board.getFullGrid()[j][i], Constants.SWING_PAWN_COLOR_P1, true);
 					} else {
-						cases = new DrawCase(j+1, this.board.getGrid(joueur)[j][i], Constants.SWING_PAWN_COLOR_P2, true);
+						cases = new DrawCase(j+1, this.board.getFullGrid()[j][i], Constants.SWING_PAWN_COLOR_P2, true);
 					}
 				} else if (this.board.getGridView(joueur)[j][i].getPlayed() ==  this.p1){
 					cases = new DrawCase(j+1, this.board.getGridView(joueur)[j][i], Constants.SWING_PAWN_COLOR_P1);
@@ -214,8 +214,9 @@ public class Gui extends JFrame implements ViewInterface {
 				//proxyViewOmni.setEnabled(false);
   				//proxyViewP1.setEnabled(false);
   				//proxyViewP2.setEnabled(false);
-  				p1StratChoice.setEnabled(false);
-  				p2StratChoice.setEnabled(false);
+  				
+				//p1StratChoice.setEnabled(false);
+  				//p2StratChoice.setEnabled(false);
 			}
 		});
 		this.start.setBounds(100,100,100,40);
@@ -389,13 +390,15 @@ public class Gui extends JFrame implements ViewInterface {
 	}
 
 	public void selectStrat(String strat, Player p){
-		System.out.println(p.getName()+" strat : "+ strat);
+		this.logger.write("[#CHANGE STRAT#] " + p.getName()+" : "+ strat);
 		if (strat == "HumanGui"){
 			p.setStrategie(new HumanGui());
 		} else if (strat == "Human"){
 			p.setStrategie(new Human(this.terminalInput));
 		}  else if (strat == "Rdm"){
 			p.setStrategie(new Rdm());
+		}  else if (strat == "MinMax"){
+			//p.setStrategie(new Rdm());
 		}
 	}
 

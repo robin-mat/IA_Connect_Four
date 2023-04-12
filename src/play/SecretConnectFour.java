@@ -49,7 +49,7 @@ public class SecretConnectFour implements GameInterface {
 			this.winner = null;
 			this.rounds = 0;
 			this.play1Game();
-			try {TimeUnit.MILLISECONDS.sleep(1000); } catch (Exception e) {
+			try {TimeUnit.MILLISECONDS.sleep(Constants.TIME_BT_GAMES_ms); } catch (Exception e) {
 				//System.out.println(e);
 			}
 			this.boardProxy.init();
@@ -74,6 +74,9 @@ public class SecretConnectFour implements GameInterface {
 			this.boardProxy.addPawn(choice, this.currentPlayer);
 			this.rounds = this.rounds+1;
 			this.view.update();
+			try {TimeUnit.MILLISECONDS.sleep(Constants.TIME_BT_ROUNDS_ms); } catch (Exception e) {
+				//System.out.println(e);
+			}
 		}
 		this.view.update();
 		this.logger.write("--------------------");

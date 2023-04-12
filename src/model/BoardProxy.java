@@ -56,6 +56,10 @@ public class BoardProxy extends Board {
 		return clone;
 	}
 
+	public Square[][] getFullGrid(){
+		return this.grid;
+	}
+
 	public Square[][] getGrid(Player player){
 		Square[][] clone = new Square[this.len_x][this.len_y];
 		for (int i=0; i!=this.len_x; i++){
