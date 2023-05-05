@@ -2,18 +2,17 @@ package model;
 
 public class Evaluation {
 
-    public static int evaluate(BoardProxy board, Player player) {
+    public static int evaluate(Square[][] grid, Player player) {
       int score = 0;
-
       // Evaluer les lignes
-      for (int y = 0; y < board.getLen_y(); y++) {
-        for (int x = 0; x < board.getLen_x() - 3; x++) {
+      for (int row = 0; row < grid.length - 3; row++) {
+          for (int col = 0; col < grid[0].length; col++) {
           int countPlayer = 0;
           int countOpponent = 0;
           for (int i = 0; i < 4; i++) {
-            if (board.getGrid()[x+i][y].getPlayed() == player) {
+            if (grid[row+i][col].getPlayed() == player) {
               countPlayer++;
-            } else if (board.getGrid()[x+i][y].getPlayed() != player && board.getGrid()[x+i][y].getPlayed() != null) {
+            } else if (grid[row+i][col].getPlayed() != player && grid[row+i][col].getPlayed() != null) {
               countOpponent++;
             }
           }
@@ -22,15 +21,15 @@ public class Evaluation {
       }
 
       // Evaluer les colonnes
-      for (int x = 0; x < board.getLen_x(); x++) {
-        for (int y = 0; y < board.getLen_y() - 3; y++) {
+      for (int row = 0; row < grid.length; row++) {
+          for (int col = 0; col < grid[0].length - 3; col++) {
           int countPlayer = 0;
           int countOpponent = 0;
           for (int i = 0; i < 4; i++) {
-            if (board.getGrid()[x][y+i].getPlayed() == player) {
+            if (grid[row][col+i].getPlayed() == player) {
               countPlayer++;
             }
-            else if (board.getGrid()[x+i][y].getPlayed() != player && board.getGrid()[x+i][y].getPlayed() != null) {
+            else if (grid[row][col+i].getPlayed() != player && grid[row][col+i].getPlayed() != null) {
               countOpponent++;
             }
           }
@@ -39,15 +38,15 @@ public class Evaluation {
       }
 
       // Evaluer les diagonales ascendantes
-      for (int x = 0; x < board.getLen_x() - 3; x++) {
-        for (int y = 0; y < board.getLen_y() - 3; y++) {
+      for (int row = 0; row < grid.length - 3; row++) {
+        for (int col = 0; col < grid[0].length - 3; col++) {
           int countPlayer = 0;
           int countOpponent = 0;
           for (int i = 0; i < 4; i++) {
-            if (board.getGrid()[x+i][y+i].getPlayed() == player) {
+            if (grid[row+i][col+i].getPlayed() == player) {
               countPlayer++;
             }
-            else if (board.getGrid()[x+i][y].getPlayed() != player && board.getGrid()[x+i][y].getPlayed() != null) {
+            else if (grid[row+i][col+i].getPlayed() != player && grid[row+i][col+i].getPlayed() != null) {
               countOpponent++;
             }
           }
@@ -56,15 +55,15 @@ public class Evaluation {
       }
 
       // Evaluer les diagonales descendantes
-      for (int x = 0; x < board.getLen_x() - 3; x++) {
-        for (int y = 3; y < board.getLen_y(); y++) {
+      for (int row = 3; row < grid.length; row++) {
+        for (int col = 3; col < grid[0].length; col++) {
           int countPlayer = 0;
           int countOpponent = 0;
           for (int i = 0; i < 4; i++) {
-            if (board.getGrid()[x+i][y-i].getPlayed() == player) {
+            if (grid[row-i][col-i].getPlayed() == player) {
               countPlayer++;
             }
-            else if (board.getGrid()[x+i][y].getPlayed() != player && board.getGrid()[x+i][y].getPlayed() != null) {
+            else if (grid[row-i][col-i].getPlayed() != player && grid[row-i][col-i].getPlayed() != null) {
               countOpponent++;
             }
           }

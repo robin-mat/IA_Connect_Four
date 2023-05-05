@@ -2,6 +2,7 @@ package model.strategy;
 
 import model.Player;
 import model.Square;
+import model.Evaluation;
 
 public class Minimax implements Strategy {
     private int maxDepth;
@@ -17,25 +18,25 @@ public class Minimax implements Strategy {
     public int choice(Square[][] grid) {
       int bestChoice = -1;
       int bestScore = Integer.MIN_VALUE;
-  
+
       for (int choice = 1; choice <= 7; choice++) {
           System.out.println("Considering choice " + choice + "...");
           if (!isValidChoice(choice, grid)) {
               System.out.println("Choice " + choice + " is invalid.");
               continue;
           }
-  
+
           int score = minimax(grid, choice, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
           if (score > bestScore) {
               bestChoice = choice;
               bestScore = score;
           }
       }
-  
+
       System.out.println("Choosing column " + bestChoice + ".");
       return bestChoice;
   }
-  
+
 
   private boolean isValidChoice(int choice, Square[][] grid) {
     if (grid[choice-1][0].getPlayed() instanceof Player){
@@ -44,22 +45,6 @@ public class Minimax implements Strategy {
 			return true;
 		}
 }
-
-
-
-
-    private int evaluate(Square[][] grid, Player player) {
-        int score = 0;
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid[0].length; col++) {
-                Square square = grid[row][col];
-                if (square.getComboWinner() && square.getPlayed() == player) {
-                    score++;
-                }
-            }
-        }
-        return score;
-    }
 
     public void makeMove(Square[][] g, int colum, Player p) {
       int y = 5;
@@ -72,11 +57,11 @@ public class Minimax implements Strategy {
           // handle invalid move
       }
   }
-  
+
 
     private int minimax(Square[][] grid, int choice, int depth, int alpha, int beta, boolean maximizingPlayer) {
         if (depth == maxDepth || isTerminalState(grid)) {
-            return evaluate(grid, player);
+            return Evaluation.evaluate(grid, player);
         }
 
         if (maximizingPlayer) {
@@ -131,7 +116,7 @@ public class Minimax implements Strategy {
               }
           }
       }
-  
+
       for (int row = 0; row < grid.length - 3; row++) {
           for (int col = 0; col < grid[0].length; col++) {
               Player p = grid[row][col].getPlayed();
@@ -140,7 +125,7 @@ public class Minimax implements Strategy {
               }
           }
       }
-  
+
       for (int row = 0; row < grid.length - 3; row++) {
           for (int col = 0; col < grid[0].length - 3; col++) {
               Player p = grid[row][col].getPlayed();
@@ -149,7 +134,7 @@ public class Minimax implements Strategy {
               }
           }
       }
-  
+
       for (int row = 0; row < grid.length - 3; row++) {
           for (int col = 3; col < grid[0].length; col++) {
               Player p = grid[row][col].getPlayed();
@@ -158,13 +143,13 @@ public class Minimax implements Strategy {
               }
           }
       }
-  
+
       for (int col = 0; col < grid[0].length; col++) {
           if (grid[0][col].getPlayed() == null) {
               return false;
           }
       }
-  
+
       return false;
   }
-}  
+}
