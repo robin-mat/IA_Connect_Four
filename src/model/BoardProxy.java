@@ -74,7 +74,8 @@ public class BoardProxy extends Board {
 			}
 		}
 		for (int i=0; i!=this.len_x; i++){
-			if (clone[i][0].getPlayed() instanceof Player){
+			if (this.grid[i][0].getPlayed() instanceof Player){
+				clone[i][0].setPlayed(this.grid[i][0].getPlayed());
 				clone[i][1].setPlayed(this.grid[i][1].getPlayed());
 				clone[i][2].setPlayed(this.grid[i][2].getPlayed());
 				clone[i][3].setPlayed(this.grid[i][3].getPlayed());

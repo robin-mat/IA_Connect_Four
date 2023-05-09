@@ -63,7 +63,7 @@ public class Negamax implements Strategy {
         ArrayList<Integer> coupsDispos = this.getMoves(originalGrid);
         Random rand = new Random();
         int bestMove = rand.nextInt(coupsDispos.size());
-
+        System.out.println(coupsDispos);
         for (int i = 0; i < coupsDispos.size(); i++) {
             int coup = coupsDispos.get(i);
             Board exploration = new Board(7, 6);
