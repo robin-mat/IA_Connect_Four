@@ -11,7 +11,7 @@ public class Minimax implements Strategy{
 
   // Constructeur
   public Minimax(int depth, Player player, Player opponent){
-    this.depth = depth;
+    this.depth = 0;
     this.player = player;
     this.opponent = opponent;
   }
@@ -80,7 +80,7 @@ public class Minimax implements Strategy{
             exploration.setGrid(grid);
             exploration.addPawn(choice, player);
             grid = exploration.getGrid(); //joue
-            
+
           int score = minimax(grid, choice, depth-1, true, alpha, beta); // évaluer le coup
           bestScore = Math.max(bestScore, score); // choisir le meilleur score
           beta = Math.max(beta, bestScore); // mettre à jour alpha

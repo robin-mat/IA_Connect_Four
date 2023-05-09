@@ -3,6 +3,7 @@ package model;
 public class Evaluation {
 
   public static int evaluate(Square[][] grid, int choice, Player player, boolean isMaximizingPlayer) {
+    int bestscore = 0;
     int score = 0;
     int col = choice-1;
 
@@ -14,8 +15,6 @@ public class Evaluation {
     for(int row = 0; row < grid[0].length; row++) {
       // Vérifier les lignes suivantes
       for(int i = 0; i < 4; i++) {
-        System.out.println("row+i= " + (row+i));
-        System.out.println("grid[0].length" + grid[0].length);
         if(row+i < grid[0].length){
           if(grid[col][row+i].getPlayed() == player){
             countPlayer++;
@@ -42,7 +41,8 @@ public class Evaluation {
           }
         }
       }
-      score += computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
+      score = computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
+      bestscore = Math.max(bestscore, score);
     }
 
 
@@ -80,7 +80,8 @@ public class Evaluation {
           }
         }
       }
-      score += computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
+      score = computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
+      bestscore = Math.max(bestscore, score);
     }
 
     // Vérifier les diagonales ascendantes
@@ -119,7 +120,8 @@ public class Evaluation {
           }
         }
       }
-      score += computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
+      score = computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
+      bestscore = Math.max(bestscore, score);
     }
 
     // Vérifier les diagonales descendantes
@@ -156,8 +158,10 @@ public class Evaluation {
           }
         }
       }
-      score += computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
+      score = computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
+      bestscore = Math.max(bestscore, score);
     }
+    System.out.println("Pour le choix: " + choice + " le score est " + score);
     return score;
   }
 
@@ -175,7 +179,6 @@ public class Evaluation {
       score += 5;
     }
     //Si on veut maximiser
-    if(isMaximizingPlayer == true){
       // Score pour le joueur actuel
       if (countPlayer == 4) { // le joueur a gagné
         score += 10000;
@@ -189,12 +192,11 @@ public class Evaluation {
       else if (countPlayer == 1 && ((!opponentFoundPrec && choice != 1) || (!opponentFoundSuiv && choice != 7))) { // 1 pion aligné mais pas bloqué d'un des deux côté au moins
         score += 10;
       }
-    }
     return score;
   }
 }
-
-      /*// Si le joueur est bloqué des deux côtés mais peut encore gagner
+/*
+      // Si le joueur est bloqué des deux côtés mais peut encore gagner
       else if (countPlayer == 3 && opponentFoundPrec && opponentFoundSuiv) {
         score += 50;
       }
