@@ -7,8 +7,8 @@ public class Constants {
    //Constantes générales
    public static final String TITLE = "- IA for Connect Four -";
    public static final int[] GRID_SIZE = {7, 6};
-   public static final int TIME_BT_GAMES_ms = 300;
-   public static final int TIME_BT_ROUNDS_ms = 100;
+   public static final int TIME_BT_GAMES_ms = 30;
+   public static final int TIME_BT_ROUNDS_ms = 10;
 
 
    //Relatif au modèle
