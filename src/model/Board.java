@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Board{
+public class Board {
 	public Square[][] grid;
 	private int[] lastPawn;
 	public int len_x;
@@ -21,19 +21,21 @@ public class Board{
 		for (int i=0; i!=this.len_x; i++){
 			for (int y=0; y!=this.len_y; y++){
 				this.grid[i][y] = new Square(i, y);
+				this.grid[i][y].setPlayed(null);
 			}
 		}
 	}
 
 	public void addPawn(int colum, Player p){
-		//TODO
-		int y = 5;
-		while (this.grid[colum-1][y].getPlayed() instanceof Player){
-			y = y-1;
-		}
-		this.grid[colum-1][y].setPlayed(p);
-	    this.lastPawn[0] = colum-1;
-	    this.lastPawn[1] = y;
+		if (this.canPlay(colum)){
+			int y = 5;
+			while (this.grid[colum-1][y].getPlayed() instanceof Player){
+				y = y-1;
+			}
+			this.grid[colum-1][y].setPlayed(p);
+			this.lastPawn[0] = colum-1;
+			this.lastPawn[1] = y;
+		}		
 	}
 
 	public boolean canPlay(int colum){

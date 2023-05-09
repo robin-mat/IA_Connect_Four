@@ -399,6 +399,8 @@ public class Gui extends JFrame implements ViewInterface {
 			p.setStrategie(new Rdm());
 		}  else if (strat == "MinMax"){
 			p.setStrategie(new Minimax(5, p, gameInterface.getWaitingPlayer()));
+		}  else if (strat == "Negamax"){
+			p.setStrategie(new Negamax(1, p, gameInterface.getWaitingPlayer()));
 		}
 	}
 

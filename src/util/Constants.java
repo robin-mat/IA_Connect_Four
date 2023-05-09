@@ -7,8 +7,8 @@ public class Constants {
    //Constantes générales
    public static final String TITLE = "- IA for Connect Four -";
    public static final int[] GRID_SIZE = {7, 6};
-   public static final int TIME_BT_GAMES_ms = 3000;
-   public static final int TIME_BT_ROUNDS_ms = 1000;
+   public static final int TIME_BT_GAMES_ms = 300;
+   public static final int TIME_BT_ROUNDS_ms = 100;
 
 
    //Relatif au modèle
@@ -19,7 +19,7 @@ public class Constants {
 
 
    //Strategie dispos
-   public static final String strats[] = { "HumanGui", "Human", "Rdm", "MinMax"};
+   public static final String strats[] = { "HumanGui", "Human", "Rdm", "MinMax", "Negamax"};
 
    //Chemin relatif au projet & ressources
    public static final String ABSOLUTE_PATH = (new File("")).getAbsolutePath();
