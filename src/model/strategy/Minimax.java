@@ -2,7 +2,8 @@ package model.strategy;
 import model.Player;
 import model.Square;
 import model.Board;
-import model.Evaluation;
+
+import model.strategy.evaluation.*;
 
 public class Minimax implements Strategy{
   private int depth;
@@ -48,7 +49,8 @@ public class Minimax implements Strategy{
   public int minimax(Square[][] grid, int choice, int depth, boolean isMaximizingPlayer, int alpha, int beta) {
     // Vérifier si on est arrivé à la profondeur maximale ou si le jeu est terminé
     if(depth == 0 || isTerminalState(grid)){
-      return Evaluation.evaluate(grid, choice, this.player, isMaximizingPlayer); // évaluation de la grille pour le joueur actuel en prenant en compte si on doit Maximiser ou Minimiser
+      MinmaxEval evaluation = new MinmaxEval();
+      return evaluation.evaluate(grid, choice, this.player, isMaximizingPlayer); // évaluation de la grille pour le joueur actuel en prenant en compte si on doit Maximiser ou Minimiser
     }
 
     // Maximisation du joueur
