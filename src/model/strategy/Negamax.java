@@ -29,12 +29,12 @@ public class Negamax implements Strategy {
         this.nbrNodesVisited = 0;
         
         long startTime = System.currentTimeMillis();
-        int move = this.getBestMove(grid, this.maxDepth);
+        int[] move = this.negamaxAlgo(grid, this.maxDepth, -1, this.player, this.player, this.opponent);
         long endTime = System.currentTimeMillis();
         
         long timeElapsed = endTime - startTime;
         System.out.println("[Negamax] "+ this.nbrNodesVisited + " situations visitées | temps passé : "+timeElapsed+" ms");
-        return move;
+        return move[0]+1;
 	}
 
     public ArrayList<Integer> getMoves(Square[][] grid){
@@ -63,38 +63,50 @@ public class Negamax implements Strategy {
         return liste;
     }
 
-    public void printtab(Square[][] grid){
-        System.out.println(grid[0][0].getPlayed()+" "+grid[1][0].getPlayed()+" "+grid[2][0].getPlayed()+" "+grid[3][0].getPlayed()+" "+grid[4][0].getPlayed()+" "+grid[5][0].getPlayed()+" "+grid[6][0].getPlayed());
-        System.out.println(grid[0][1].getPlayed()+" "+grid[1][1].getPlayed()+" "+grid[2][1].getPlayed()+" "+grid[3][1].getPlayed()+" "+grid[4][1].getPlayed()+" "+grid[5][1].getPlayed()+" "+grid[6][1].getPlayed());
-        System.out.println(grid[0][2].getPlayed()+" "+grid[1][2].getPlayed()+" "+grid[2][2].getPlayed()+" "+grid[3][2].getPlayed()+" "+grid[4][2].getPlayed()+" "+grid[5][2].getPlayed()+" "+grid[6][2].getPlayed());
-        System.out.println(grid[0][3].getPlayed()+" "+grid[1][3].getPlayed()+" "+grid[2][3].getPlayed()+" "+grid[3][3].getPlayed()+" "+grid[4][3].getPlayed()+" "+grid[5][3].getPlayed()+" "+grid[6][3].getPlayed());
-        System.out.println(grid[0][4].getPlayed()+" "+grid[1][4].getPlayed()+" "+grid[2][4].getPlayed()+" "+grid[3][4].getPlayed()+" "+grid[4][4].getPlayed()+" "+grid[5][4].getPlayed()+" "+grid[6][4].getPlayed());
-        System.out.println(grid[0][5].getPlayed()+" "+grid[1][5].getPlayed()+" "+grid[2][5].getPlayed()+" "+grid[3][5].getPlayed()+" "+grid[4][5].getPlayed()+" "+grid[5][5].getPlayed()+" "+grid[6][5].getPlayed());
-    }
+    public int[] negamaxAlgo(Square[][] originalGrid, int depth, int move, Player currentPlayer, Player player, Player opponent){
+        int[] renvoi = new int[2];
+        this.nbrNodesVisited++;
 
-    public int getBestMove(Square[][] originalGrid, int depth){
-        double bestValue = -999;
-
-        ArrayList<Integer> coupsDispos = this.getMoves(originalGrid);
-        Random rand = new Random();
-        int bestMove = rand.nextInt(coupsDispos.size());
+        NegamaxEval evaluation = new NegamaxEval();
+        if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, false)==999){
+            if (move!=-1){
+                renvoi[0] = move;
+                renvoi[1] = evaluation.evaluate(originalGrid, -1, this.player, false);
+                //System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
+                return renvoi;
+            }
+        }
         
-        //System.out.println("coups dispos :"+coupsDispos);
+        int bestValue = -99999;
+        int bestMove = -1;
+        
+        ArrayList<Integer> coupsDispos = this.getMoves(originalGrid);
+
         for (int i = 0; i < coupsDispos.size(); i++) {
             int coup = coupsDispos.get(i);
             Board exploration = new Board(7, 6);
             exploration.setGrid(cloneGrid(originalGrid.clone()));
             exploration.addPawn(coup+1, this.player);
-            //printtab(exploration.getGrid());
 
-            //System.out.println(this.howManyPawnPerColum(exploration, 0, this.player));
-            double valeur = this.negamaxAlgo(exploration, depth-1, this.player, this.player, this.opponent);
-            if (valeur > bestValue){
-                bestValue = valeur;
-                bestMove = coup;
+            int[] get = this.negamaxAlgo(exploration.getGrid(), depth-1, coup, this.player, this.player, this.opponent);
+            get[1] = depth+get[1];
+            if (get[1] > bestValue){
+                bestValue = get[1];
+                bestMove = get[0];
             }
         }
-        return bestMove+1;
+        renvoi[0] = bestMove;
+        renvoi[1] = bestValue;
+
+        if (move!=-1){
+            int score = evaluation.evaluate(originalGrid, -1, this.player, false);
+            if (score>=bestValue){
+                renvoi[0] = move;
+                renvoi[1] = score;
+            }
+        }
+
+        return renvoi;
     }
 
     public Square[][] cloneGrid(Square[][] grid) {
@@ -109,42 +121,4 @@ public class Negamax implements Strategy {
         }
         return newGrid;
     }
-    
-
-    public double negamaxAlgo(Board board, int d, Player currentPlayer, Player player, Player opponent){
-        NegamaxEval evaluation = new NegamaxEval();
-        int eval = evaluation.evaluate(board.getGrid(), -1, this.player, false);
-        this.nbrNodesVisited++;
-        if (d==0){
-            if (currentPlayer.equals(player)){
-                return eval;
-            } else {
-                return -eval;
-            }
-        }
-
-        double m = eval;
-        if (currentPlayer.equals(player)){
-            m = eval;
-        } else {
-            m = -eval;
-        }
-
-        ArrayList<Integer> coupsDispos = this.getMoves(board.getGrid());
-        //System.out.println(nbrNodesVisited+" : "+coupsDispos);
-
-        //System.out.println("coups dispos pour la visite du noeud "+nbrNodesVisited+" :"+coupsDispos);
-        for (int i=0; i<coupsDispos.size(); i++){
-            int coup = coupsDispos.get(i);
-            Board exploration = new Board(7, 6);
-            exploration.setGrid(cloneGrid(board.getGrid().clone()));
-            exploration.addPawn(coup+1, currentPlayer);
-            
-            m = Math.max(m, (this.negamaxAlgo(exploration, d-1, opponent, opponent, player)));
-        }
-
-        return m;
-      }
-
-
-    }
+}
