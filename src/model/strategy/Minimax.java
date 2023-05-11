@@ -1,144 +1,145 @@
 package model.strategy;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import model.Board;
 import model.Player;
 import model.Square;
-import model.Board;
 
 import model.strategy.evaluation.*;
 
-public class Minimax implements Strategy{
-  private int depth;
-  private Player player;
-  private Player opponent;
+public class Minimax implements Strategy {
+    private int maxDepth;
+    private Player player;
+    private Player opponent;
 
-  // Constructeur
-  public Minimax(int depth, Player player, Player opponent){
-    this.depth = 0;
-    this.player = player;
-    this.opponent = opponent;
-  }
+    public int nbrNodesVisited;
 
-  //Méthode pour choisir le meilleur coup
-  public int choice(Square[][] grid){
-    int bestChoice = -1; //Initialisation à un choix innexistant
-    int bestScore = Integer.MIN_VALUE; //Initialisation à une valeur minimale
-    for(int choice = 1; choice <= 7; choice++){
-      System.out.println("Considering choice " + choice + "...");
-      if(isValidChoice(choice, grid) == true){ //Si ma colonne n'est pas pleine
-        int score = minimax(grid, choice, depth, false, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        if(score > bestScore){
-          bestChoice = choice;
-          bestScore = score;
+    public Minimax(int maxDepth, Player player, Player opponent) {
+        this.maxDepth = maxDepth;
+        this.player = player;
+        this.opponent = opponent;
+    }
+
+	public int choice(Square[][] grid){
+        if (this.maxDepth==0){
+            throw new RuntimeException("aucune branche ne peut etre visité");
         }
-      }
-    }
-    System.out.println("Choosing column " + bestChoice + ".");
-    return bestChoice;
-  }
+        this.nbrNodesVisited = 0;
 
-  //Vérifie si le choix est valide
-  private boolean isValidChoice(int choice, Square[][] grid) {
-    if(grid[choice-1][0].getPlayed() instanceof Player){
-      return false;
-    }
-    else{
-      return true;
-    }
-  }
+        long startTime = System.currentTimeMillis();
+        int[] move = this.minimaxAlgo(grid, this.maxDepth, -1, this.player, this.player, this.opponent);
+        long endTime = System.currentTimeMillis();
 
-  //Méthode pour déterminer le coup
-  public int minimax(Square[][] grid, int choice, int depth, boolean isMaximizingPlayer, int alpha, int beta) {
-    // Vérifier si on est arrivé à la profondeur maximale ou si le jeu est terminé
-    if(depth == 0 || isTerminalState(grid)){
-      MinmaxEval evaluation = new MinmaxEval();
-      return evaluation.evaluate(grid, choice, this.player, isMaximizingPlayer); // évaluation de la grille pour le joueur actuel en prenant en compte si on doit Maximiser ou Minimiser
-    }
+        long timeElapsed = endTime - startTime;
+        System.out.println("[Minimax] "+ this.nbrNodesVisited + " situations visitées | temps passé : "+timeElapsed+" ms");
+        return move[0]+1;
+	}
 
-    // Maximisation du joueur
-    if(isMaximizingPlayer){
-      int bestScore = Integer.MIN_VALUE;
-      for(choice = 1; choice <= 7; choice++) {
-        if(isValidChoice(choice, grid) == true) { // si le coup est valide
-          Board exploration = new Board(7, 6);
-          exploration.setGrid(grid);
-          exploration.addPawn(choice, player);
-          grid = exploration.getGrid(); //joue
-          int score = minimax(grid, choice, depth-1, false, alpha, beta); // évaluer le coup
-          bestScore = Math.max(bestScore, score); // choisir le meilleur score
-          alpha = Math.max(alpha, bestScore); // mettre à jour alpha
-          if(beta <= alpha) { // élagage
-            break;
-          }
+    public ArrayList<Integer> getMoves(Square[][] grid){
+        ArrayList<Integer> liste = new ArrayList<Integer>();
+        if (!(grid[0][0].getPlayed() instanceof Player)){
+            liste.add(0);
         }
-      }
-      return bestScore;
+        if (!(grid[1][0].getPlayed() instanceof Player)){
+            liste.add(1);
+        }
+        if (!(grid[2][0].getPlayed() instanceof Player)){
+            liste.add(2);
+        }
+        if (!(grid[3][0].getPlayed() instanceof Player)){
+            liste.add(3);
+        }
+        if (!(grid[4][0].getPlayed() instanceof Player)){
+            liste.add(4);
+        }
+        if (!(grid[5][0].getPlayed() instanceof Player)){
+            liste.add(5);
+        }
+        if (!(grid[6][0].getPlayed() instanceof Player)){
+            liste.add(6);
+        }
+        return liste;
     }
 
-    // Minimisation de l'adversaire
-    else{
-      int bestScore = Integer.MAX_VALUE;
-      for(choice = 1; choice <= 7; choice++){
-        if(isValidChoice(choice, grid) == true) { // si le coup est valide
+    public int[] minimaxAlgo(Square[][] originalGrid, int depth, int move, Player currentPlayer, Player player, Player opponent){
+        int[] renvoi = new int[2];
+        this.nbrNodesVisited++;
+
+        NegamaxEval evaluation = new NegamaxEval();
+        if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, false)==999){
+            if (move!=-1){
+                renvoi[0] = move;
+                renvoi[1] = evaluation.evaluate(originalGrid, -1, this.player, false);
+                return renvoi;
+            }
+        }
+
+        int bestValue;
+        if (currentPlayer == player) {
+            bestValue = -99999;
+        } else {
+            bestValue = 99999;
+        }
+        int bestMove = -1;
+
+        ArrayList<Integer> coupsDispos = this.getMoves(originalGrid);
+
+        for (int i = 0; i < coupsDispos.size(); i++) {
+            int coup = coupsDispos.get(i);
             Board exploration = new Board(7, 6);
-            exploration.setGrid(grid);
-            exploration.addPawn(choice, player);
-            grid = exploration.getGrid(); //joue
+            exploration.setGrid(cloneGrid(originalGrid.clone()));
+            exploration.addPawn(coup+1, currentPlayer);
 
-          int score = minimax(grid, choice, depth-1, true, alpha, beta); // évaluer le coup
-          bestScore = Math.max(bestScore, score); // choisir le meilleur score
-          beta = Math.max(beta, bestScore); // mettre à jour alpha
-          if (beta <= alpha) { // élagage
-            break;
-          }
-        }
-      }
-      return bestScore;
-    }
-  }
+            int[] get = this.minimaxAlgo(exploration.getGrid(), depth-1, coup, opponent, player, opponent);
+            get[1] = depth+get[1];
 
-  // Vérifie si la grille est dans un état terminal (gagné ou grille remplie)
-  private boolean isTerminalState(Square[][] grid) {
-    // Vérification des lignes
-    for(int row = 0; row < grid.length; row++) {
-      for(int col = 0; col < grid[0].length - 3; col++) {
-        Player p = grid[row][col].getPlayed();
-        if(p != null && p == grid[row][col+1].getPlayed() && p == grid[row][col+2].getPlayed() && p == grid[row][col+3].getPlayed()) {
-          return true;
+            if (currentPlayer == player) {
+                if (get[1] > bestValue){
+                    bestValue = get[1];
+                    bestMove = get[0];
+                }
+            } else {
+                if (get[1] < bestValue){
+                    bestValue = get[1];
+                    bestMove = get[0];
+                }
+            }
         }
-      }
-    }
-    // Vérification des colonnes
-    for(int row = 0; row < grid.length - 3; row++) {
-      for(int col = 0; col < grid[0].length; col++) {
-        Player p = grid[row][col].getPlayed();
-        if(p != null && p == grid[row+1][col].getPlayed() && p == grid[row+2][col].getPlayed() && p == grid[row+3][col].getPlayed()) {
-          return true;
+
+        renvoi[0] = bestMove;
+        renvoi[1] = bestValue;
+
+        if (move!=-1){
+            int score = evaluation.evaluate(originalGrid, -1, this.player, false);
+            if (currentPlayer == player) {
+                if (score>=bestValue){
+                    renvoi[0] = move;
+                    renvoi[1] = score;
+                }
+            } else {
+                if (score<=bestValue){
+                    renvoi[0] = move;
+                    renvoi[1] = score;
+                }
+            }
         }
-      }
+
+        return renvoi;
     }
-    // Vérification de la diagonale ascendante
-    for(int row = 3; row < grid.length; row++) {
-      for(int col = 0; col < grid[0].length - 3; col++) {
-        Player p = grid[row][col].getPlayed();
-        if(p != null && p == grid[row-1][col+1].getPlayed() && p == grid[row-2][col+2].getPlayed() && p == grid[row-3][col+3].getPlayed()) {
-          return true;
+
+    public Square[][] cloneGrid(Square[][] grid) {
+        Square[][] newGrid = new Square[grid.length][grid[0].length];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                Square square = grid[i][j];
+                Player played = square.getPlayed();
+                newGrid[i][j] = new Square(i, j);
+                newGrid[i][j].setPlayed(played);
+            }
         }
-      }
+        return newGrid;
     }
-    // Vérification de la diagonale descendante
-    for(int row = 0; row < grid.length - 3; row++) {
-      for(int col = 0; col < grid[0].length - 3; col++) {
-        Player p = grid[row][col].getPlayed();
-        if(p != null && p == grid[row+1][col+1].getPlayed() && p == grid[row+2][col+2].getPlayed() && p == grid[row+3][col+3].getPlayed()) {
-          return true;
-        }
-      }
-    }
-    // Vérification de la grille remplie
-    for(int col = 0; col < grid[0].length; col++) {
-      if(grid[0][col].getPlayed() == null) {
-        return false;
-      }
-    }
-    return true;
+
   }
-}
