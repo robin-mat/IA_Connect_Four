@@ -1,3 +1,9 @@
+package model.strategy;
+import model.Player;
+import model.Square;
+import model.Board;
+import model.strategy.evaluation.*;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +14,7 @@ public class MonteCarlo implements Strategy{
   private Player opponent;
 
   // Constructeur
-  public MonteCarlo(int maxIterations, Random random, Player player, Player opponent){
+  public MonteCarlo(int maxIterations, Player player, Player opponent){
     this.maxIterations = maxIterations;
     this.random = new Random();
     this.player = player;
@@ -22,7 +28,7 @@ public class MonteCarlo implements Strategy{
     for(int choice = 1; choice <= 7; choice++){
       System.out.println("Considering choice " + choice + "...");
       if(isValidChoice(choice, grid) == true){ //Si ma colonne n'est pas pleine
-        int score = montecarlo(grid, choice, maxIterations);
+        int score = monteCarlo(grid, choice, maxIterations);
         if(score > bestScore){
           bestChoice = choice;
           bestScore = score;
@@ -46,8 +52,8 @@ public class MonteCarlo implements Strategy{
   //Méthode pour déterminer le coup
   public int monteCarlo(Square[][] grid, int choice, int maxIterations){
     int bestScore = Integer.MIN_VALUE;
-    for(int i = 0; i < maxIterations; i++){
-      if(isValidChoice(choice, grid) == true){
+    if(isValidChoice(choice, grid) == true){
+      for(int i = 0; i < maxIterations; i++){
         Board exploration = new Board(7, 6);
         exploration.setGrid(grid);
         exploration.addPawn(choice, player);
@@ -59,24 +65,29 @@ public class MonteCarlo implements Strategy{
     return bestScore;
   }
 
-  public int simulateGame(Square[][] grid, int choice){
-    Board simulation = new Board(7, 6);
-    simulation.setGrid(grid);
-    int currentChoice = choice;
-    while (!isTerminalState(simulation.getGrid())) {
-      // Détermine le joueur suivant
-      currentPlayer = getNextPlayer(currentPlayer);
-      // Trouve un coup valide au hasard pour le joueur actuel
-      do{
-        currentChoice = new Random().nextInt(7+1); //[1..7]
-        }while(!isValidChoice(currentChoice, simulation.getGrid()));
+  public int simulateGame(Square[][] grid, int choice) {
+      Player currentPlayer = opponent;
+      while (!isTerminalState(grid)) {
+          // Détermine le joueur suivant
+          currentPlayer = (currentPlayer == player) ? opponent : player;
 
-      // Ajoute le pion sur la grille
-      makeMove(simulation, choice-1, this.player);
+          // Trouve un coup valide au hasard pour le joueur actuel
+          int currentChoice;
+          do {
+              currentChoice = this.random.nextInt(7) + 1;
+          } while (!isValidChoice(currentChoice, grid));
+
+          // Ajoute le pion sur la grille
+          Board exploration = new Board(7, 6);
+          exploration.setGrid(grid);
+          exploration.addPawn(currentChoice, currentPlayer);
+          grid = exploration.getGrid(); //joue
       }
       // Évalue le résultat du jeu pour le joueur actuel
-      return EvaluationMC.evaluate(simulation.getGrid(), currentChoice, player, currentPlayer == player);
-    }
+      MonteCarloEval evaluation = new MonteCarloEval();
+      return evaluation.evaluate(grid, choice, this.player, currentPlayer == opponent); // évaluation de la grille pour le joueur actuel en prenant en compte si on doit Maximiser ou Minimiser
+  }
+
 
     // Vérifie si la grille est dans un état terminal (gagné ou grille remplie)
     private boolean isTerminalState(Square[][] grid) {
@@ -123,16 +134,5 @@ public class MonteCarlo implements Strategy{
         }
       }
       return true;
-    }
-
-    //Permet de jouer le coup choisi
-    public void makeMove(Square[][] g, int colum, Player p) {
-      int y = 5;
-      while (y >= 0 && g[colum-1][y].getPlayed() instanceof Player) {
-        y = y - 1;
-      }
-      if (y >= 0 && colum-1 >= 0 && colum-1 < g.length) {
-        g[colum-1][y].setPlayed(p);
-      }
     }
   }

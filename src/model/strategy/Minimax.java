@@ -58,10 +58,10 @@ public class Minimax implements Strategy{
       int bestScore = Integer.MIN_VALUE;
       for(choice = 1; choice <= 7; choice++) {
         if(isValidChoice(choice, grid) == true) { // si le coup est valide
-            Board exploration = new Board(7, 6);
-            exploration.setGrid(grid);
-            exploration.addPawn(choice, player);
-            grid = exploration.getGrid(); //joue
+          Board exploration = new Board(7, 6);
+          exploration.setGrid(grid);
+          exploration.addPawn(choice, player);
+          grid = exploration.getGrid(); //joue
           int score = minimax(grid, choice, depth-1, false, alpha, beta); // évaluer le coup
           bestScore = Math.max(bestScore, score); // choisir le meilleur score
           alpha = Math.max(alpha, bestScore); // mettre à jour alpha
@@ -140,16 +140,5 @@ public class Minimax implements Strategy{
       }
     }
     return true;
-  }
-
-  //Permet de jouer le coup choisi
-  public void makeMove(Square[][] g, int colum, Player p) {
-    int y = 5;
-    while (y >= 0 && g[colum-1][y].getPlayed() instanceof Player) {
-      y = y - 1;
-    }
-    if (y >= 0 && colum-1 >= 0 && colum-1 < g.length) {
-      g[colum-1][y].setPlayed(p);
-    }
   }
 }

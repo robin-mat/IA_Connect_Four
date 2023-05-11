@@ -214,7 +214,7 @@ public class Gui extends JFrame implements ViewInterface {
 				//proxyViewOmni.setEnabled(false);
   				//proxyViewP1.setEnabled(false);
   				//proxyViewP2.setEnabled(false);
-  				
+
 				//p1StratChoice.setEnabled(false);
   				//p2StratChoice.setEnabled(false);
 			}
@@ -401,7 +401,9 @@ public class Gui extends JFrame implements ViewInterface {
 			p.setStrategie(new Minimax(5, p, gameInterface.getWaitingPlayer()));
 		}  else if (strat == "Negamax"){
 			p.setStrategie(new Negamax(6, p, gameInterface.getWaitingPlayer()));
-		}
+		}else if (strat == "MonteCarlo"){
+		p.setStrategie(new MonteCarlo(6, p, gameInterface.getWaitingPlayer()));
+	}
 	}
 
 	public void refreshInfos(){
