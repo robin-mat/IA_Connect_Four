@@ -15,14 +15,18 @@ public class Shareable {
             }
         }
         return temp;     
-    }
+     }
 
     public boolean columnFull(Square[][] grid, int column, Player player){
         if (grid[column][3].getPlayed() == player){
+            //System.out.println("La ligne 3 est habité par "+player);
             return true;
         } else if (grid[column][2].getPlayed() == player){
+            //System.out.println("La ligne 2 est habité par "+player);
+            
             return true;
         } else if (grid[column][1].getPlayed() == player){
+            //System.out.println("La ligne 1 est habité par "+player);
             return true;
         }
         return false;

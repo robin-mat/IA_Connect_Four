@@ -20,8 +20,8 @@ public class NegamaxEval extends Shareable implements Evaluation {
             score+=50;
         }
         if (choice!=-1){
-            if (columnFull(grid, choice, opponent )){
-                score-=(999+score);
+            if (columnFull(grid, choice, opponent)){
+                score-=score;
             }
         }
 

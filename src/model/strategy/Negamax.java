@@ -33,7 +33,7 @@ public class Negamax extends Shareable implements Strategy {
         long endTime = System.currentTimeMillis();
         
         long timeElapsed = endTime - startTime;
-        System.out.println("[Negamax] "+ this.nbrNodesVisited + " situations visitées | temps passé : "+timeElapsed+" ms");
+        //System.out.println("[Negamax] "+ this.nbrNodesVisited + " situations visitées | temps passé : "+timeElapsed+" ms");
         return move[0]+1;
 	}
 
@@ -46,7 +46,7 @@ public class Negamax extends Shareable implements Strategy {
             if (move!=-1){
                 renvoi[0] = move;
                 renvoi[1] = evaluation.evaluate(originalGrid, move, this.player, opponent, false);
-                System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
+                //System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
                 return renvoi;
             }
         }
@@ -63,7 +63,7 @@ public class Negamax extends Shareable implements Strategy {
             exploration.addPawn(coup+1, this.player);
 
             int[] get = this.negamaxAlgo(exploration.getGrid(), depth-1, coup, this.player, this.player, this.opponent);
-            get[1] = 1000*depth+get[1];
+            get[1] = depth*get[1];
             if (get[1] > bestValue){
                 bestValue = get[1];
                 bestMove = get[0];
