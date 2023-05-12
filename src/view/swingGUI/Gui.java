@@ -393,15 +393,15 @@ public class Gui extends JFrame implements ViewInterface {
 		this.logger.write("[#CHANGE STRAT#] " + p.getName()+" : "+ strat);
 		if (strat == "HumanGui"){
 			p.setStrategie(new HumanGui());
-		} else if (strat == "Human"){
+		} else if (strat == "Human, depth"){
 			p.setStrategie(new Human(this.terminalInput));
 		}  else if (strat == "Rdm"){
 			p.setStrategie(new Rdm());
-		}  else if (strat == "MinMax"){
+		}  else if (strat == "MinMax, depth="+Constants.DEPTH_MINMAX){
 			p.setStrategie(new Minimax(Constants.DEPTH_MINMAX, p, gameInterface.getWaitingPlayer()));
-		}  else if (strat == "Negamax"){
+		}  else if (strat == "Negamax, depth="+Constants.DEPTH_NEGAMAX){
 			p.setStrategie(new Negamax(Constants.DEPTH_NEGAMAX, p, gameInterface.getWaitingPlayer()));
-		}else if (strat == "MonteCarlo"){
+		}else if (strat == "MonteCarlo, depth="+Constants.ITERATIONS_MONTECARLO){
 		p.setStrategie(new MonteCarlo(Constants.ITERATIONS_MONTECARLO, p, gameInterface.getWaitingPlayer()));
 	}
 	}

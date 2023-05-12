@@ -23,7 +23,7 @@ public class Constants {
 
 
    //Strategie dispos
-   public static final String strats[] = { "HumanGui", "Human", "Rdm", "MinMax", "Negamax", "MonteCarlo"};
+   public static final String strats[] = { "HumanGui", "Human", "Random", "MinMax, depth="+DEPTH_MINMAX, "Negamax, depth="+DEPTH_NEGAMAX, "MonteCarlo, iterations="+ITERATIONS_MONTECARLO};
 
    //Chemin relatif au projet & ressources
    public static final String ABSOLUTE_PATH = (new File("")).getAbsolutePath();
