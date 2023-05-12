@@ -6,7 +6,7 @@ import model.Square;
 
 public class NegamaxEval extends Shareable implements Evaluation {
     @Override
-    public int evaluate(Square[][] grid, int choice, Player player, boolean isMaximizingPlayer) {
+    public int evaluate(Square[][] grid, int choice, Player player, Player opponent, boolean isMaximizingPlayer) {
         int score = 0;
 
         //On privilégie les coups au milieu
@@ -19,6 +19,12 @@ public class NegamaxEval extends Shareable implements Evaluation {
         } else if (choice==3){
             score+=50;
         }
+        if (choice!=-1){
+            if (columnFull(grid, choice, opponent )){
+                score-=(999+score);
+            }
+        }
+
 
         Board b = new Board(7, 6);
         b.setGrid(grid.clone());

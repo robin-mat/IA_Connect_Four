@@ -42,10 +42,10 @@ public class Minimax extends Shareable implements Strategy {
         this.nbrNodesVisited++;
 
         NegamaxEval evaluation = new NegamaxEval();
-        if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, false)==999){
+        if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, opponent, false)==999){
             if (move!=-1){
                 renvoi[0] = move;
-                renvoi[1] = evaluation.evaluate(originalGrid, -1, this.player, false);
+                renvoi[1] = evaluation.evaluate(originalGrid, -1, this.player, opponent, false);
                 return renvoi;
             }
         }
@@ -86,7 +86,7 @@ public class Minimax extends Shareable implements Strategy {
         renvoi[1] = bestValue;
 
         if (move!=-1){
-            int score = evaluation.evaluate(originalGrid, -1, this.player, false);
+            int score = evaluation.evaluate(originalGrid, -1, this.player, opponent, false);
             if (currentPlayer == player) {
                 if (score>=bestValue){
                     renvoi[0] = move;

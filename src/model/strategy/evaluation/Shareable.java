@@ -16,4 +16,15 @@ public class Shareable {
         }
         return temp;     
     }
+
+    public boolean columnFull(Square[][] grid, int column, Player player){
+        if (grid[column][3].getPlayed() == player){
+            return true;
+        } else if (grid[column][2].getPlayed() == player){
+            return true;
+        } else if (grid[column][1].getPlayed() == player){
+            return true;
+        }
+        return false;
+    }
 }

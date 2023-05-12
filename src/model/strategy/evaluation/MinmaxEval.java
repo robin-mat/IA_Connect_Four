@@ -6,7 +6,7 @@ import model.Square;
 public class MinmaxEval implements Evaluation {
 
     @Override
-    public int evaluate(Square[][] grid, int choice, Player player, boolean isMaximizingPlayer) {
+    public int evaluate(Square[][] grid, int choice, Player player, Player opponent, boolean isMaximizingPlayer) {
         int bestscore = 0;
         int col = choice-1;
     

@@ -5,7 +5,7 @@ import model.Square;
 
 public class MonteCarloEval implements Evaluation {
   @Override
-  public int evaluate(Square[][] grid, int choice, Player player, boolean isEvaluatedPlayer) {
+  public int evaluate(Square[][] grid, int choice, Player player, Player opponent, boolean isEvaluatedPlayer) {
     int bestscore = 0;
     int col = choice-1;
 

@@ -75,7 +75,7 @@ public class MonteCarlo extends Shareable implements Strategy {
                 }
 
                 // Enregistrer le résultat de la simulation
-                int resultat = evaluation.evaluate(simulation.getGrid(), -1, player, false);
+                int resultat = evaluation.evaluate(simulation.getGrid(), -1, player, opponent, false);
                 if (resultat == 999) {
                     nbCoupsGagnants[i]++;
                 }
@@ -95,10 +95,10 @@ public class MonteCarlo extends Shareable implements Strategy {
         }
 
         renvoi[0] = meilleurCoup;
-        renvoi[1] = evaluation.evaluate(originalGrid, -1, this.player, false);
+        renvoi[1] = evaluation.evaluate(originalGrid, -1, this.player, opponent, false);
 
         if (move != -1) {
-            int score = evaluation.evaluate(originalGrid, -1, this.player, false);
+            int score = evaluation.evaluate(originalGrid, -1, this.player, opponent, false);
             if (currentPlayer == player) {
                 if (score >= meilleurScore) {
                     renvoi[0] = move;
