@@ -397,13 +397,13 @@ public class Gui extends JFrame implements ViewInterface {
 			p.setStrategie(new Human(this.terminalInput));
 		}  else if (strat == "Rdm"){
 			p.setStrategie(new Rdm());
-		}  else if (strat == "MinMax, depth="+Constants.DEPTH_MINMAX){
+		}  else if (strat == ("MinMax, depth="+Constants.DEPTH_MINMAX)){
 			p.setStrategie(new Minimax(Constants.DEPTH_MINMAX, p, gameInterface.getWaitingPlayer()));
-		}  else if (strat == "Negamax, depth="+Constants.DEPTH_NEGAMAX){
+		}  else if (strat == ("Negamax, depth="+Constants.DEPTH_NEGAMAX)){
 			p.setStrategie(new Negamax(Constants.DEPTH_NEGAMAX, p, gameInterface.getWaitingPlayer()));
-		}else if (strat == "MonteCarlo, depth="+Constants.ITERATIONS_MONTECARLO){
-		p.setStrategie(new MonteCarlo(Constants.ITERATIONS_MONTECARLO, p, gameInterface.getWaitingPlayer()));
-	}
+		}else if (strat == ("MonteCarlo, iterations="+Constants.ITERATIONS_MONTECARLO)){
+			p.setStrategie(new MonteCarlo(Constants.ITERATIONS_MONTECARLO, p, gameInterface.getWaitingPlayer()));
+		}
 	}
 
 	public void refreshInfos(){

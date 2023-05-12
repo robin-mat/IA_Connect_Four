@@ -33,7 +33,7 @@ public class Negamax extends Shareable implements Strategy {
         long endTime = System.currentTimeMillis();
         
         long timeElapsed = endTime - startTime;
-        //System.out.println("[Negamax] "+ this.nbrNodesVisited + " situations visitées | temps passé : "+timeElapsed+" ms");
+        System.out.println("[Negamax] "+ this.nbrNodesVisited + " situations visitées | temps passé : "+timeElapsed+" ms");
         return move[0]+1;
 	}
 
