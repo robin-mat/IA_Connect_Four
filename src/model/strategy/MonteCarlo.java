@@ -23,7 +23,7 @@ public class MonteCarlo extends Shareable implements Strategy {
     }
 
     public int choice(Square[][] grid){
-        if (maxIterations == 0) {
+        if (maxIterations <= 0) {
             throw new RuntimeException("Le nombre maximum d'itérations doit être supérieur à zéro.");
         }
 
@@ -36,82 +36,126 @@ public class MonteCarlo extends Shareable implements Strategy {
         return move[0]+1;
     }
 
+    public int simulationPartie(Square[][] grid, Player currentPlayer, Player player, Player opponent){
+        Board exploration = new Board(7, 6);
+
+        this.nbrNodesVisited++;
+        exploration.setGrid(cloneGrid(grid.clone()));
+
+        ArrayList<Integer> coupsDispos = this.getMoves(exploration.getGrid());
+        if (coupsDispos.size() == 0){
+            return 0;
+        }
+        Random rand = new Random();
+
+        if (currentPlayer.equals(player)){
+            exploration.addPawn(coupsDispos.get(rand.nextInt(coupsDispos.size()))+1 ,player);
+            if (isFinish(exploration, currentPlayer)){
+                return 1;
+            }
+            return simulationPartie(exploration.getGrid(), opponent, player, opponent);
+        } else {
+            exploration.addPawn(coupsDispos.get(rand.nextInt(coupsDispos.size()))+1 ,opponent);
+            if (isFinish(exploration, currentPlayer)){
+                return 2;
+            }
+            return simulationPartie(exploration.getGrid(), player, player, opponent);
+        }
+    }
+
     public int[] monteCarloAlgo(Square[][] originalGrid, int maxIterations, int move, Player currentPlayer, Player player, Player opponent){
         int[] renvoi = new int[2];
-        this.nbrNodesVisited++;
 
-        NegamaxEval evaluation = new NegamaxEval();
+        int bestMove = -1;
+        int bestScore = -999;
 
-        // Créer une copie du plateau original pour faire les simulations
-        Board board = new Board(7, 6);
-        board.setGrid(cloneGrid(originalGrid.clone()));
-
-        // Obtenir la liste des coups possibles
         ArrayList<Integer> coupsDispos = this.getMoves(originalGrid);
-
-        // Initialiser les statistiques des coups
-        int[] nbCoupsGagnants = new int[coupsDispos.size()];
-        int[] nbCoupsSimules = new int[coupsDispos.size()];
-
-        // Faire les simulations pour chaque coup possible
-        for (int iteration = 0; iteration < maxIterations; iteration++) {
-            for (int i = 0; i < coupsDispos.size(); i++) {
-                int coup = coupsDispos.get(i);
-
-                // Cloner le plateau pour faire la simulation
-                Board simulation = new Board(7, 6);
-                simulation.setGrid(cloneGrid(board.getGrid()));
-
-                // Faire le coup
-                simulation.addPawn(coup + 1, currentPlayer);
-
-                // Faire des coups aléatoires jusqu'à la fin de la partie
-                Random random = new Random();
-                while (simulation.canPlay() == true) {
-                    ArrayList<Integer> coupsPossibles = this.getMoves(simulation.getGrid());
-                    int coupAleatoire = coupsPossibles.get(random.nextInt(coupsPossibles.size()));
-                    simulation.addPawn(coupAleatoire + 1, currentPlayer);
-                    currentPlayer = (currentPlayer == player) ? opponent : player;
-                }
-
-                // Enregistrer le résultat de la simulation
-                int resultat = evaluation.evaluate(simulation.getGrid(), -1, player, opponent, false);
-                if (resultat == 999) {
-                    nbCoupsGagnants[i]++;
-                }
-                nbCoupsSimules[i]++;
-            }
-        }
-
-        // Trouver le coup le plus gagnant
-        int meilleurCoup = -1;
-        double meilleurScore = -1.0;
         for (int i = 0; i < coupsDispos.size(); i++) {
-            double score = (double) nbCoupsGagnants[i] / nbCoupsSimules[i];
-            if (score > meilleurScore) {
-                meilleurScore = score;
-                meilleurCoup = coupsDispos.get(i);
-            }
-        }
+            int coup = coupsDispos.get(i);
+            Board exploration = new Board(7, 6);
+            exploration.setGrid(cloneGrid(originalGrid.clone()));
+            exploration.addPawn(coup+1, currentPlayer);
 
-        renvoi[0] = meilleurCoup;
-        renvoi[1] = evaluation.evaluate(originalGrid, -1, this.player, opponent, false);
+            int nb_win_player = 0;
+            int nb_win_opponent = 0;
+            int nb_null_games = 0;
 
-        if (move != -1) {
-            int score = evaluation.evaluate(originalGrid, -1, this.player, opponent, false);
-            if (currentPlayer == player) {
-                if (score >= meilleurScore) {
-                    renvoi[0] = move;
-                    renvoi[1] = score;
-                }
-            } else {
-                if (score <= meilleurScore) {
-                    renvoi[0] = move;
-                    renvoi[1] = score;
+            //System.out.println(this.maxIterations+" iterations pour le coup en "+coup);
+            for (int iteration = 0; iteration < this.maxIterations; iteration++) {
+                int resultat = simulationPartie(exploration.getGrid(), opponent, player, opponent);
+                if (resultat == 1){
+                    nb_win_player += 1;
+                } else if (resultat == 2){
+                    nb_win_opponent += 1;
+                } else {
+                    nb_null_games += 1;
                 }
             }
+            if (nb_win_player > bestScore){
+                bestScore = nb_win_player;
+                bestMove = coup;
+            }
         }
-
+        renvoi[0] = bestMove;
+        renvoi[1] = bestScore;
         return renvoi;
     }
+
+    public boolean isFinish(Board board, Player player){
+        for (int i = 0; i < 7; i++) {
+                for (int j = 5; j > -1; j--) {
+                    Player jVerif = board.getGrid()[i][j].getPlayed();
+      
+                    if (jVerif == player){
+                        // Vérifier si le joueur a 4 pièces sur une ligne
+                        if (i+3 < 7){
+                            if (board.getGrid()[i+1][j].getPlayed() == player) {
+                              if (board.getGrid()[i+2][j].getPlayed() == player) {
+                                  if (board.getGrid()[i+3][j].getPlayed() == player)
+                                      return true;
+                                  }
+                              }
+                          }
+                        }
+                    
+                    // Vérifier si le joueur a 4 pièces sur une colonne
+                      if (j-3 > -1){
+                        if (board.getGrid()[i][j-1].getPlayed() == player) {
+                          if (board.getGrid()[i][j-2].getPlayed() == player) {
+                              if (board.getGrid()[i][j-3].getPlayed() == player) {
+                                  return true;
+                              }
+                          }
+                      }
+                    }
+    
+    
+                  // Vérifier si le joueur a 4 pièces sur une diagonale de gauche à droite
+                  if (j-3 > -1 && i + 3 < 7){
+                        if (board.getGrid()[i+1][j-1].getPlayed() == player) {
+                          if (board.getGrid()[i+2][j-2].getPlayed() == player) {
+                              if (board.getGrid()[i+3][j-3].getPlayed() == player) {
+                                  return true;
+                              }
+                          }
+                      }
+                    }
+    
+    
+    
+    
+                  // Vérifier si le joueur a 4 pièces sur une diagonale de droite à gauche
+                  if (j-3 > -1 && i - 3 > -1){
+                    if (board.getGrid()[i-1][j-1].getPlayed() == player) {
+                      if (board.getGrid()[i-2][j-2].getPlayed() == player) {
+                          if (board.getGrid()[i-3][j-3].getPlayed() == player) {
+                              return true;
+                          }
+                      }
+                  }
+                }
+                }
+            }
+            return false;
+          }
   }

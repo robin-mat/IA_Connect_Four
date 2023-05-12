@@ -12,7 +12,7 @@ public class Constants {
 
    public static final int DEPTH_MINMAX = 4;
    public static final int DEPTH_NEGAMAX = 1;
-   public static final int DEPTH_MONTECARLO = 4;
+   public static final int ITERATIONS_MONTECARLO = 5000;
 
 
    //Relatif au modèle

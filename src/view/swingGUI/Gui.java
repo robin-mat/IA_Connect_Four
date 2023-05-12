@@ -402,7 +402,7 @@ public class Gui extends JFrame implements ViewInterface {
 		}  else if (strat == "Negamax"){
 			p.setStrategie(new Negamax(Constants.DEPTH_NEGAMAX, p, gameInterface.getWaitingPlayer()));
 		}else if (strat == "MonteCarlo"){
-		p.setStrategie(new MonteCarlo(Constants.DEPTH_MONTECARLO, p, gameInterface.getWaitingPlayer()));
+		p.setStrategie(new MonteCarlo(Constants.ITERATIONS_MONTECARLO, p, gameInterface.getWaitingPlayer()));
 	}
 	}
 
