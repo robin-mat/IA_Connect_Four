@@ -9,7 +9,7 @@ import model.Square;
 
 import model.strategy.evaluation.*;
 
-public class Negamax implements Strategy {
+public class Negamax extends Shareable implements Strategy {
     private int maxDepth;
     private Player player;
     private Player opponent;
@@ -37,32 +37,6 @@ public class Negamax implements Strategy {
         return move[0]+1;
 	}
 
-    public ArrayList<Integer> getMoves(Square[][] grid){
-        ArrayList<Integer> liste = new ArrayList<Integer>();
-        if (!(grid[0][0].getPlayed() instanceof Player)){
-            liste.add(0);
-        }
-        if (!(grid[1][0].getPlayed() instanceof Player)){
-            liste.add(1);
-        }
-        if (!(grid[2][0].getPlayed() instanceof Player)){
-            liste.add(2);
-        }
-        if (!(grid[3][0].getPlayed() instanceof Player)){
-            liste.add(3);
-        }
-        if (!(grid[4][0].getPlayed() instanceof Player)){
-            liste.add(4);
-        }
-        if (!(grid[5][0].getPlayed() instanceof Player)){
-            liste.add(5);
-        }
-        if (!(grid[6][0].getPlayed() instanceof Player)){
-            liste.add(6);
-        }
-        return liste;
-    }
-
     public int[] negamaxAlgo(Square[][] originalGrid, int depth, int move, Player currentPlayer, Player player, Player opponent){
         int[] renvoi = new int[2];
         this.nbrNodesVisited++;
@@ -71,8 +45,8 @@ public class Negamax implements Strategy {
         if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, false)==999){
             if (move!=-1){
                 renvoi[0] = move;
-                renvoi[1] = evaluation.evaluate(originalGrid, -1, this.player, false);
-                //System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
+                renvoi[1] = evaluation.evaluate(originalGrid, move, this.player, false);
+                System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
                 return renvoi;
             }
         }
@@ -107,18 +81,5 @@ public class Negamax implements Strategy {
         }
 
         return renvoi;
-    }
-
-    public Square[][] cloneGrid(Square[][] grid) {
-        Square[][] newGrid = new Square[grid.length][grid[0].length];
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                Square square = grid[i][j];
-                Player played = square.getPlayed();
-                newGrid[i][j] = new Square(i, j);
-                newGrid[i][j].setPlayed(played);
-            }
-        }
-        return newGrid;
     }
 }

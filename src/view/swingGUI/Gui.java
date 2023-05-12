@@ -398,11 +398,11 @@ public class Gui extends JFrame implements ViewInterface {
 		}  else if (strat == "Rdm"){
 			p.setStrategie(new Rdm());
 		}  else if (strat == "MinMax"){
-			p.setStrategie(new Minimax(5, p, gameInterface.getWaitingPlayer()));
+			p.setStrategie(new Minimax(Constants.DEPTH_MINMAX, p, gameInterface.getWaitingPlayer()));
 		}  else if (strat == "Negamax"){
-			p.setStrategie(new Negamax(5, p, gameInterface.getWaitingPlayer()));
+			p.setStrategie(new Negamax(Constants.DEPTH_NEGAMAX, p, gameInterface.getWaitingPlayer()));
 		}else if (strat == "MonteCarlo"){
-		p.setStrategie(new MonteCarlo(6, p, gameInterface.getWaitingPlayer()));
+		p.setStrategie(new MonteCarlo(Constants.DEPTH_MONTECARLO, p, gameInterface.getWaitingPlayer()));
 	}
 	}
 

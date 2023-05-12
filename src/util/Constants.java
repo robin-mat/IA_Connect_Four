@@ -10,6 +10,10 @@ public class Constants {
    public static final int TIME_BT_GAMES_ms = 30;
    public static final int TIME_BT_ROUNDS_ms = 10;
 
+   public static final int DEPTH_MINMAX = 4;
+   public static final int DEPTH_NEGAMAX = 1;
+   public static final int DEPTH_MONTECARLO = 4;
+
 
    //Relatif au modèle
    public static final String PSEUDO_P1 = "Joueur 1";

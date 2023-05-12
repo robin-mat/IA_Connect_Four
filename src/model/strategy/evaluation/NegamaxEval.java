@@ -4,27 +4,28 @@ import model.Player;
 import model.Board;
 import model.Square;
 
-public class NegamaxEval implements Evaluation {
+public class NegamaxEval extends Shareable implements Evaluation {
     @Override
     public int evaluate(Square[][] grid, int choice, Player player, boolean isMaximizingPlayer) {
+        int score = 0;
+
+        //On privilégie les coups au milieu
+        if (choice==0 || choice==6){
+            score+=10;
+        } else if (choice==1 || choice==5){
+            score+=20;
+        } else if (choice==2 || choice==4){
+            score+=30;
+        } else if (choice==3){
+            score+=50;
+        }
+
         Board b = new Board(7, 6);
         b.setGrid(grid.clone());
         if (this.isFinish(b, player)){
-            return 999;
-        } else {
-            return 0;
+            score += 999;
         }
-    }
-
-    public int howManyPawnPerColum(Board board, int column, Player player){
-        Square[][] grid = board.getGrid();
-        int temp = 0;
-        for (int i = 0; i < 6; i++) {
-            if (grid[column][i].getPlayed() == player){
-                temp += 1;
-            }
-        }
-        return temp;     
+        return score;
     }
 
     public boolean isFinish(Board board, Player player){
