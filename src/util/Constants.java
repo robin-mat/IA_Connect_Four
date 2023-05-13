@@ -8,10 +8,10 @@ public class Constants {
    public static final String TITLE = "- IA for Connect Four -";
    public static final int[] GRID_SIZE = {7, 6};
    public static final int TIME_BT_GAMES_ms = 30;
-   public static final int TIME_BT_ROUNDS_ms = 10;
+   public static final int TIME_BT_ROUNDS_ms = 1000;
 
-   public static final int DEPTH_MINMAX = 4;
-   public static final int DEPTH_NEGAMAX = 1;
+   public static final int DEPTH_MINMAX = 2;
+   public static final int DEPTH_NEGAMAX = 2;
    public static final int ITERATIONS_MONTECARLO = 5000;
 
 

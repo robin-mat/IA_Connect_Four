@@ -1,6 +1,7 @@
 package model.strategy.evaluation;
 
 import model.Player;
+import model.Board;
 import model.Square;
 
 public class MinmaxEval implements Evaluation {
@@ -10,7 +11,6 @@ public class MinmaxEval implements Evaluation {
         int bestscore = 0;
         int col = choice-1;
     
-        // Vérifier les lignes
         int countPlayer = 0;
         int score = 0;
         int countOpponent = 0;
@@ -28,185 +28,211 @@ public class MinmaxEval implements Evaluation {
                 continue;
               }
               else{
+
+    if (canPreventOpponentWinInOneMove(b, opponent)){
+              if(board.getGrid()[i][j+k].getPlayed() == opponent){
                 countOpponent++;
               }
             }
           }
-          // Vérifier les lignes précédentes
-          for(int i = 0; i < 4; i++) {
-            if(row-i >= 0){
-              if(grid[col][row-i].getPlayed() == player) {
-                countPlayer++;
-              }
-              else if(grid[col][row-i].getPlayed() == null){
-                continue;
-              }
-              else{
+          if(countOpponent >= 3){
+            return true;
+          }
+          //Vérifier les lignes précédentes
+          countOpponent = 0;
+          for (int k = 0; k < 4; k++){
+            if(j-k > -1){
+              if(board.getGrid()[i][j-k].getPlayed() == opponent){
                 countOpponent++;
               }
             }
           }
-          score = computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
-          bestscore = Math.max(bestscore, score);
+          if(countOpponent >= 3){
+            return true;
+          }
+          //Vérifier les colonnes suivantes
+          countOpponent = 0;
+          for (int k = 0; k < 4; k++){
+            if(i+k < board.getGrid().length){
+              if(board.getGrid()[i+k][j].getPlayed() == opponent){
+                countOpponent++;
+              }
+            }
+          }
+          if(countOpponent >= 3){
+            return true;
+          }
+          //Vérifier les colonnes précédentes
+          countOpponent = 0;
+          for (int k = 0; k < 4; k++){
+            if(i-k > -1){
+              if(board.getGrid()[i-k][j].getPlayed() == opponent){
+                countOpponent++;
+              }
+            }
+          }
+          if(countOpponent >= 3){
+            return true;
+          }
+          //Vérifier les diagonales ascendantes suivantes
+          countOpponent = 0;
+          for (int k = 0; k < 4; k++){
+            if(i+k < board.getGrid().length && j+k < board.getGrid()[0].length){
+              if(board.getGrid()[i+k][j+k].getPlayed() == opponent){
+                countOpponent++;
+              }
+            }
+          }
+          if(countOpponent >= 3){
+            return true;
+          }
+          //Vérifier les diagonales ascendantes précédentes
+          countOpponent = 0;
+          for (int k = 0; k < 4; k++){
+            if(i-k > -1 && j-k > -1){
+              if(board.getGrid()[i-k][j-k].getPlayed() == opponent){
+                countOpponent++;
+              }
+            }
+          }
+          if(countOpponent >= 3){
+            return true;
+          }
+          //Vérifier les diagonales descendantes suivantes
+          countOpponent = 0;
+          for (int k = 0; k < 4; k++){
+            if(i+k < board.getGrid().length && j-k > -1){
+              if(board.getGrid()[i+k][j-k].getPlayed() == opponent){
+                countOpponent++;
+              }
+            }
+          }
+          if(countOpponent >= 3){
+            return true;
+          }
+          //Vérifier les diagonales descendantes précédentes
+          countOpponent = 0;
+          for (int k = 0; k < 4; k++){
+            if(i-k > -1 && j+k < board.getGrid()[0].length){
+              if(board.getGrid()[i-k][j+k].getPlayed() == opponent){
+                countOpponent++;
+              }
+            }
+          }
+          if(countOpponent >= 3){
+            return true;
+          }
         }
-    
-    
-        // Vérifier les colonnes
-        countPlayer = 0;
-        countOpponent = 0;
-        opponentFoundSuiv = false;
-        opponentFoundPrec = false;
-        for(int row = 0; row < grid[0].length; row++) {
-          score = 0;
-          // Vérifier les colonnes suivantes
-          for(int i = 0; i < 4; i++) {
-            if(col+i < grid.length){
-              if(grid[col][row].getPlayed() == null){
-                if(grid[col+i][row].getPlayed() == player) {
-                  countPlayer++;
-                }
-                else if(grid[col+i][row].getPlayed() == null){
-                  continue;
-                }
-                else{
-                  countOpponent++;
-                }
-              }
-            }
-          }
-          // Vérifier les colonnes précédentes
-          for(int i = 0; i < 4; i++) {
-            if(col-i >= 0){
-              if(grid[col][row].getPlayed() == null){
-                if(grid[col-i][row].getPlayed() == player) {
-                  countPlayer++;
-                }
-                else if(grid[col-i][row].getPlayed() == null){
-                  continue;
-                }
-                else{
-                  countOpponent++;
-                }
-              }
-            }
-          }
-          score = computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
-          bestscore = Math.max(bestscore, score);
-        }
-    
-        // Vérifier les diagonales ascendantes
-        countPlayer = 0;
-        countOpponent = 0;
-        opponentFoundSuiv = false;
-        opponentFoundPrec = false;
-        for(int row = 0; row < grid[0].length; row++) {
-          score = 0;
-          // Vérifier les diagonales ascendantes suivantes
-          for(int i = 0; i < 4; i++) {
-            if(col+i < grid.length && row+i < grid[0].length){
-              if(grid[col+i][row+i].getPlayed() == player) {
-                countPlayer++;
-              }
-              else if(grid[col+i][row+i].getPlayed() == null){
-                continue;
-              }
-              else{
-                countOpponent++;
-              }
-            }
-          }
-          // Vérifier les diagonales ascendantes précédentes
-          for(int i = 0; i < 4; i++) {
-            if(col-i >= 0 && row-i >= 0){
-              if(grid[col-i][row-i].getPlayed() == player) {
-                countPlayer++;
-              }
-              else if(grid[col-i][row-i].getPlayed() == null){
-                continue;
-              }
-              else{
-                countOpponent++;
-              }
-            }
-          }
-          score = computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
-          bestscore = Math.max(bestscore, score);
-        }
-    
-        // Vérifier les diagonales descendantes
-        countPlayer = 0;
-        countOpponent = 0;
-        opponentFoundSuiv = false;
-        opponentFoundPrec = false;
-        for(int row = 0; row < grid[0].length; row++) {
-          score = 0;
-          // Vérifier les diagonales descendantes suivantes
-          for(int i = 0; i < 4; i++) {
-            if(col+i < grid.length && row-i >= 0){
-              if(grid[col+i][row-i].getPlayed() == player) {
-                countPlayer++;
-              }
-              else if(grid[col+i][row-i].getPlayed() == null){
-                continue;
-              }
-              else{
-                countOpponent++;
-              }
-            }
-          }
-          // Vérifier les diagonales descendantes précédentes
-          for(int i = 0; i < 4; i++) {
-            score = 0;
-            if(col-i >= 0 && row+i < grid[0].length){
-              if(grid[col-i][row+i].getPlayed() == player) {
-                countPlayer++;
-              }
-              else if(grid[col-i][row+i].getPlayed() == null){
-                continue;
-              }
-              else{
-                countOpponent++;
-              }
-            }
-          }
-          score = computeScore(countPlayer, countOpponent, opponentFoundSuiv, opponentFoundPrec, choice, isMaximizingPlayer);
-          bestscore = Math.max(bestscore, score);
-        }
-        System.out.println("Pour le choix: " + choice + " le score est " + score);
-        return bestscore;
       }
-    
-    
-      private static int computeScore(int countPlayer, int countOpponent, boolean opponentFoundSuiv, boolean opponentFoundPrec, int choice, boolean isMaximizingPlayer) {
-        int score = 0;
-        //Initialisation des préférences pour rendre les colonnes du milieu plus intéressant
-        if(choice == 2 || choice == 6){
-          score += 1;
-        }
-        else if(choice == 3 || choice == 5){
-          score += 3;
-        }
-        else if(choice == 4){
-          score += 5;
-        }
-        //Si on veut maximiser
-          // Score pour le joueur actuel
-          if (countPlayer == 4) { // le joueur a gagné
-            score += 10000;
-          }
-          else if (countPlayer == 3) { // 3 pions alignés mais pas bloqué d'un des deux côté au moins
-            score += 1000;
-          }
-          else if (countOpponent == 3) { // 1 pion aligné mais pas bloqué d'un des deux côté au moins
-            score += 1000;
-          }
-          else if (countPlayer == 2) { // 2 pions alignés mais pas bloqué d'un des deux côté au moins
-            score += 100;
-          }
-          else if (countPlayer == 1) { // 1 pion aligné mais pas bloqué d'un des deux côté au moins
-            score += 10;
-          }
-        return score;
     }
+    return false;
+  }
+
+  public boolean canPreventOpponentWinInOneMove(Board board, Player opponent){
+    for (int i = 0; i < 7; i++) {
+      for (int j = 5; j > -1; j--) {
+        Player jVerif = board.getGrid()[i][j].getPlayed();
+        if (jVerif == opponent){
+
+          // Vérifier si le joueur a 4 pièces sur une ligne
+          if (i+3 < 7){
+            if (board.getGrid()[i+1][j].getPlayed() == opponent) {
+              if (board.getGrid()[i+2][j].getPlayed() == opponent) {
+                if (board.getGrid()[i+3][j].getPlayed() == opponent)
+                return true;
+              }
+            }
+          }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une colonne
+        if (j-3 > -1){
+          if (board.getGrid()[i][j-1].getPlayed() == opponent) {
+            if (board.getGrid()[i][j-2].getPlayed() == opponent) {
+              if (board.getGrid()[i][j-3].getPlayed() == opponent) {
+                return true;
+              }
+            }
+          }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une diagonale de gauche à droite
+        if (j-3 > -1 && i + 3 < 7){
+          if (board.getGrid()[i+1][j-1].getPlayed() == opponent) {
+            if (board.getGrid()[i+2][j-2].getPlayed() == opponent) {
+              if (board.getGrid()[i+3][j-3].getPlayed() == opponent) {
+                return true;
+              }
+            }
+          }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une diagonale de droite à gauche
+        if (j-3 > -1 && i - 3 > -1){
+          if (board.getGrid()[i-1][j-1].getPlayed() == opponent) {
+            if (board.getGrid()[i-2][j-2].getPlayed() == opponent) {
+              if (board.getGrid()[i-3][j-3].getPlayed() == opponent) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  public boolean isFinish(Board board, Player player){
+    for (int i = 0; i < 7; i++) {
+      for (int j = 5; j > -1; j--) {
+        Player jVerif = board.getGrid()[i][j].getPlayed();
+        if (jVerif == player){
+
+          // Vérifier si le joueur a 4 pièces sur une ligne
+          if (i+3 < 7){
+            if (board.getGrid()[i+1][j].getPlayed() == player) {
+              if (board.getGrid()[i+2][j].getPlayed() == player) {
+                if (board.getGrid()[i+3][j].getPlayed() == player)
+                return true;
+              }
+            }
+          }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une colonne
+        if (j-3 > -1){
+          if (board.getGrid()[i][j-1].getPlayed() == player) {
+            if (board.getGrid()[i][j-2].getPlayed() == player) {
+              if (board.getGrid()[i][j-3].getPlayed() == player) {
+                return true;
+              }
+            }
+          }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une diagonale de gauche à droite
+        if (j-3 > -1 && i + 3 < 7){
+          if (board.getGrid()[i+1][j-1].getPlayed() == player) {
+            if (board.getGrid()[i+2][j-2].getPlayed() == player) {
+              if (board.getGrid()[i+3][j-3].getPlayed() == player) {
+                return true;
+              }
+            }
+          }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une diagonale de droite à gauche
+        if (j-3 > -1 && i - 3 > -1){
+          if (board.getGrid()[i-1][j-1].getPlayed() == player) {
+            if (board.getGrid()[i-2][j-2].getPlayed() == player) {
+              if (board.getGrid()[i-3][j-3].getPlayed() == player) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
 }
-    

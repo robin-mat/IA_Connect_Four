@@ -24,14 +24,14 @@ public class Negamax extends Shareable implements Strategy {
 
 	public int choice(Square[][] grid){
         if (this.maxDepth==0){
-            throw new RuntimeException("aucune branche ne peut etre visité"); 
+            throw new RuntimeException("aucune branche ne peut etre visité");
         }
         this.nbrNodesVisited = 0;
-        
+
         long startTime = System.currentTimeMillis();
         int[] move = this.negamaxAlgo(grid, this.maxDepth, -1, this.player, this.player, this.opponent);
         long endTime = System.currentTimeMillis();
-        
+
         long timeElapsed = endTime - startTime;
         System.out.println("[Negamax] "+ this.nbrNodesVisited + " situations visitées | temps passé : "+timeElapsed+" ms");
         return move[0]+1;
@@ -42,18 +42,18 @@ public class Negamax extends Shareable implements Strategy {
         this.nbrNodesVisited++;
 
         NegamaxEval evaluation = new NegamaxEval();
-        if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, opponent, false)==999){
+        if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, opponent, false)>=999){
             if (move!=-1){
                 renvoi[0] = move;
                 renvoi[1] = evaluation.evaluate(originalGrid, move, this.player, opponent, false);
-                //System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
+                System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
                 return renvoi;
             }
         }
-        
+
         int bestValue = -99999;
         int bestMove = -1;
-        
+
         ArrayList<Integer> coupsDispos = this.getMoves(originalGrid);
 
         for (int i = 0; i < coupsDispos.size(); i++) {

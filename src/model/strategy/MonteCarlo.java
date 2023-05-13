@@ -98,6 +98,7 @@ public class MonteCarlo extends Shareable implements Strategy {
         }
         renvoi[0] = bestMove;
         renvoi[1] = bestScore;
+        System.out.println("DEBUG : nbIterations="+maxIterations+", coup="+move+" , heuristique="+renvoi[1]);
         return renvoi;
     }
 
@@ -105,7 +106,7 @@ public class MonteCarlo extends Shareable implements Strategy {
         for (int i = 0; i < 7; i++) {
                 for (int j = 5; j > -1; j--) {
                     Player jVerif = board.getGrid()[i][j].getPlayed();
-      
+
                     if (jVerif == player){
                         // Vérifier si le joueur a 4 pièces sur une ligne
                         if (i+3 < 7){
@@ -117,7 +118,7 @@ public class MonteCarlo extends Shareable implements Strategy {
                               }
                           }
                         }
-                    
+
                     // Vérifier si le joueur a 4 pièces sur une colonne
                       if (j-3 > -1){
                         if (board.getGrid()[i][j-1].getPlayed() == player) {
@@ -128,8 +129,8 @@ public class MonteCarlo extends Shareable implements Strategy {
                           }
                       }
                     }
-    
-    
+
+
                   // Vérifier si le joueur a 4 pièces sur une diagonale de gauche à droite
                   if (j-3 > -1 && i + 3 < 7){
                         if (board.getGrid()[i+1][j-1].getPlayed() == player) {
@@ -140,10 +141,10 @@ public class MonteCarlo extends Shareable implements Strategy {
                           }
                       }
                     }
-    
-    
-    
-    
+
+
+
+
                   // Vérifier si le joueur a 4 pièces sur une diagonale de droite à gauche
                   if (j-3 > -1 && i - 3 > -1){
                     if (board.getGrid()[i-1][j-1].getPlayed() == player) {

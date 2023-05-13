@@ -5,90 +5,89 @@ import model.Board;
 import model.Square;
 
 public class NegamaxEval extends Shareable implements Evaluation {
-    @Override
-    public int evaluate(Square[][] grid, int choice, Player player, Player opponent, boolean isMaximizingPlayer) {
-        int score = 0;
+  @Override
+  public int evaluate(Square[][] grid, int choice, Player player, Player opponent, boolean isMaximizingPlayer) {
+    int score = 0;
+    Board b = new Board(7, 6);
+    b.setGrid(grid.clone());
 
-        //On privilégie les coups au milieu
-        if (choice==0 || choice==6){
-            score+=10;
-        } else if (choice==1 || choice==5){
-            score+=20;
-        } else if (choice==2 || choice==4){
-            score+=30;
-        } else if (choice==3){
-            score+=50;
-        }
-        if (choice!=-1){
-            if (columnFull(grid, choice, opponent)){
-                score-=score;
-            }
-        }
-
-
-        Board b = new Board(7, 6);
-        b.setGrid(grid.clone());
-        if (this.isFinish(b, player)){
-            score += 999;
-        }
-        return score;
+    //On privilégie les coups au milieu
+    if (choice==0 || choice==6){
+      score+=10;
+    }
+    else if (choice==1 || choice==5){
+      score+=20;
+    }
+    else if (choice==2 || choice==4){
+      score+=30;
+    }
+    else if (choice==3){
+      score+=50;
+    }
+    if (choice!=-1){
+      if (b.canPlay(choice+1) == false){
+        score-=score;
+      }
     }
 
-    public boolean isFinish(Board board, Player player){
-        for (int i = 0; i < 7; i++) {
-                for (int j = 5; j > -1; j--) {
-                    Player jVerif = board.getGrid()[i][j].getPlayed();
-      
-                    if (jVerif == player){
-                        // Vérifier si le joueur a 4 pièces sur une ligne
-                        if (i+3 < 7){
-                            if (board.getGrid()[i+1][j].getPlayed() == player) {
-                              if (board.getGrid()[i+2][j].getPlayed() == player) {
-                                  if (board.getGrid()[i+3][j].getPlayed() == player)
-                                      return true;
-                                  }
-                              }
-                          }
-                        }
-                    
-                    // Vérifier si le joueur a 4 pièces sur une colonne
-                      if (j-3 > -1){
-                        if (board.getGrid()[i][j-1].getPlayed() == player) {
-                          if (board.getGrid()[i][j-2].getPlayed() == player) {
-                              if (board.getGrid()[i][j-3].getPlayed() == player) {
-                                  return true;
-                              }
-                          }
-                      }
-                    }
-    
-    
-                  // Vérifier si le joueur a 4 pièces sur une diagonale de gauche à droite
-                  if (j-3 > -1 && i + 3 < 7){
-                        if (board.getGrid()[i+1][j-1].getPlayed() == player) {
-                          if (board.getGrid()[i+2][j-2].getPlayed() == player) {
-                              if (board.getGrid()[i+3][j-3].getPlayed() == player) {
-                                  return true;
-                              }
-                          }
-                      }
-                    }
-    
-    
-    
-    
-                  // Vérifier si le joueur a 4 pièces sur une diagonale de droite à gauche
-                  if (j-3 > -1 && i - 3 > -1){
-                    if (board.getGrid()[i-1][j-1].getPlayed() == player) {
-                      if (board.getGrid()[i-2][j-2].getPlayed() == player) {
-                          if (board.getGrid()[i-3][j-3].getPlayed() == player) {
-                              return true;
-                          }
-                      }
-                  }
-                }
-                }
+    if (this.isFinish(b, player)){
+      score += 999;
+    }
+    System.out.println("Mon score: " + score + " pour mon choix " + choice);
+    return score;
+  }
+
+  public boolean isFinish(Board board, Player player){
+    for (int i = 0; i < 7; i++) {
+      for (int j = 5; j > -1; j--) {
+        Player jVerif = board.getGrid()[i][j].getPlayed();
+        if (jVerif == player){
+
+          // Vérifier si le joueur a 4 pièces sur une ligne
+          if (i+3 < 7){
+            if (board.getGrid()[i+1][j].getPlayed() == player) {
+              if (board.getGrid()[i+2][j].getPlayed() == player) {
+                if (board.getGrid()[i+3][j].getPlayed() == player)
+                return true;
+              }
             }
-            return false;
           }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une colonne
+        if (j-3 > -1){
+          if (board.getGrid()[i][j-1].getPlayed() == player) {
+            if (board.getGrid()[i][j-2].getPlayed() == player) {
+              if (board.getGrid()[i][j-3].getPlayed() == player) {
+                return true;
+              }
+            }
+          }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une diagonale de gauche à droite
+        if (j-3 > -1 && i + 3 < 7){
+          if (board.getGrid()[i+1][j-1].getPlayed() == player) {
+            if (board.getGrid()[i+2][j-2].getPlayed() == player) {
+              if (board.getGrid()[i+3][j-3].getPlayed() == player) {
+                return true;
+              }
+            }
+          }
+        }
+
+        // Vérifier si le joueur a 4 pièces sur une diagonale de droite à gauche
+        if (j-3 > -1 && i - 3 > -1){
+          if (board.getGrid()[i-1][j-1].getPlayed() == player) {
+            if (board.getGrid()[i-2][j-2].getPlayed() == player) {
+              if (board.getGrid()[i-3][j-3].getPlayed() == player) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
 }
