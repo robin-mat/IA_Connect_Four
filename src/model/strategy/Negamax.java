@@ -46,7 +46,7 @@ public class Negamax extends Shareable implements Strategy {
             if (move!=-1){
                 renvoi[0] = move;
                 renvoi[1] = evaluation.evaluate(originalGrid, move, this.player, opponent);
-                System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
+                //System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
                 return renvoi;
             }
         }

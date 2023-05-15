@@ -33,7 +33,7 @@ public class BasicEval extends Shareable implements Evaluation {
     if (this.isFinish(b, player)){
       score += 999;
     }
-    System.out.println("Mon score: " + score + " pour mon choix " + choice);
+    //System.out.println("Mon score: " + score + " pour mon choix " + choice);
     return score;
   }
 
