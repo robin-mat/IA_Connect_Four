@@ -4,9 +4,9 @@ import model.Player;
 import model.Board;
 import model.Square;
 
-public class NegamaxEval extends Shareable implements Evaluation {
+public class BasicEval extends Shareable implements Evaluation {
   @Override
-  public int evaluate(Square[][] grid, int choice, Player player, Player opponent, boolean isMaximizingPlayer) {
+  public int evaluate(Square[][] grid, int choice, Player player, Player opponent) {
     int score = 0;
     Board b = new Board(7, 6);
     b.setGrid(grid.clone());

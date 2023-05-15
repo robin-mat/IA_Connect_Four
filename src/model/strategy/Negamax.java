@@ -41,11 +41,11 @@ public class Negamax extends Shareable implements Strategy {
         int[] renvoi = new int[2];
         this.nbrNodesVisited++;
 
-        NegamaxEval evaluation = new NegamaxEval();
-        if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, opponent, false)>=999){
+        BasicEval evaluation = new BasicEval();
+        if (depth==0 || evaluation.evaluate(originalGrid, -1, this.player, opponent)>=999){
             if (move!=-1){
                 renvoi[0] = move;
-                renvoi[1] = evaluation.evaluate(originalGrid, move, this.player, opponent, false);
+                renvoi[1] = evaluation.evaluate(originalGrid, move, this.player, opponent);
                 System.out.println("DEBUG : profondeur="+depth+", cout="+move+" , heuristique="+renvoi[1]);
                 return renvoi;
             }
@@ -73,7 +73,7 @@ public class Negamax extends Shareable implements Strategy {
         renvoi[1] = bestValue;
 
         if (move!=-1){
-            int score = evaluation.evaluate(originalGrid, -1, this.player, opponent, false);
+            int score = evaluation.evaluate(originalGrid, -1, this.player, opponent);
             if (score>=bestValue){
                 renvoi[0] = move;
                 renvoi[1] = score;

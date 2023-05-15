@@ -4,32 +4,57 @@ import model.Player;
 import model.Board;
 import model.Square;
 
-public class MinmaxEval implements Evaluation {
+public class WithOpponentEval extends Shareable implements Evaluation {
+  @Override
+  public int evaluate(Square[][] grid, int choice, Player player, Player opponent) {
+    int score = 0;
+    Board b = new Board(7, 6);
+    b.setGrid(grid.clone());
 
-    @Override
-    public int evaluate(Square[][] grid, int choice, Player player, Player opponent, boolean isMaximizingPlayer) {
-        int bestscore = 0;
-        int col = choice-1;
-    
-        int countPlayer = 0;
-        int score = 0;
-        int countOpponent = 0;
-        boolean opponentFoundSuiv = false;
-        boolean opponentFoundPrec = false;
-        for(int row = 0; row < grid[0].length; row++) {
-          score = 0;
-          // Vérifier les lignes suivantes
-          for(int i = 0; i < 4; i++) {
-            if(row+i < grid[0].length){
-              if(grid[col][row+i].getPlayed() == player){
-                countPlayer++;
-              }
-              else if(grid[col][row+i].getPlayed() == null){
-                continue;
-              }
-              else{
+    //On privilégie les coups au milieu
+    if (choice==0 || choice==6){
+      score+=10;
+    }
+    else if (choice==1 || choice==5){
+      score+=20;
+    }
+    else if (choice==2 || choice==4){
+      score+=30;
+    }
+    else if (choice==3){
+      score+=50;
+    }
+    if (choice!=-1){
+      if (b.canPlay(choice+1) == false){
+        score-=score;
+      }
+    }
+
+    if (canOpponentWinInOneMove(b, opponent)){
+      score -= 300;
+    }
 
     if (canPreventOpponentWinInOneMove(b, opponent)){
+      score += 500;
+    }
+
+    if (this.isFinish(b, player)){
+      score += 999;
+    }
+    System.out.println("Mon score: " + score + " pour mon choix " + choice);
+    return score;
+  }
+
+  public boolean canOpponentWinInOneMove(Board board, Player opponent){
+    for (int i = 0; i < 7; i++) {
+      int countOpponent;
+      for (int j = 5; j > -1; j--) {
+        Player jVerif = board.getGrid()[i][j].getPlayed();
+        if (jVerif == opponent){
+          //Vérifier les lignes suivantes
+          countOpponent = 0;
+          for (int k = 0; k < 4; k++){
+            if(j+k < board.getGrid()[0].length){
               if(board.getGrid()[i][j+k].getPlayed() == opponent){
                 countOpponent++;
               }
