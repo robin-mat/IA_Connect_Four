@@ -393,9 +393,9 @@ public class Gui extends JFrame implements ViewInterface {
 		this.logger.write("[#CHANGE STRAT#] " + p.getName()+" : "+ strat);
 		if (strat == "HumanGui"){
 			p.setStrategie(new HumanGui());
-		} else if (strat == "Human, depth"){
+		} else if (strat == "Human"){
 			p.setStrategie(new Human(this.terminalInput));
-		}  else if (strat == "Rdm"){
+		}  else if (strat == "Random"){
 			p.setStrategie(new Rdm());
 		}  else if (strat == ("MinMax, depth="+Constants.DEPTH_MINMAX)){
 			p.setStrategie(new Minimax(Constants.DEPTH_MINMAX, p, gameInterface.getWaitingPlayer()));

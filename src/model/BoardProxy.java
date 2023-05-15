@@ -29,26 +29,10 @@ public class BoardProxy extends Board {
 			}
 		}
 		else if (this.state == "p1"){
-			for (int i=0; i!=this.len_x; i++){
-				for (int y=0; y!=this.len_y; y++){
-					if (this.grid[i][y].getPlayed() == p1){
-						clone[i][y] = this.grid[i][y];
-					} else {
-						clone[i][y] = new Square(i, y);
-					}
-				}
-			}
+			return this.getGrid(this.p1);
 		}
 		else if (this.state == "p2"){
-			for (int i=0; i!=this.len_x; i++){
-				for (int y=0; y!=this.len_y; y++){
-					if (this.grid[i][y].getPlayed() == p2){
-						clone[i][y] = this.grid[i][y];
-					} else {
-						clone[i][y] = new Square(i, y);
-					}
-				}
-			}
+			return this.getGrid(this.p2);
 		}
 		else if (this.state == "current"){
 			return this.getGrid(player);
